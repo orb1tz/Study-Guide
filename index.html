@@ -1,0 +1,1949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light only">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Study Guide</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#f6cbe2">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Study Guide">
+<meta name="application-name" content="Study Guide">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme:light;
+    --page:#fbe3ee; --page2:#f6d0e2;
+    --winbody:#f6f2f4; --ink:#2b1a24; --sub:#7a5a6b; --edge:#6b4a5c;
+    --paper:#ffffff; --rule:#e9a3c8; --circle:#e38dbd;
+    --card:#fff0f5; --cardframe:#ffd3e2; --cardrule:#f5b8cf;
+    --legal:#fafafa; --legalrule:#e0119a; --legalline:#ee7cc0; --margin:#e0119a;
+    --pay:#b12fd0; --bk:#2a7fd4; --pink:#e8479a; --link:#c2187a;
+    --frame: linear-gradient(105deg, rgba(255,255,255,0) 18%, rgba(255,255,255,.5) 23%, rgba(255,255,255,0) 30%, rgba(255,255,255,0) 58%, rgba(255,255,255,.4) 62%, rgba(255,255,255,0) 68%),
+             linear-gradient(180deg, #f6cbe2 0%, #e8a8cc 38%, #f5d3e6 70%, #eab0d1 100%);
+    --shadow: 0 10px 28px rgba(140,40,90,0.22);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  body{
+    margin:0; color:var(--ink);
+    background:var(--page);
+    background-image:radial-gradient(circle at 12% 8%, rgba(255,255,255,.55), transparent 40%),
+      radial-gradient(circle at 90% 30%, var(--page2), transparent 45%),
+      radial-gradient(circle at 20% 80%, var(--page2), transparent 40%);
+    background-attachment:fixed;
+    font-family:'Nunito','Segoe UI',system-ui,-apple-system,sans-serif;
+    font-size:15px; line-height:1.5; padding:16px 0 60px 0;
+  }
+  h1,h2,h3,h4{margin:0; font-family:'Nunito','Segoe UI',sans-serif;}
+  .wrap{max-width:820px; margin:0 auto; padding:0 16px;}
+
+  /* ---------- glossy gel (buttons pictures) ---------- */
+  .gel{
+    --gc:#e8479a;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.75) 0%, rgba(255,255,255,.2) 48%, rgba(255,255,255,0) 50%),
+      linear-gradient(180deg, color-mix(in srgb,var(--gc) 75%,white) 0%, var(--gc) 55%, color-mix(in srgb,var(--gc) 70%,white) 100%);
+    border:1px solid color-mix(in srgb,var(--gc) 65%,black);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 2px 5px color-mix(in srgb,var(--gc) 40%,transparent);
+    color:#fff; text-shadow:0 1px 1px rgba(0,0,0,.35);
+  }
+  .g-pay{--gc:var(--pay);} .g-bk{--gc:var(--bk);} .g-pink{--gc:#e8479a;} .g-orange{--gc:#f07a14;}
+  .g-green{--gc:#3fa81c;} .g-red{--gc:#e0335a;} .g-silver{--gc:#9e9aa0;} .g-teal{--gc:#12b3a6;}
+
+  /* ---------- Aero window (window pictures) ---------- */
+  .win{
+    background:var(--frame); border:1px solid var(--edge); border-radius:10px;
+    padding:0 7px 7px 7px; box-shadow:inset 0 0 0 1px rgba(255,255,255,.55), var(--shadow);
+    margin-bottom:18px;
+  }
+  .win-bar{display:flex; align-items:center; gap:8px; min-height:32px; padding-left:4px;}
+  .win-ico{font-size:14px; line-height:1; flex:none;}
+  .win-title{font-family:'Segoe UI','Nunito',sans-serif; font-size:13px; font-weight:600; color:#2b1a24;
+    text-shadow:0 0 6px #fff,0 0 10px #fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0;}
+  .win-btns{display:flex; margin-left:auto; align-self:flex-start; flex:none; border:1px solid #5a3a4c; border-top:none;
+    border-radius:0 0 6px 6px; overflow:hidden; box-shadow:0 1px 0 rgba(255,255,255,.6);}
+  .wb{width:27px; height:19px; display:flex; align-items:center; justify-content:center; font-style:normal;
+    --gc:#efc0da; background:
+      linear-gradient(180deg, rgba(255,255,255,.8) 0%, rgba(255,255,255,.25) 48%, rgba(255,255,255,0) 50%),
+      linear-gradient(180deg, color-mix(in srgb,var(--gc) 70%,white), var(--gc) 60%, color-mix(in srgb,var(--gc) 60%,white));}
+  .wb + .wb{border-left:1px solid #5a3a4c;}
+  .wb.min::before{content:''; width:9px; height:3px; margin-top:5px; background:#fff; border:1px solid #4a3040; border-radius:1px;}
+  .wb.max::before{content:''; width:9px; height:7px; border:1px solid #4a3040; box-shadow:inset 0 0 0 1.5px #fff; border-radius:1px;}
+  .wb.close{width:44px; --gc:#d2402c;}
+  .wb.close::before{content:'x'; color:#fff; font:800 13px/1 'Segoe UI',Arial,sans-serif; text-shadow:0 0 3px rgba(80,0,0,.8); margin-top:-2px;}
+  .win-body{background:var(--winbody); border:1px solid var(--edge); border-radius:2px; padding:14px 16px;
+    box-shadow:inset 0 1px 3px rgba(0,0,0,.08);}
+
+  /* hero */
+  .hero-win .win-body{padding:18px 16px 16px 16px;}
+  .hero-win h1{font-size:23px; font-weight:800; color:var(--ink);}
+  .hero-win p{margin:4px 0 0 0; color:var(--sub); font-weight:700; font-size:13.5px;}
+  .progress-shell{margin-top:14px; height:22px; border-radius:999px; background:var(--paper);
+    border:1px solid #c98aad; box-shadow:inset 0 2px 4px rgba(0,0,0,.15); overflow:hidden; padding:2px;}
+  .progress-fill{height:100%; width:0%; border-radius:999px; transition:width .5s ease; --gc:#ec4f9f;}
+  .progress-label{font-size:12.5px; font-weight:800; margin-top:6px; display:flex; justify-content:space-between; color:var(--sub);}
+
+  /* notepad-style info window */
+  .infocard .row{display:flex; justify-content:space-between; gap:10px; padding:5px 0; font-family:Consolas,'Lucida Console',monospace;
+    font-size:12.5px; font-weight:600; border-bottom:1px dotted var(--rule);}
+  .infocard .row:last-child{border-bottom:none;}
+  .infocard .row span:first-child{color:var(--sub);}
+  .infocard .row span:last-child{text-align:right;}
+  .infocard .exam{background:#ffe0ef; color:#a3155f; padding:1px 8px; border-radius:6px; font-weight:800;}
+
+  /* spotlight */
+  .spotlight .tag{display:inline-block; font-weight:800; font-size:11px; padding:3px 12px; border-radius:999px; letter-spacing:.5px;}
+  .spotlight h2{font-size:17px; margin-top:8px;}
+  .spotlight .sub{color:var(--sub); font-weight:700; font-size:13px; margin-top:2px;}
+  .spotlight ul{margin:10px 0 0 0; padding-left:20px;}
+  .spotlight li{margin:4px 0; font-weight:600; font-size:14px;}
+  .spotlight li::marker{color:var(--pink);}
+  .spotlight .track{margin-top:12px; padding-top:10px; border-top:2px solid var(--rule);}
+  .spotlight .track:first-child{margin-top:4px; padding-top:0; border-top:none;}
+
+  /* streak = big gel bar */
+  .streak{border-radius:12px; padding:12px 16px; margin:0 0 18px 0; display:flex; align-items:center; gap:14px; font-weight:800; font-size:14px;}
+  .streak .num{flex:none; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:24px; color:#c2187a; text-shadow:none;
+    background:radial-gradient(circle at 35% 28%, #fff 0 30%, #ffe3f0 60%, #f8bcd9 100%); border:1px solid #b3336f;
+    box-shadow:inset 0 -3px 6px rgba(194,24,122,.25);}
+
+  /* section headers = gel rectangles */
+  .section-title{display:flex; align-items:center; gap:10px; margin:28px 0 12px 0; padding:9px 14px; border-radius:8px;}
+  .section-title .dot{width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; flex:none; text-shadow:none;
+    background:radial-gradient(circle at 35% 28%, #fff 0 35%, rgba(255,255,255,.75) 70%, rgba(255,255,255,.5) 100%); border:1px solid rgba(0,0,0,.25);}
+  .section-title h2{font-size:17px; font-weight:800;}
+  .section-title .meta{font-size:11.5px; font-weight:700; margin-left:auto; opacity:.95; text-align:right;}
+
+  /* resources */
+  .checklist-card h3{font-size:14.5px; margin-bottom:6px; display:flex; align-items:center; gap:8px;}
+  .reslist{list-style:none; margin:0; padding:0;}
+  .reslist li{display:flex; gap:10px; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--rule);}
+  .reslist li:last-child{border-bottom:none;}
+  .reslist .ricon{font-size:16px; flex:none; margin-top:1px;}
+  .reslist a{color:var(--link); font-weight:800; text-decoration:none; border-bottom:2px dotted var(--link);}
+  .reslist a:active{opacity:.7;}
+  .reslist .rtxt{font-weight:600; font-size:13.5px;}
+  .reslist .rlabel{display:block; font-weight:800; font-size:13px; margin-bottom:1px;}
+
+  /* week rhythm = mini windows */
+  .rhythm{display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:7px;}
+  .daycard{min-width:0;} .chip{overflow-wrap:break-word;}
+  .daycard{background:var(--frame); border:1px solid var(--edge); border-radius:7px; padding:0 4px 4px 4px;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.55), 0 4px 12px rgba(140,40,90,.18); display:flex; flex-direction:column;}
+  .mini-bar{display:flex; align-items:flex-start; justify-content:space-between; min-height:22px; padding-left:3px;}
+  .mini-bar span{font-family:'Segoe UI','Nunito',sans-serif; font-weight:700; font-size:12px; color:#2b1a24; text-shadow:0 0 6px #fff; padding-top:3px;}
+  .wb.close.mini{width:22px; height:13px; border:1px solid #5a3a4c; border-top:none; border-radius:0 0 4px 4px;}
+  .wb.close.mini::before{font-size:10px; margin-top:-3px;}
+  .daycard .icons{flex:1; background:var(--winbody); border:1px solid var(--edge); padding:6px 4px; display:flex; flex-direction:column; gap:5px; min-height:120px;}
+  .chip{font-size:9.5px; font-weight:800; border-radius:6px; padding:4px 4px; width:100%; text-align:center; line-height:1.25;}
+  @media (max-width:600px){ .rhythm{grid-template-columns:repeat(4,minmax(0,1fr));} .chip{font-size:8.5px; padding:4px 2px;} }
+
+  /* weeks = pink index cards */
+  details.weekcard{background:var(--card); border:7px solid var(--cardframe); border-radius:4px; margin-bottom:12px;
+    box-shadow:inset 0 0 0 1px var(--cardrule), 0 4px 12px rgba(140,40,90,.14); overflow:hidden;}
+  details.weekcard[open] summary{border-bottom:2px solid var(--cardrule);}
+  summary{cursor:pointer; list-style:none; padding:10px 12px; display:flex; align-items:center; gap:10px; font-weight:800; font-size:14.5px;}
+  summary::-webkit-details-marker{display:none;}
+  summary .arrow{margin-left:auto; transition:transform .2s; font-size:18px; color:var(--pink);}
+  details[open] summary .arrow{transform:rotate(90deg);}
+  .wk-badge{min-width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; flex:none; color:#fff; text-shadow:0 1px 1px rgba(0,0,0,.35);
+    background:
+      radial-gradient(ellipse 70% 45% at 50% 22%, rgba(255,255,255,.8), rgba(255,255,255,0) 70%),
+      radial-gradient(circle at 50% 80%, color-mix(in srgb,var(--gc) 60%,white), var(--gc) 70%);
+    border:1px solid color-mix(in srgb,var(--gc) 65%,black); box-shadow:0 2px 5px color-mix(in srgb,var(--gc) 40%,transparent);}
+  .wk-badge.bk{--gc:var(--bk);} .wk-badge.pay{--gc:var(--pay);}
+  .wk-meta{font-size:11.5px; font-weight:700; color:var(--sub); display:block; margin-top:1px;}
+  .weekbody{padding:0 14px 26px 14px; line-height:26px; font-size:14px;
+    background-image:repeating-linear-gradient(180deg, transparent 0 25px, var(--cardrule) 25px 26px);}
+  .weekbody > *{margin:0;}
+  .strand{display:inline-block; font-size:10.5px; font-weight:800; padding:0 10px; border-radius:999px; line-height:18px; vertical-align:middle;}
+  .strand.bk{--gc:var(--bk);} .strand.pay{--gc:var(--pay);}
+  .weekbody h4{font-size:12px; color:var(--pink); text-transform:uppercase; letter-spacing:.5px; line-height:26px; margin:0; font-weight:800;}
+  .weekbody p{margin:0; font-weight:600;}
+  .task{display:flex; align-items:flex-start; gap:8px; margin:0;}
+  .task label{font-weight:700; font-size:13.5px; line-height:26px;}
+  .task.done label{text-decoration:line-through; text-decoration-color:var(--pink); color:var(--sub);}
+
+  /* hand-drawn pink circle checkboxes (lined paper picture) */
+  input[type=checkbox]{appearance:none; -webkit-appearance:none; width:22px; height:22px; flex:none; margin:2px 0 0 0; cursor:pointer;
+    border:2px solid var(--circle); border-radius:52% 48% 55% 45% / 47% 53% 47% 53%; background:transparent;
+    background-repeat:no-repeat; background-position:center; background-size:15px;}
+  input[type=checkbox]:checked{background-color:#fbd3e7;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.2 0 3.7 1.3 5.3 3.2 1.6-1.9 3.1-3.2 5.3-3.2 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z' fill='%23e0117a'/%3E%3C/svg%3E");}
+  input[type=checkbox]:focus-visible{outline:2px solid var(--pink); outline-offset:2px;}
+
+  /* final checklist = lined notebook paper */
+  .paper .win-body{background:var(--paper); padding:6px 16px 6px 16px;}
+  .paper h3{padding:8px 0 10px 0; border-bottom:2px solid var(--rule); margin:0;}
+  .cl-item{display:flex; align-items:flex-start; gap:12px; padding:9px 0; border-bottom:2px solid var(--rule);}
+  .cl-item:last-child{border-bottom:none;}
+  .cl-item label{font-weight:600; font-size:13.5px;}
+  .cl-item.done label{text-decoration:line-through; text-decoration-color:var(--pink); color:var(--sub);}
+
+  /* notes = legal pad with pink margin */
+  .note{position:relative; margin:12px 0; padding:26px 14px 0 48px; line-height:24px; font-size:13.5px; font-weight:700; border-radius:3px;
+    background-color:var(--legal);
+    background-image:
+      linear-gradient(90deg, transparent 34px, var(--margin) 34px, var(--margin) 36px, transparent 36px),
+      linear-gradient(180deg, transparent 22px, var(--legalrule) 22px, var(--legalrule) 25px, transparent 25px),
+      repeating-linear-gradient(180deg, transparent 0 49px, var(--legalrule) 49px 50px);
+    background-size:auto, auto, 100% 50px;
+    background-position:0 0, 0 0, 0 0;
+    box-shadow:0 4px 12px rgba(140,40,90,.15);}
+  .note{background-image:
+      linear-gradient(90deg, transparent 34px, var(--margin) 34px, var(--margin) 36px, transparent 36px),
+      linear-gradient(180deg, transparent 23px, var(--legalrule) 23px, var(--legalrule) 26px, transparent 26px),
+      repeating-linear-gradient(180deg, transparent 0 23px, var(--legalline) 23px 24px);
+    background-position:0 0, 0 0, 0 2px; background-size:auto; padding-bottom:24px;}
+  .note b{color:var(--link);}
+
+  .reset-btn{display:block; margin:26px auto 0 auto; font-weight:800; font-size:12.5px; padding:8px 20px; border-radius:999px; cursor:pointer; font-family:inherit;}
+  .footer{text-align:center; font-size:11.5px; color:var(--sub); margin-top:16px; font-weight:700;}
+  /* collapsible sections */
+  details.sec{margin:14px 0; scroll-margin-top:64px;}
+  details.sec > summary.section-title{margin:0; padding:9px 14px; font-size:inherit; cursor:pointer; user-select:none;}
+  details.sec > summary .chev{margin-left:10px; flex:none; font-size:18px; transition:transform .2s; text-shadow:0 1px 1px rgba(0,0,0,.35);}
+  details.sec[open] > summary .chev{transform:rotate(90deg);}
+  details.sec > summary .meta{margin-left:auto;}
+  details.sec > summary h2{margin-right:auto;}
+  details.sec > summary .meta + .chev{margin-left:10px;}
+  details.sec[open] > summary{border-radius:8px;}
+  .sec-body{padding-top:12px;}
+  .sec-body > .win:last-child, .sec-body > .streak:last-child{margin-bottom:4px;}
+
+  /* sticky index bar */
+  .index-bar{position:sticky; top:0; z-index:20; display:flex; gap:6px; overflow-x:auto; scrollbar-width:none;
+    margin:0 -16px 4px -16px; padding:calc(8px + env(safe-area-inset-top,0px)) 16px 8px 16px;
+    background:linear-gradient(180deg, rgba(251,227,238,.96), rgba(246,208,226,.92));
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(107,74,92,.35); box-shadow:0 4px 10px rgba(140,40,90,.12);}
+  .index-bar::-webkit-scrollbar{display:none;}
+  .index-bar a, .index-bar button{--gc:#e8479a; flex:none; white-space:nowrap; font:800 12px/1 'Nunito',sans-serif;
+    padding:7px 12px; border-radius:999px; text-decoration:none; cursor:pointer; color:#fff; text-shadow:0 1px 1px rgba(0,0,0,.35);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.75) 0%, rgba(255,255,255,.2) 48%, rgba(255,255,255,0) 50%),
+      linear-gradient(180deg, color-mix(in srgb,var(--gc) 75%,white) 0%, var(--gc) 55%, color-mix(in srgb,var(--gc) 70%,white) 100%);
+    border:1px solid color-mix(in srgb,var(--gc) 65%,black);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.7), 0 2px 4px color-mix(in srgb,var(--gc) 35%,transparent);}
+  .index-bar a.pay{--gc:var(--pay);} .index-bar a.bk{--gc:var(--bk);}
+  .index-bar button{--gc:#9e9aa0;}
+  @media (max-width:600px){ details.sec > summary .meta{display:none;} }
+  .index-bar a:active, .index-bar button:active{filter:brightness(.92);}
+  /* self-assigned homework */
+  .hw-list{margin:0;}
+  .hw-item{display:flex; align-items:flex-start; gap:8px;}
+  .hw-item label{flex:1; min-width:0; font-weight:700; font-size:13.5px; line-height:26px; overflow-wrap:anywhere;}
+  .hw-item.done label{text-decoration:line-through; text-decoration-color:var(--pink); color:var(--sub);}
+  .hw-due{flex:none; font-size:10.5px; font-weight:800; line-height:18px; padding:0 8px; margin-top:4px; border-radius:999px; background:#ffe0ef; color:#a3155f; white-space:nowrap;}
+  .hw-due.late{background:#e0335a; color:#fff;}
+  .hw-item.done .hw-due{background:#eee; color:var(--sub);}
+  .hw-del{flex:none; width:22px; height:22px; margin-top:2px; border-radius:50%; border:1px solid #b3336f; cursor:pointer; padding:0;
+    font:800 12px/1 Arial,sans-serif; color:#fff; text-shadow:0 1px 1px rgba(0,0,0,.35); --gc:#e0335a;
+    background:linear-gradient(180deg, rgba(255,255,255,.7) 0%, rgba(255,255,255,.15) 48%, rgba(255,255,255,0) 50%), linear-gradient(180deg,#f07a95,#e0335a 60%,#f08aa2);}
+  .hw-empty{color:var(--sub); font-style:italic; font-weight:600; font-size:13px;}
+  .hw-add{display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-top:4px; padding:6px 0 0 0;}
+  .hw-add input{font:600 13.5px 'Nunito',sans-serif; color:var(--ink); background:rgba(255,255,255,.75); border:1px solid var(--cardrule);
+    border-radius:8px; padding:5px 9px; height:32px; min-width:0;}
+  .hw-add input:focus{outline:2px solid var(--pink); outline-offset:0; border-color:transparent;}
+  .hw-add .hw-text{flex:1 1 200px;}
+  .hw-add .hw-date{flex:0 0 auto; width:140px;}
+  .hw-add button{flex:none; height:32px; padding:0 14px; border-radius:999px; cursor:pointer; font:800 12.5px 'Nunito',sans-serif;}
+  .hw-count{display:inline-block; margin-left:6px; font-size:10.5px; font-weight:800; padding:0 7px; line-height:17px; border-radius:999px; background:#ffe0ef; color:#a3155f; vertical-align:1px;}
+  .hw-count[hidden]{display:none;}
+  .hw-count.all{background:#d9f5d0; color:#2f7a14;}
+  .as-row{display:flex; gap:12px; align-items:center; padding:8px 0; border-bottom:1px solid var(--rule); font-size:14px; font-weight:600;}
+  .as-row:last-child{border-bottom:none;}
+  .as-pct{flex:none; width:52px; text-align:center; border-radius:999px; font-weight:800; font-size:13px; padding:4px 0;}
+  .as-date{display:block; font-size:12px; font-weight:700; color:var(--sub);}
+  .as-tag{display:inline-block; margin-left:6px; font-size:10.5px; font-weight:800; padding:0 7px; line-height:17px; border-radius:999px; vertical-align:1px; white-space:nowrap;}
+  .as-tag.issued{background:#efe0ff; color:#7a1fa0;}
+  .as-tag.due{background:#e0335a; color:#fff;}
+  .as-note{font-size:13.5px; font-weight:600;}
+  .as-note.due b{color:#c01848;} .as-note.issued b{color:#8a22b3;}
+  .as-tag.cls{background:#ffe6d0; color:#a3520f;}
+  .as-tag.cls.comp{background:#dcebfb; color:#1c5ea3;}
+  /* notifications panel (hero) */
+  .notifs{margin-top:14px; border-top:2px solid var(--rule); padding-top:10px;}
+  .notifs-head{display:flex; align-items:center; justify-content:space-between; font-weight:800; font-size:14px; margin-bottom:6px;}
+  .notifs-count{font-size:11px; font-weight:800; color:#fff; background:#e0335a; border-radius:999px; padding:1px 8px; text-shadow:0 1px 1px rgba(0,0,0,.3);}
+  .notifs-count:empty{display:none;}
+  .nf{display:flex; align-items:center; gap:10px; padding:7px 10px; margin-top:6px; border-radius:8px; background:#fff;
+    border:1px solid #efc0da; box-shadow:inset 0 1px 0 #fff, 0 1px 3px rgba(140,40,90,.1); border-left:5px solid var(--nfc,#e8479a);}
+  .nf-ico{flex:none; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px;
+    background:radial-gradient(circle at 35% 28%, #fff 0 30%, color-mix(in srgb,var(--nfc) 20%,white) 70%, color-mix(in srgb,var(--nfc) 40%,white) 100%);
+    border:1px solid color-mix(in srgb,var(--nfc) 60%,white);}
+  .nf-txt{flex:1; min-width:0; font-size:13px; font-weight:700; line-height:1.35;}
+  .nf-txt small{display:block; font-size:11.5px; font-weight:700; color:var(--sub);}
+  .nf-when{flex:none; font-size:11px; font-weight:800; padding:3px 9px; border-radius:999px; color:#fff; white-space:nowrap; text-shadow:0 1px 1px rgba(0,0,0,.3);
+    background:linear-gradient(180deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,.1) 48%, rgba(255,255,255,0) 50%), var(--nfc);
+    border:1px solid color-mix(in srgb,var(--nfc) 70%,black);}
+  .nf.urgent{--nfc:#e0335a; background:#fff4f6;}
+  .nf.soon{--nfc:#f07a14;}
+  .nf.later{--nfc:#c95fa0;}
+  .nf.info{--nfc:#2a7fd4;}
+  .nf.pay .nf-txt b{color:var(--pay);} .nf.bk .nf-txt b{color:var(--bk);}
+  .notifs-more{display:block; margin:8px auto 0 auto; background:none; border:none; color:var(--link); font:800 12.5px 'Nunito',sans-serif; cursor:pointer; text-decoration:underline dotted;}
+  @media (max-width:500px){ .nf{flex-wrap:wrap; row-gap:4px;} .nf-txt{flex:1 1 calc(100% - 40px);} .nf-when{margin-left:38px;} }
+  .nf-empty{font-size:13px; font-weight:600; color:var(--sub); font-style:italic;}
+  /* ---------- sync & backup ---------- */
+  .sync-row{margin-top:10px;}
+  .sync-pill{display:inline-block; font:800 12px/1 'Nunito',sans-serif; padding:6px 12px; border-radius:999px; text-decoration:none; cursor:pointer;
+    background:#fff; color:var(--sub); border:1px solid #efc0da; box-shadow:inset 0 1px 0 #fff, 0 1px 3px rgba(140,40,90,.12);}
+  .sync-pill[data-s="synced"]{background:#e3f7da; color:#2f7a14; border-color:#a9dc92;}
+  .sync-pill[data-s="saving"], .sync-pill[data-s="connecting"]{background:#fff4e0; color:#a3520f; border-color:#f3c98f;}
+  .sync-pill[data-s="offline"]{background:#e6eef9; color:#1c5ea3; border-color:#a9c6ea;}
+  .sync-pill[data-s="error"]{background:#e0335a; color:#fff; border-color:#a3153a;}
+  .sync-win h3{font-size:14.5px; margin:14px 0 6px 0; color:var(--link);}
+  .sync-win h3:first-child{margin-top:0;}
+  .sync-win p{margin:4px 0 8px 0; font-size:13.5px; font-weight:600;}
+  .sync-win .small{font-size:12.5px; color:var(--sub);}
+  .sync-win textarea, .sync-win input[type=email], .sync-win input[type=password]{width:100%; font:600 13.5px 'Nunito',sans-serif; color:var(--ink);
+    background:#fff; border:1px solid var(--cardrule); border-radius:8px; padding:7px 10px; box-shadow:inset 0 1px 3px rgba(0,0,0,.08);}
+  .sync-win textarea{min-height:92px; font-family:Consolas,'Lucida Console',monospace; font-size:12px; resize:vertical;}
+  .sync-win input{height:36px; margin-bottom:8px;}
+  .sync-win textarea:focus, .sync-win input:focus{outline:2px solid var(--pink); outline-offset:0; border-color:transparent;}
+  .sync-btns{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;}
+  .sync-btns button{font:800 12.5px 'Nunito',sans-serif; padding:8px 16px; border-radius:999px; cursor:pointer;}
+  .sync-btns button:disabled{opacity:.55; cursor:default;}
+  .sync-msg{margin:10px 0 4px 0; padding:8px 12px; border-radius:8px; font-size:13px; font-weight:700; background:#fff; border:1px solid #efc0da; border-left:5px solid var(--pink);}
+  .sync-msg.ok{border-left-color:#3fa81c; background:#f2fbee;}
+  .sync-msg.err{border-left-color:#e0335a; background:#fff4f6; color:#a3153a;}
+  .sync-msg.info{border-left-color:#2a7fd4; background:#f0f6fd;}
+  .sync-win [hidden]{display:none !important;}
+  .rem-pill{display:inline-block; font:800 12px/1 'Nunito',sans-serif; padding:6px 12px; border-radius:999px; text-decoration:none; cursor:pointer; margin-left:6px;
+    background:#fff; color:var(--sub); border:1px solid #efc0da; box-shadow:inset 0 1px 0 #fff, 0 1px 3px rgba(140,40,90,.12);}
+  .rem-pill[data-s="on"]{background:#e3f7da; color:#2f7a14; border-color:#a9dc92;}
+  .rem-row{display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; margin:6px 0;}
+  .rem-row label{font-weight:700; font-size:13.5px; display:flex; align-items:center; gap:6px; cursor:pointer;}
+  .rem-row input[type=time]{height:34px; font:700 14px 'Nunito',sans-serif; color:var(--ink); border:1px solid var(--cardrule); border-radius:8px; padding:2px 8px; background:#fff;}
+  .rem-row input[type=checkbox]{width:18px; height:18px; accent-color:var(--pink);}
+  .rem-note{font-size:12.5px; color:var(--sub); font-weight:600; margin:6px 0 0 0;}
+  /* ---------- tabs: one view at a time ---------- */
+  html.tabs-ready [data-v]:not(.v-on){display:none !important;}
+  .index-bar{justify-content:center;}
+  .index-bar .tab{--gc:#e8479a; flex:1 1 0; max-width:170px; text-align:center; padding:9px 10px; font-size:13px;}
+  .index-bar .tab.pay{--gc:var(--pay);} .index-bar .tab.bk{--gc:var(--bk);}
+  .index-bar .tab:not(.on){background:#fff; color:var(--sub); text-shadow:none; border-color:#efc0da; box-shadow:inset 0 1px 0 #fff, 0 1px 3px rgba(140,40,90,.12);}
+  html.tabs-ready #sec-pay > summary, html.tabs-ready #sec-bk > summary{display:none;}
+  .index-bar{margin-bottom:14px;}
+  .more-top{margin:6px 0 14px 0;} .more-top .sync-row{margin-top:0;}
+  @media (max-width:420px){ .index-bar{gap:4px;} .index-bar .tab{padding:8px 4px; font-size:12px;} }
+  /* ---------- your own items ---------- */
+  .nf.mine{--nfc:#c2187a;} .nf.mine .nf-txt b{color:var(--link);}
+  .nf-del{flex:none; width:26px; height:26px; border-radius:50%; border:1px solid #efc0da; background:#fff; color:var(--sub); font:800 15px/1 'Nunito',sans-serif; cursor:pointer;}
+  .nf-add{margin-top:8px; padding:10px; border-radius:8px; background:#fff; border:1px solid #efc0da;}
+  .nf-add input{width:100%; height:38px; font:600 15px 'Nunito',sans-serif; color:var(--ink); border:1px solid var(--cardrule,#f5b8cf); border-radius:8px; padding:4px 10px; background:#fff;}
+  .nf-add-row{display:flex; gap:8px; margin-top:8px;} .nf-add-row input{flex:1;}
+  .nf-add-row button{flex:none; font:800 13px 'Nunito',sans-serif; padding:0 18px; border-radius:999px; cursor:pointer;}
+  .nf-add-msg{font-size:12.5px; font-weight:700; color:#a3153a; margin-top:6px;} .nf-add-msg:empty{display:none;}
+  .mine-item{display:flex; align-items:center; gap:8px;} .mine-item label{flex:1;}
+  .mine-del{flex:none; width:26px; height:26px; border-radius:50%; border:1px solid #efc0da; background:#fff; color:var(--sub); font:800 15px/1 'Nunito',sans-serif; cursor:pointer;}
+  .mine-ed, .nf-ed{font-size:12px;}
+  .mine-item.editing .mine-edit{flex:1; height:36px; font-size:15px;}
+  .mine-save{flex:none; font:800 12.5px 'Nunito',sans-serif; padding:7px 14px; border-radius:999px; cursor:pointer;}
+  .mine-add{display:flex; gap:8px; margin-top:10px;} .mine-add input{flex:1; font-size:15px;}
+  .mine-add button{flex:none; font:800 13px 'Nunito',sans-serif; padding:8px 16px; border-radius:999px; cursor:pointer;}
+  /* ---------- learning outcomes covered ---------- */
+  .lo-list{margin:8px 0 6px 0; border-radius:8px; background:#fff; border:1px solid #efc0da;}
+  .lo-list > summary{list-style:none; cursor:pointer; display:flex; align-items:center; gap:8px; padding:8px 10px; font-weight:800; font-size:13px;}
+  .lo-list > summary::-webkit-details-marker{display:none;}
+  .lo-sum-val{margin-left:auto; font-size:12px; color:var(--link);}
+  .lo-chev{color:var(--sub); transition:transform .15s;} .lo-list[open] .lo-chev{transform:rotate(90deg);}
+  .lo-box{padding:2px 10px 8px 10px; border-top:1px solid #f5d3e2;}
+  .lo-opt{display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:13px; font-weight:700; cursor:pointer; border-bottom:1px dashed #f5d3e2;}
+  .lo-opt:last-child{border-bottom:none;}
+  .lo-opt input{flex:none; width:18px; height:18px; margin-top:1px; accent-color:var(--pink);}
+  .lo-planned{font-style:normal; font-weight:600; color:var(--sub); font-size:12px;}
+  .lo-none{font-style:italic; color:var(--sub);}
+  .as-tag.lo-tag{background:#fff0d9; color:#a3520f;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="win hero-win">
+    <div class="win-bar"><span class="win-ico">♡</span><span class="win-title">Study Guide</span><span class="win-btns"><i class="wb min"></i><i class="wb max"></i><i class="wb close"></i></span></div>
+    <div class="win-body">
+      <h1>📘 The Bookkeeper — Study Guide</h1>
+      <p>Mon (Payroll) &amp; Tue (Bookkeeping) · 18:30–21:30 · 28 Sep – 15 Dec 2026 · Exams 9 Jan 2027</p>
+      <div class="sync-row"><a href="#sec-sync" class="sync-pill" id="heroSyncPill" data-s="off">⚪ Sync not set up</a><a href="#remWin" class="rem-pill" id="heroRemPill" data-s="off">🔕 Reminders off</a></div>
+      <div class="progress-shell"><div class="progress-fill gel" id="progressFill"></div></div>
+      <div class="progress-label"><span id="progressText">0 of 0 things checked off</span><span id="progressPct">0%</span></div>
+      <div class="notifs">
+        <div class="notifs-head"><span>🔔 Notifications</span><span class="notifs-count" id="notifCount"></span></div>
+        <div id="notifList"></div>
+        <button type="button" class="notifs-more" id="notifMore" hidden></button>
+        <button type="button" class="notifs-more" id="nfAddToggle">＋ Add a notification</button>
+        <div class="nf-add" id="nfAddForm" hidden>
+          <input type="text" id="nfText" placeholder="What to be reminded about" aria-label="Notification text" maxlength="140">
+          <div class="nf-add-row"><input type="date" id="nfDate" aria-label="Date"><button type="button" class="gel g-pink" id="nfAddBtn">Add</button></div>
+          <div class="nf-add-msg" id="nfMsg" role="alert"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="index-bar" id="indexBar" aria-label="Sections" role="tablist">
+    <button type="button" class="tab" data-tab="today" role="tab">♡ Today</button><button type="button" class="tab pay" data-tab="pay" role="tab">📙 Payroll</button><button type="button" class="tab bk" data-tab="bk" role="tab">📗 Bookkeeping</button><button type="button" class="tab" data-tab="more" role="tab">☰ More</button><button type="button" id="toggleAll" hidden>⊕ Open all</button>
+  </nav>
+
+  <details class="sec" id="sec-pay"><summary class="section-title gel g-pay"><div class="dot">📙</div><h2>Payroll — Mondays</h2><span class="meta">10 weeks · 10 learning outcomes, one per week</span><span class="chev">▸</span></summary><div class="sec-body">
+  <div class="win assess">
+    <div class="win-bar"><span class="win-ico">📙</span><span class="win-title">Payroll assessment</span><span class="win-btns"><i class="wb min"></i><i class="wb max"></i><i class="wb close"></i></span></div>
+    <div class="win-body">
+      <div class="as-row"><span class="as-pct gel g-pay">20%</span><div><b>Assignment 1</b> — Understanding payroll fundamentals<span class="as-date">📤 Issued Mon 2 Nov (Week 5) · ⏰ Submit Mon 23 Nov (Week 8)</span></div></div>
+      <div class="as-row"><span class="as-pct gel g-pay">40%</span><div><b>Assignment 2</b> — Manual payroll computations<span class="as-date">📤 Issued Mon 9 Nov (Week 6) · ⏰ Submit Mon 7 Dec (Week 10)</span></div></div>
+      <div class="as-row"><span class="as-pct gel g-pay">40%</span><div><b>Exam</b> — Thesaurus Payroll<span class="as-date">Sat 9 Jan 2027 · 9:30am · onsite, Mallow Campus</span></div></div>
+    </div>
+  </div>
+  <div class="note">🏖️ <b>No Payroll class Mon 26 Oct</b> — bank holiday. Week 5 onwards runs a week later than you might expect, and the last Payroll night is <b>Mon 7 Dec</b>.</div>
+  <div id="payWeeks"></div>
+
+  </div></details>
+
+  <details class="sec" id="sec-bk"><summary class="section-title gel g-bk"><div class="dot">📗</div><h2>Bookkeeping — Tuesdays</h2><span class="meta">12 weeks · 10 learning outcomes + revision week</span><span class="chev">▸</span></summary><div class="sec-body">
+  <div class="win assess">
+    <div class="win-bar"><span class="win-ico">📗</span><span class="win-title">Bookkeeping assessment</span><span class="win-btns"><i class="wb min"></i><i class="wb max"></i><i class="wb close"></i></span></div>
+    <div class="win-body">
+      <div class="as-row"><span class="as-pct gel g-bk">50%</span><div><b>Manual Assignment</b> — two weeks to complete<span class="as-date">📤 Issued Tue 3 Nov (Week 6) · ⏰ Due around Tue 17 Nov (Week 8) — confirm exact date</span></div></div>
+      <div class="as-row"><span class="as-pct gel g-bk">50%</span><div><b>Computerised Exam</b><span class="as-date">Sat 9 Jan 2027 · 12:00pm · onsite, Mallow Campus</span></div></div>
+    </div>
+  </div>
+  <div class="note">📗 <b>Weeks 1–6 are manual</b> (by hand) and <b>Weeks 7–12 are computerised</b>, working through the same case studies in the accounts package. Week 12 is Q&amp;A and exam prep. The computerised exam is worth 50%, so the second half is your exam practice.</div>
+  <div id="bkWeeks"></div>
+
+  <div class="note">📌 Classes finish mid/late Dec, but both exams aren't until <b>9 Jan 2027</b> at Mallow Campus. Use the gap as a dedicated revision block — rework the final self-check task for each subject at least once more before exam day.</div>
+
+  </div></details>
+
+  <div id="moreTop" class="more-top"></div>
+  <details class="sec" id="sec-details"><summary class="section-title gel g-pink"><div class="dot">🗒️</div><h2>Course details</h2><span class="chev">▸</span></summary><div class="sec-body">
+<div class="win infocard">
+    <div class="win-bar"><span class="win-ico">🗒️</span><span class="win-title">course_details.txt - Notepad</span><span class="win-btns"><i class="wb min"></i><i class="wb max"></i><i class="wb close"></i></span></div>
+    <div class="win-body">
+      <div class="row"><span>Fee</span><span>€310</span></div>
+      <div class="row"><span>Course type</span><span>Remote (Windows 10 required)</span></div>
+      <div class="row"><span>Payroll classes</span><span>Mon 18:30–21:30, 10 nights, 28/9/26 – 7/12/26 (no class 26/10 — bank holiday)</span></div>
+      <div class="row"><span>Bookkeeping classes</span><span>Tue 18:30–21:30, 12 weeks, from 29/9/26</span></div>
+      <div class="row"><span>Payroll exam (Thesaurus, 40%)</span><span class="exam">Mallow Campus · Sat 9/1/27 · 9:30am</span></div>
+      <div class="row"><span>Bookkeeping exam (computerised, 50%)</span><span class="exam">Mallow Campus · 9/1/27 · 12:00pm</span></div>
+    </div>
+  </div>
+
+</div></details>
+
+  <details class="sec" id="sec-now"><summary class="section-title gel g-pink"><div class="dot">📍</div><h2>Right now</h2><span class="chev">▸</span></summary><div class="sec-body">
+<div class="win spotlight" id="spotlight">
+    <div class="win-bar"><span class="win-ico">♡</span><span class="win-title">Right now</span><span class="win-btns"><i class="wb min"></i><i class="wb max"></i><i class="wb close"></i></span></div>
+    <div class="win-body">
+      <div id="spotBody">Loading…</div>
+    </div>
+  </div>
+
+  <div class="win spotlight" id="nowMine">
+    <div class="win-bar"><span class="win-ico">📌</span><span class="win-title">My list</span><span class="win-btns"><i class="wb min"></i><i class="wb max"></i><i class="wb close"></i></span></div>
+    <div class="win-body">
+      <p class="nf-empty" id="nowEmpty">Nothing added yet — add anything you want to keep in mind right now.</p>
+      <div id="nowList"></div>
+      <div class="hw-add mine-add"><input type="text" class="hw-text" id="nowText" placeholder="Add something…" aria-label="Add to my list" maxlength="200"><button type="button" class="gel g-pink" id="nowAdd">+ Add</button></div>
+    </div>
+  </div>
+
+  <div class="streak gel g-pink">
+    <div class="num" id="streakNum">0</div>
+    <div>weeks fully checked off across both classes — every tick here is proof, not just a plan. 🧠✨</div>
+  </div>
+
+  </div></details>
+  <details class="sec" id="sec-materials"><summary class="section-title gel g-pink"><div class="dot">📎</div><h2>Study materials — where to get them</h2><span class="chev">▸</span></summary><div class="sec-body">
+
+  <div class="win checklist-card">
+    <div class="win-bar"><span class="win-ico">📙</span><span class="win-title">Payroll references</span><span class="win-btns"><i class="wb min"></i><i class="wb max"></i><i class="wb close"></i></span></div>
+    <div class="win-body">
+    <h3 style="color:var(--pay);">📙 Payroll — reference material</h3>
+    <ul class="reslist">
+      <li><span class="ricon">💶</span><div><span class="rlabel">Tax credits & standard rate cut-off point</span><span class="rtxt"><a href="https://www.revenue.ie/en/personal-tax-credits-reliefs-and-exemptions/index.aspx" target="_blank" rel="noopener">revenue.ie — Tax rates, bands & reliefs</a> · and your own RPN via ROS or myAccount once you're registered</span></div></li>
+      <li><span class="ricon">🚨</span><div><span class="rlabel">Emergency tax rates</span><span class="rtxt"><a href="https://www.revenue.ie/en/jobs-and-pensions/starting-your-first-job/emergency-tax.aspx" target="_blank" rel="noopener">revenue.ie — Emergency Tax explained</a></span></div></li>
+      <li><span class="ricon">📄</span><div><span class="rlabel">Sample RPN / tax credit certificate</span><span class="rtxt">Generate a real one free via <a href="https://www.revenue.ie/en/online-services/services/manage-your-record/manage-my-record.aspx" target="_blank" rel="noopener">myAccount</a>, or ask your tutor for a class sample</span></div></li>
+    </ul>
+    </div>
+  </div>
+
+  <div class="win checklist-card">
+    <div class="win-bar"><span class="win-ico">📗</span><span class="win-title">Bookkeeping references</span><span class="win-btns"><i class="wb min"></i><i class="wb max"></i><i class="wb close"></i></span></div>
+    <div class="win-body">
+    <h3 style="color:var(--bk);">📗 Bookkeeping — reference material</h3>
+    <ul class="reslist">
+      <li><span class="ricon">🧾</span><div><span class="rlabel">Current VAT rates</span><span class="rtxt"><a href="https://www.revenue.ie/en/vat/vat-rates/index.aspx" target="_blank" rel="noopener">revenue.ie — VAT rates database</a></span></div></li>
+      <li><span class="ricon">📋</span><div><span class="rlabel">VAT3 return requirements</span><span class="rtxt"><a href="https://www.revenue.ie/en/companies-and-charities/filing-and-paying/vat-3-return/index.aspx" target="_blank" rel="noopener">revenue.ie — filing your VAT3 return</a> (filed via ROS; explains T1, T2, T3, T4, E1, E2)</span></div></li>
+    </ul>
+    </div>
+  </div>
+
+  <div class="win checklist-card">
+    <div class="win-bar"><span class="win-ico">📑</span><span class="win-title">Templates</span><span class="win-btns"><i class="wb min"></i><i class="wb max"></i><i class="wb close"></i></span></div>
+    <div class="win-body">
+    <h3>📑 Templates — payslip, day-books, ledger, trial balance, bank reconciliation, tax/Revenue forms</h3>
+    <ul class="reslist">
+      <li><span class="ricon">🎓</span><div><span class="rlabel">Best option</span><span class="rtxt">Ask your tutor — most providers issue their own blank templates in the course materials/VLE to match exactly what's assessed</span></div></li>
+      <li><span class="ricon">🗂️</span><div><span class="rlabel">In the meantime</span><span class="rtxt">Search "ledger template," "trial balance template," "bank reconciliation template" in the <a href="https://create.microsoft.com/en-us/templates/excel" target="_blank" rel="noopener">Excel</a>/<a href="https://workspace.google.com/marketplace" target="_blank" rel="noopener">Google Sheets</a> template gallery, or free templates from sites like <a href="https://www.accountingcoach.com" target="_blank" rel="noopener">AccountingCoach</a></span></div></li>
+    </ul>
+    </div>
+  </div>
+
+  <div class="win checklist-card">
+    <div class="win-bar"><span class="win-ico">💻</span><span class="win-title">Software</span><span class="win-btns"><i class="wb min"></i><i class="wb max"></i><i class="wb close"></i></span></div>
+    <div class="win-body">
+    <h3>💻 Software</h3>
+    <ul class="reslist">
+      <li><span class="ricon">🔑</span><div><span class="rlabel">Payroll: Thesaurus Payroll</span><span class="rtxt">The Payroll exam (40%) is done on Thesaurus — get comfortable with it early. Check your course portal for the licence and login.</span></div></li>
+      <li><span class="ricon">🔑</span><div><span class="rlabel">Bookkeeping: accounts package</span><span class="rtxt">Named by your provider — check your course enrolment email/portal for the licence and login, since it needs to match what's used in the exam</span></div></li>
+    </ul>
+    </div>
+  </div>
+
+  </div></details>
+  <details class="sec" id="sec-week"><summary class="section-title gel g-pink"><div class="dot">🗓️</div><h2>Your typical week</h2><span class="chev">▸</span></summary><div class="sec-body">
+  <div class="note">Payroll is Monday, Bookkeeping is Tuesday — both 18:30–21:30. Put gym <b>morning or early afternoon</b> those two days so it's not backed up against a 3‑hour class. Wed/Thu/Sat now carry a 2‑hour assignment block on top of regular study/consolidation time. Sun is a light optional catch‑up.</div>
+  <div class="rhythm" id="rhythmGrid"></div>
+
+  </div></details>
+  
+  
+  <details class="sec" id="sec-check"><summary class="section-title gel g-pink"><div class="dot">✅</div><h2>Final revision checklist</h2><span class="chev">▸</span></summary><div class="sec-body">
+  <div class="win paper">
+    <div class="win-bar"><span class="win-ico">📙</span><span class="win-title">Payroll checklist</span><span class="win-btns"><i class="wb min"></i><i class="wb max"></i><i class="wb close"></i></span></div>
+    <div class="win-body">
+      <h3 style="color:var(--pay);">📙 Payroll — can you do this unaided, manual AND computerised?</h3>
+      <div id="clPAY"></div>
+    </div>
+  </div>
+  <div class="win paper">
+    <div class="win-bar"><span class="win-ico">📗</span><span class="win-title">Bookkeeping checklist</span><span class="win-btns"><i class="wb min"></i><i class="wb max"></i><i class="wb close"></i></span></div>
+    <div class="win-body">
+      <h3 style="color:var(--bk);">📗 Bookkeeping — can you do this unaided, manual AND computerised?</h3>
+      <div id="clBK"></div>
+    </div>
+  </div>
+
+  </div></details>
+
+  <details class="sec" id="sec-sync"><summary class="section-title gel g-pink"><div class="dot">☁️</div><h2>Sync, reminders &amp; backup</h2><span class="meta">keep your laptop and iPhone in step</span><span class="chev">▸</span></summary><div class="sec-body">
+  <div class="win sync-win">
+    <div class="win-bar"><span class="win-ico">☁️</span><span class="win-title">Sync</span><span class="win-btns"><i class="wb min"></i><i class="wb max"></i><i class="wb close"></i></span></div>
+    <div class="win-body">
+      <span class="sync-pill" data-s="off">⚪ Sync not set up</span>
+      <div id="syncMsg" class="sync-msg" hidden></div>
+
+      <div id="syncCfgBox">
+        <h3 style="margin-top:12px;">1 · Connect to your Firebase project</h3>
+        <p>Paste the <b>firebaseConfig</b> block from Firebase (Project settings → Your apps) — or the <b>sync link</b> copied from your other device.</p>
+        <textarea id="syncCfgIn" spellcheck="false" autocomplete="off" placeholder="const firebaseConfig = {&#10;  apiKey: &quot;…&quot;,&#10;  authDomain: &quot;…&quot;,&#10;  projectId: &quot;…&quot;,&#10;  …&#10;};"></textarea>
+        <div class="sync-btns"><button type="button" class="gel g-pink" id="syncSaveCfg">Connect</button></div>
+      </div>
+
+      <div id="syncConnected" hidden>
+        <p style="margin-top:12px;">Connected to Firebase project <b id="syncProject"></b>.</p>
+      </div>
+
+      <form id="syncAccount" hidden onsubmit="return false" autocomplete="on">
+        <h3 style="margin-top:12px;">2 · Sign in</h3>
+        <p class="small">Use the same email and password on every device.</p>
+        <input type="email" id="syncEmailIn" autocomplete="username" placeholder="Email" aria-label="Email">
+        <input type="password" id="syncPwIn" autocomplete="current-password" placeholder="Password (6+ characters)" aria-label="Password">
+        <div class="sync-btns">
+          <button type="submit" class="gel g-pink" id="syncSignIn">Sign in</button>
+          <button type="button" class="gel g-pay" id="syncCreate">Create account</button>
+          <button type="button" class="gel g-silver" id="syncForgot">Forgot password</button>
+        </div>
+      </form>
+
+      <div id="syncWho" hidden>
+        <p style="margin-top:12px;">Signed in as <b id="syncEmail"></b>. Ticks and homework now sync to your other devices.</p>
+        <div class="sync-btns">
+          <button type="button" class="gel g-bk" id="syncCopyLink">🔗 Copy link for my other devices</button>
+          <button type="button" class="gel g-silver" id="syncSignOut">Sign out</button>
+        </div>
+      </div>
+
+      <div class="sync-btns" id="syncDiscWrap"><button type="button" class="gel g-red" id="syncDisconnect">Disconnect this device</button></div>
+    </div>
+  </div>
+
+  <div class="win sync-win" id="remWin">
+    <div class="win-bar"><span class="win-ico">🔔</span><span class="win-title">Reminders</span><span class="win-btns"><i class="wb min"></i><i class="wb max"></i><i class="wb close"></i></span></div>
+    <div class="win-body" id="remBox">
+      <span class="rem-pill" data-s="off" style="margin-left:0">🔕 Reminders off</span>
+      <p style="margin-top:10px;">Get a pop-up on this device when an assignment, exam or homework is coming up — even when the Study Guide is closed.</p>
+      <div id="remMsg" class="sync-msg" hidden></div>
+      <p id="remNeedSync" class="rem-note">☁️ Sign in under Sync above first — reminders use your account to know what's due.</p>
+      <p id="remIOS" class="rem-note" hidden>📱 On iPhone, reminders only work in the Home Screen app: in Safari tap Share → <b>Add to Home Screen</b>, open it from the icon, then come back here. Needs iOS 16.4 or newer.</p>
+      <p id="remNoKey" class="rem-note" hidden>⚙️ The reminder sender isn't set up on your website yet — see the Notifications guide.</p>
+      <p id="remUnsupported" class="rem-note" hidden>This browser can't show reminders. On a laptop, use the Study Guide app (Edge).</p>
+      <p id="remDenied" class="rem-note" hidden>🚫 Notifications are blocked. iPhone: Settings → Notifications → Study Guide → Allow. Laptop: click the padlock/ⓘ by the address (or ••• → Site permissions) → Notifications → Allow, then reopen.</p>
+      <div class="sync-btns"><button type="button" class="gel g-pink" id="remOnBtn" hidden>🔔 Turn on reminders on this device</button></div>
+      <div id="remOnWrap" hidden>
+        <div class="sync-btns">
+          <button type="button" class="gel g-bk" id="remTestBtn">📨 Send a test</button>
+          <button type="button" class="gel g-silver" id="remOffBtn">Turn off on this device</button>
+        </div>
+      </div>
+      <div id="remSettings" hidden>
+        <h3>When to remind me</h3>
+        <div class="rem-row"><label>Each day at <input type="time" id="remTime" value="08:00" step="900"></label></div>
+        <div class="rem-row">
+          <label><input type="checkbox" class="rem-lead" value="7" checked> a week before</label>
+          <label><input type="checkbox" class="rem-lead" value="1" checked> the day before</label>
+          <label><input type="checkbox" class="rem-lead" value="0" checked> on the day</label>
+        </div>
+        <div class="sync-btns"><button type="button" class="gel g-pay" id="remSave">Save</button></div>
+        <p class="rem-note">Covers every date in 🔔 Notifications above plus homework you give a due date. Ticking "submitted" stops that reminder. These settings apply to all your devices.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="win sync-win">
+    <div class="win-bar"><span class="win-ico">💾</span><span class="win-title">Backup</span><span class="win-btns"><i class="wb min"></i><i class="wb max"></i><i class="wb close"></i></span></div>
+    <div class="win-body">
+      <p>Copy a backup of every tick and homework item, or paste one in to restore it (e.g. from an old copy of this guide).</p>
+      <div class="sync-btns"><button type="button" class="gel g-pink" id="bkCopy">📋 Copy backup</button></div>
+      <h3>Restore</h3>
+      <textarea id="bkIn" spellcheck="false" autocomplete="off" placeholder="Paste a backup here…"></textarea>
+      <div class="sync-btns"><button type="button" class="gel g-pay" id="bkRestore">↩︎ Restore from pasted backup</button></div>
+      <div id="bkMsg" class="sync-msg" hidden></div>
+    </div>
+  </div>
+  </div></details>
+
+  <button class="reset-btn gel g-silver" id="resetBtn">↺ Reset all progress</button>
+  <p class="footer">Tap any week to open it. Every checkbox saves automatically on this device — close the tab, come back, it's all still here. Set up ☁️ Sync and it follows you to your other devices too. 💾</p>
+</div>
+
+<script>
+try {
+
+const ASSIGN = {
+  a1:{name:'Assignment 1', topic:'Understanding payroll fundamentals', pct:'20%'},
+  a2:{name:'Assignment 2', topic:'Manual payroll computations', pct:'40%'},
+  bkm:{name:'Manual Assignment', short:'Assignment', topic:'Bookkeeping manual assignment — two weeks to complete', pct:'50%', approxDue:true},
+};
+// week number -> events (from the course plan)
+const PAY_ASSIGN = {5:[['a1','issued']], 6:[['a2','issued']], 8:[['a1','due']], 10:[['a2','due']]};
+// Bookkeeping: issued Week 6, "two weeks to complete" -> due around Week 8 (confirm with tutor)
+const BK_ASSIGN = {6:[['bkm','issued']], 8:[['bkm','due']]};
+function assignFor(strand){ return strand==='pay' ? PAY_ASSIGN : BK_ASSIGN; }
+function weeksFor(strand){ return strand==='pay' ? PAY_WEEKS : BK_WEEKS; }
+function dueWeek(strand,k){ const A=assignFor(strand); return weeksFor(strand).find(x=>(A[x.n]||[]).some(e=>e[0]===k&&e[1]==='due')); }
+// Bookkeeping in-class case studies (from the course plan)
+const BK_CLASS = {1:'Introduction to Bookkeeping', 2:'JP Murphy Case Study', 3:'Equipment Supplies Case Study', 4:'Gem Jewellers Case Study', 5:'Happy Pets Case Study', 6:'Manual Assignment',
+  7:'Intro to Computerised Bookkeeping & Regency Case Study', 8:'Equipment Supplies Case Study', 9:'JP Murphy Case Study', 10:'Gem Jewellers Case Study', 11:'Happy Pets Case Study', 12:'Q&A Session / Exam Prep'};
+const BK_TAG = {1:'Intro', 2:'JP Murphy', 3:'Equipment Supplies', 4:'Gem Jewellers', 5:'Happy Pets', 7:'Regency', 8:'Equipment Supplies', 9:'JP Murphy', 10:'Gem Jewellers', 11:'Happy Pets', 12:'Exam prep'};
+function bkPhase(n){ return n<=6 ? 'Manual' : 'Computerised'; }
+const PAY_WEEKS = [
+  {n:1, strand:'pay', date:'2026-09-28', lo:'1', title:'Key payroll terminology',
+   focus:['Explain the key terminology associated with personal taxation in preparing and maintaining payroll records, both manually and on the computer'],
+   study:'Build a flashcard set covering the payroll/personal-taxation terms used in class this week'},
+  {n:2, strand:'pay', date:'2026-10-05', lo:'2', title:'Manual vs computerised systems',
+   focus:['Outline the advantages and disadvantages of a computerised system over a manual one for payroll processing purposes'],
+   study:'Write out the advantages and disadvantages list from memory, then check it against your notes'},
+  {n:3, strand:'pay', date:'2026-10-12', lo:'3', title:'Cumulative tax system',
+   focus:['Process the payroll for employee(s), using manual and computerised systems, under the cumulative tax system, to include: various elements of gross pay, holidays, unpaid leave, cut-off points, credits, all statutory and non-statutory deductions'],
+   study:'Process one employee\'s payroll by hand under the cumulative system, covering gross pay, holidays/unpaid leave, cut-off point, credits and all deductions'},
+  {n:4, strand:'pay', date:'2026-10-19', lo:'4', title:'Emergency & temporary tax',
+   focus:['Process the payroll for employee(s), under the emergency and temporary tax systems and subsequent transfer to the cumulative tax system'],
+   study:'Process a new employee under emergency tax, then transfer them to the cumulative system once credits arrive'},
+  {n:5, strand:'pay', date:'2026-11-02', lo:'5', title:'Mid-year changes to personal tax',
+   focus:['Demonstrate the changes in personal tax due to various factors to include: mid-year commencement and leaving of employment, changes in credits, refunds'],
+   study:'Work through a mid-year starter, a mid-year leaver, and a change-of-credits scenario, including any refund due'},
+  {n:6, strand:'pay', date:'2026-11-09', lo:'6', title:'Employee tax forms',
+   focus:['Extract information from completed records to prepare all necessary mid-year and year end tax forms for employees'],
+   study:'Use a completed payroll record to fill a mid-year and a year-end tax form for an employee'},
+  {n:7, strand:'pay', date:'2026-11-16', lo:'7', title:'Revenue returns',
+   focus:['Extract information from completed records to prepare all necessary end-of-period and year end returns and tax forms for the Revenue Commissioners'],
+   study:'Use a completed payroll record to prepare an end-of-period and a year-end return for the Revenue Commissioners'},
+  {n:8, strand:'pay', date:'2026-11-23', lo:'8', title:'Married couples\' assessment',
+   focus:['Assess the effect of using alternative assessment methods to calculate the annual tax liability of married couples'],
+   study:'Calculate a married couple\'s annual tax liability under each alternative assessment method and compare the results'},
+  {n:9, strand:'pay', date:'2026-11-30', lo:'9', title:'Legislation change across two tax years',
+   focus:['Analyse the impact of changes in legislation on personal tax and take-home pay by comparing two tax years'],
+   study:'Compare the same employee\'s take-home pay under two different tax years and note what legislation change caused the difference'},
+  {n:10, strand:'pay', date:'2026-12-07', lo:'10', title:'Reports & backup',
+   focus:['Print a selection of reports after backing up computerised data on a suitable medium'],
+   study:'PAY SELF-CHECK: back up your computerised payroll data, then print the required selection of reports — unaided, timed'},
+];
+
+const BK_WEEKS = [
+  {n:1, strand:'bk', date:'2026-09-29', lo:'1', title:'Key bookkeeping terminology',
+   focus:['Explain the key terminology associated with the recording and maintenance of bookkeeping records, using manual and computerised systems'],
+   study:'Build a flashcard set covering the bookkeeping terms used in class this week'},
+  {n:2, strand:'bk', date:'2026-10-06', lo:'2', title:'Manual vs computerised systems',
+   focus:['Outline the advantages and disadvantages of a computerised system over a manual one for record keeping purposes'],
+   study:'Write out the advantages and disadvantages list from memory, then check it against your notes'},
+  {n:3, strand:'bk', date:'2026-10-13', lo:'3', title:'Books of first entry — invoices & credit notes',
+   focus:['Complete the books of first entry with appropriate VAT and departmental analysis from source documents, to include invoices and credit notes'],
+   study:'Enter a set of mock invoices and credit notes into the correct books of first entry, with the correct VAT and departmental analysis'},
+  {n:4, strand:'bk', date:'2026-10-20', lo:'3', title:'Books of first entry — bank records & petty cash',
+   focus:['Complete the books of first entry with appropriate VAT and departmental analysis from source documents, to include bank records and petty cash vouchers'],
+   study:'Enter a set of mock bank records and petty cash vouchers into the correct books of first entry, with the correct VAT and departmental analysis'},
+  {n:5, strand:'bk', date:'2026-10-27', lo:'4', title:'Posting to the ledgers',
+   focus:['Post the information from the daybooks to the appropriate accounts in the ledgers'],
+   study:'Post this course\'s day-book entries through to the correct ledger accounts by hand'},
+  {n:6, strand:'bk', date:'2026-11-03', lo:'5', title:'Trial balance',
+   focus:['Extract a trial balance at the end of an accounting period'],
+   study:'Extract a trial balance from your ledger accounts; if it doesn\'t balance, find out why'},
+  {n:7, strand:'bk', date:'2026-11-10', lo:'6', title:'Bank reconciliation',
+   focus:['Prepare a Bank Reconciliation Statement from data supplied'],
+   study:'Prepare a bank reconciliation statement from a mock bank statement and cash book'},
+  {n:8, strand:'bk', date:'2026-11-17', lo:'7', title:'VAT return',
+   focus:['Prepare the end-of-period VAT Return in accordance with the requirements of the Revenue Commissioners'],
+   study:'Prepare an end-of-period VAT return from a completed set of books of first entry'},
+  {n:9, strand:'bk', date:'2026-11-24', lo:'8', title:'Manual vs computerised results',
+   focus:['Process all tasks as per the manual ones using an accounts package, comparing manual and computerised results'],
+   study:'Redo this course\'s manual tasks in the accounts package and compare the two sets of results'},
+  {n:10, strand:'bk', date:'2026-12-01', lo:'9', title:'Correcting errors & editing data',
+   focus:['Analyse tasks completed, making appropriate corrections to any errors and editing of data as directed'],
+   study:'Review your completed tasks for errors, correct them, and practise editing data as directed'},
+  {n:11, strand:'bk', date:'2026-12-08', lo:'10', title:'Reports & backup',
+   focus:['Print a selection of reports after backing up computerised data on a suitable medium'],
+   study:'Back up your computerised bookkeeping data, then print the required selection of reports'},
+  {n:12, strand:'bk', date:'2026-12-15', lo:'1–10', title:'Full revision',
+   focus:['Revision of all ten learning outcomes above ahead of the practical exam'],
+   study:'BK SELF-CHECK: full cycle — entries → ledger → trial balance → reconciliation → VAT return → reports — unaided, timed'},
+];
+
+const CHECKLIST_PAY = [
+ 'LO1 — Explain the key terminology of personal taxation, manually and on the computer',
+ 'LO2 — Outline the advantages and disadvantages of a computerised system over a manual one for payroll processing',
+ 'LO3 — Process payroll under the cumulative tax system, incl. gross pay, holidays, unpaid leave, cut-off points, credits, all statutory and non-statutory deductions',
+ 'LO4 — Process payroll under the emergency and temporary tax systems and transfer an employee to the cumulative system',
+ 'LO5 — Demonstrate changes in personal tax from mid-year commencement/leaving, changes in credits, and refunds',
+ 'LO6 — Prepare all necessary mid-year and year-end tax forms for employees',
+ 'LO7 — Prepare all necessary end-of-period and year-end returns and tax forms for the Revenue Commissioners',
+ 'LO8 — Assess the effect of alternative assessment methods on a married couple\'s annual tax liability',
+ 'LO9 — Analyse the impact of legislation changes on personal tax and take-home pay by comparing two tax years',
+ 'LO10 — Print a selection of reports after backing up computerised data'
+];
+const CHECKLIST_BK = [
+ 'LO1 — Explain the key terminology of bookkeeping records, manual and computerised',
+ 'LO2 — Outline the advantages and disadvantages of a computerised system over a manual one for record keeping',
+ 'LO3 — Complete the books of first entry with appropriate VAT and departmental analysis from invoices, credit notes, bank records and petty cash vouchers',
+ 'LO4 — Post the information from the daybooks to the appropriate accounts in the ledgers',
+ 'LO5 — Extract a trial balance at the end of an accounting period',
+ 'LO6 — Prepare a Bank Reconciliation Statement from data supplied',
+ 'LO7 — Prepare the end-of-period VAT Return per Revenue Commissioners requirements',
+ 'LO8 — Process all tasks as per the manual ones using an accounts package, comparing manual and computerised results',
+ 'LO9 — Analyse tasks completed, making appropriate corrections to errors and editing data as directed',
+ 'LO10 — Print a selection of reports after backing up computerised data'
+];
+
+const RHYTHM = [
+  {d:'Mon', items:[['chip gel g-orange','🏋️ Gym (am/pm)'],['chip gel g-pay','📙 Payroll 18:30–21:30']]},
+  {d:'Tue', items:[['chip gel g-orange','🏋️ Gym (am/pm)'],['chip gel g-bk','📗 Bookkeeping 18:30–21:30']]},
+  {d:'Wed', items:[['chip gel g-green','📖 Study 60–90m'],['chip gel g-red','📝 Assignment 2h']]},
+  {d:'Thu', items:[['chip gel g-green','📖 Study 60–90m'],['chip gel g-red','📝 Assignment 2h']]},
+  {d:'Fri', items:[['chip gel g-orange','🏋️ Gym'],['chip gel g-silver','light review']]},
+  {d:'Sat', items:[['chip gel g-orange','🏋️ Gym'],['chip gel g-green','📖 Consolidate'],['chip gel g-red','📝 Assignment 2h']]},
+  {d:'Sun', items:[['chip gel g-silver','😌 Rest / optional catch-up']]},
+];
+
+function safeGet(key, fallback){
+  try { const v = localStorage.getItem(key); return v===null ? fallback : JSON.parse(v); }
+  catch(e){ return fallback; }
+}
+function safeSet(key, val){ try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){} }
+let state = safeGet('sg_state_v2', {});
+let homework = safeGet('sg_homework_v1', {});
+const hwRenderers = {};
+function saveHomework(){ safeSet('sg_homework_v1', homework); updateProgress(); }
+function isChecked(id){ return !!state[id]; }
+// Which learning outcomes each class actually covered. Stored as state['los_pay3'] = [3,5] (planned topics by their
+// original week number), so it syncs and backs up with the ticks. Not set yet = the planned one.
+const TOPICS = {pay: PAY_WEEKS, bk: BK_WEEKS};
+function topicByN(strand, n){ return TOPICS[strand].find(t=>t.n===n); }
+function chosenTopics(strand, slot){
+  const v = state['los_'+strand+slot];
+  if(Array.isArray(v)) return v.filter((n,i)=>typeof n==='number' && topicByN(strand,n) && v.indexOf(n)===i).sort((a,b)=>a-b);
+  return [slot];
+}
+function primarySlots(strand){ const seen = {}; TOPICS[strand].forEach(w=>chosenTopics(strand,w.n).forEach(t=>{ if(!(t in seen)) seen[t]=w.n; })); return seen; }
+function coveredTopics(strand){ return Object.keys(primarySlots(strand)).map(Number); }
+function orderSig(){ return JSON.stringify(['pay','bk'].map(s=>TOPICS[s].map(w=>chosenTopics(s,w.n)))); }
+let lastOrderSig = null;
+function setChosen(strand, slot, list){
+  toggle('los_'+strand+slot, list.slice().sort((a,b)=>a-b));
+  renderAllWeeks(); renderSpotlight(); updateStreak(); updateProgress();
+  const d = document.getElementById(strand+'week'+slot);
+  if(d){ d.open = true; const l = d.querySelector('.lo-list'); if(l) l.open = true; }
+}
+function topicsTitle(ts){ return ts.length ? ts.map(t=>t.title).join(' + ') : 'No learning outcome ticked yet'; }
+function topicsLO(ts){ return ts.length ? ts.map(t=>t.lo).join(', ') : '—'; }
+function toggle(id, val){ state[id] = val; safeSet('sg_state_v2', state); updateProgress(); if(window.SGSync) SGSync.onLocalState(id, val); }
+
+const rhythmGrid = document.getElementById('rhythmGrid');
+RHYTHM.forEach(day=>{
+  const c = document.createElement('div'); c.className='daycard';
+  let html = `<div class="mini-bar"><span>${day.d}</span><i class="wb close mini"></i></div><div class="icons">`;
+  day.items.forEach(([cls,label])=>{ html += `<div class="${cls}">${label}</div>`; });
+  html += `</div>`;
+  c.innerHTML = html;
+  rhythmGrid.appendChild(c);
+});
+
+function fmtDate(iso){
+  const d = new Date(iso+'T00:00:00');
+  return d.toLocaleDateString('en-IE',{day:'numeric',month:'short'});
+}
+function renderWeek(w){
+  const chosen = chosenTopics(w.strand, w.n), TS = chosen.map(n=>topicByN(w.strand, n));
+  const changed = !(chosen.length===1 && chosen[0]===w.n);
+  const primary = primarySlots(w.strand);
+  const details = document.createElement('details');
+  details.className = 'weekcard';
+  details.id = w.strand+'week'+w.n;
+  const strandLabel = w.strand==='bk' ? 'BOOKKEEPING' : 'PAYROLL';
+  const strandIcon = w.strand==='bk' ? '📗' : '📙';
+
+  const events = assignFor(w.strand)[w.n] || [];
+  const asTags = events.map(([k,t])=>`<span class="as-tag ${t}">${t==='issued'?'📤':'⏰'} ${ASSIGN[k].short || ASSIGN[k].name.replace('Assignment ','A')} ${t==='issued'?'issued':(ASSIGN[k].approxDue?'due ~':'due')}</span>`).join('')
+    + (w.strand==='bk' && BK_TAG[w.n] ? `<span class="as-tag cls ${w.n>6?'comp':''}">${w.n>6?'💻':'✍️'} ${BK_TAG[w.n]}</span>` : '');
+  const summary = document.createElement('summary');
+  summary.innerHTML = `<div class="wk-badge ${w.strand}">W${w.n}</div>
+    <div><div>${strandIcon} ${topicsTitle(TS)}</div><span class="wk-meta">${fmtDate(w.date)} · LO ${topicsLO(TS)}${changed?'<span class="as-tag lo-tag">✎ changed</span>':''}${asTags}<span class="hw-count" hidden></span></span></div>
+    <div class="arrow">▸</div>`;
+  details.appendChild(summary);
+
+  const body = document.createElement('div');
+  body.className = 'weekbody';
+  body.innerHTML = `<span class="strand gel ${w.strand}">${strandLabel}</span>
+    ${w.strand==='bk' && BK_CLASS[w.n] ? `<h4>📂 In class · ${bkPhase(w.n)}</h4><p>${BK_CLASS[w.n]}</p>` : ''}
+    <div class="lo-slot"></div>
+    ${events.length ? '<h4>📌 Assignments</h4>' + events.map(([k,t])=>`<div class="as-note ${t}"><b>${ASSIGN[k].name} ${t==='issued'?'is issued tonight':(ASSIGN[k].approxDue?'is due around now':'is due tonight')}</b> — ${ASSIGN[k].topic} (${ASSIGN[k].pct})${t==='issued'?` · due ${ASSIGN[k].approxDue?'around ':''}${fmtDate(dueWeek(w.strand,k).date)}`:''}${t==='due'&&ASSIGN[k].approxDue?' · exact date to confirm with your tutor':''}</div>`).join('') : ''}
+`;
+
+  // collapsible list of every learning outcome: tick the ones covered in this class
+  const loList = document.createElement('details'); loList.className = 'lo-list';
+  const loSum = document.createElement('summary');
+  loSum.innerHTML = `<span>📋 Learning outcomes covered</span><span class="lo-sum-val"></span><span class="lo-chev">▸</span>`;
+  loSum.querySelector('.lo-sum-val').textContent = 'LO ' + topicsLO(TS);
+  loList.appendChild(loSum);
+  const loBox = document.createElement('div'); loBox.className = 'lo-box';
+  TOPICS[w.strand].forEach(t=>{
+    const row = document.createElement('label'); row.className = 'lo-opt';
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.className = 'lo-cb'; cb.value = t.n; cb.checked = chosen.includes(t.n);
+    cb.addEventListener('change', ()=>{ const list = Array.from(loBox.querySelectorAll('.lo-cb:checked')).map(x=>+x.value); setChosen(w.strand, w.n, list); });
+    const txt = document.createElement('span'); txt.textContent = 'LO ' + t.lo + ' — ' + t.title;
+    if(t.n === w.n){ const pl = document.createElement('em'); pl.className = 'lo-planned'; pl.textContent = ' (planned)'; txt.appendChild(pl); }
+    row.append(cb, txt); loBox.appendChild(row);
+  });
+  loList.appendChild(loBox);
+  const loSlot = body.querySelector('.lo-slot');
+  loSlot.appendChild(loList);
+  TS.forEach(t=>{ const h = document.createElement('h4'); h.textContent = 'Learning outcome ' + t.lo; const pp = document.createElement('p'); pp.textContent = t.focus.join(' · '); loSlot.append(h, pp); });
+  if(!TS.length){ const pp = document.createElement('p'); pp.className = 'lo-none'; pp.textContent = 'Open the list above and tick what was covered in this class.'; loSlot.appendChild(pp); }
+
+  // self-study task for each learning outcome covered
+  const t1 = document.createElement('div');
+  if(TS.length){ const h = document.createElement('h4'); h.textContent = TS.length > 1 ? 'Self-study tasks' : 'Self-study task'; t1.appendChild(h); }
+  TS.forEach(t=>{
+    const key = w.strand + t.n + '_study';
+    const cbId = primary[t.n] === w.n ? key : key + '__w' + w.n;     // same task on two days → both boxes stay in step
+    const row = document.createElement('div'); row.className = 'task' + (isChecked(key)?' done':'');
+    row.innerHTML = `<input type="checkbox" id="${cbId}" data-key="${key}" ${isChecked(key)?'checked':''}><label for="${cbId}"></label>`;
+    row.querySelector('label').textContent = t.study;
+    const cb = row.querySelector('input');
+    cb.addEventListener('change', ()=>{
+      toggle(key, cb.checked);
+      document.querySelectorAll('input[data-key="'+key+'"]').forEach(o=>{ o.checked = cb.checked; o.parentElement.classList.toggle('done', cb.checked); });
+      updateStreak();
+    });
+    t1.appendChild(row);
+  });
+  body.appendChild(t1);
+
+  const taskId2 = w.strand+w.n+'_attended';
+  const t2wrap = document.createElement('div'); 
+  t2wrap.innerHTML = `<h4>Class check-in</h4>`;
+  body.appendChild(t2wrap);
+  const t2 = document.createElement('div'); t2.className='task' + (isChecked(taskId2)?' done':'');
+  t2.innerHTML = `<input type="checkbox" id="${taskId2}" ${isChecked(taskId2)?'checked':''}><label for="${taskId2}">I attended / caught up on this class</label>`;
+  body.appendChild(t2);
+
+  events.filter(e=>e[1]==='due').forEach(([k])=>{
+    const sid = w.strand+w.n+'_'+k+'sub';
+    const t3 = document.createElement('div'); t3.className='task' + (isChecked(sid)?' done':'');
+    t3.innerHTML = `<input type="checkbox" id="${sid}" ${isChecked(sid)?'checked':''}><label for="${sid}">${ASSIGN[k].name} submitted ✉️</label>`;
+    body.appendChild(t3);
+    const cb = t3.querySelector('input');
+    cb.addEventListener('change',()=>{ toggle(sid, cb.checked); t3.classList.toggle('done', cb.checked); });
+  });
+
+  const weekKey = w.strand+w.n;
+  const hwWrap = document.createElement('div');
+  hwWrap.innerHTML = `<h4>📝 My homework</h4><div class="hw-list"></div>
+    <form class="hw-add" autocomplete="off">
+      <input class="hw-text" type="text" placeholder="Add your own homework…" aria-label="Homework for week ${w.n}" maxlength="200">
+      <input class="hw-date" type="date" aria-label="Due date (optional)" title="Due date (optional)">
+      <button type="submit" class="gel g-pink">+ Add</button>
+    </form>`;
+  body.appendChild(hwWrap);
+  const hwList = hwWrap.querySelector('.hw-list');
+  const hwCount = summary.querySelector('.hw-count');
+  function renderHomework(){
+    const items = homework[weekKey] || [];
+    hwList.innerHTML = '';
+    if(!items.length){ hwList.innerHTML = '<div class="hw-empty">Nothing set yet — add a task below.</div>'; }
+    const today = new Date(); today.setHours(0,0,0,0);
+    items.forEach(item=>{
+      const row = document.createElement('div');
+      row.className = 'task hw-item' + (item.done?' done':'');
+      const cbId = 'hw_'+item.id;
+      const cb = document.createElement('input'); cb.type='checkbox'; cb.id=cbId; cb.checked=!!item.done;
+      const lbl = document.createElement('label'); lbl.htmlFor=cbId; lbl.textContent=item.text;
+      row.append(cb,lbl);
+      if(item.due){
+        const due = document.createElement('span');
+        const dd = new Date(item.due+'T00:00:00');
+        due.className = 'hw-due' + (!item.done && dd < today ? ' late' : '');
+        due.textContent = 'Due ' + fmtDate(item.due);
+        row.appendChild(due);
+      }
+      const del = document.createElement('button'); del.type='button'; del.className='hw-del'; del.textContent='x';
+      del.setAttribute('aria-label','Delete homework: '+item.text);
+      row.appendChild(del);
+      cb.addEventListener('change',()=>{ item.done = cb.checked; saveHomework(); renderHomework(); if(window.SGSync) SGSync.onHwPut(weekKey, item); });
+      del.addEventListener('click',()=>{ homework[weekKey] = items.filter(x=>x!==item); saveHomework(); renderHomework(); if(window.SGSync) SGSync.onHwDel(item.id); });
+      hwList.appendChild(row);
+    });
+    const done = items.filter(x=>x.done).length;
+    hwCount.hidden = !items.length;
+    hwCount.textContent = `📝 ${done}/${items.length}`;
+    hwCount.classList.toggle('all', items.length>0 && done===items.length);
+  }
+  hwWrap.querySelector('form').addEventListener('submit', e=>{
+    e.preventDefault();
+    const t = hwWrap.querySelector('.hw-text'), d = hwWrap.querySelector('.hw-date');
+    const text = t.value.trim(); if(!text) { t.focus(); return; }
+    const item = {id:Date.now().toString(36)+Math.random().toString(36).slice(2,6), text, due:d.value||'', done:false, created:Date.now()};
+    (homework[weekKey] = homework[weekKey] || []).push(item);
+    if(window.SGSync) SGSync.onHwPut(weekKey, item);
+    t.value=''; d.value='';
+    saveHomework(); renderHomework(); t.focus();
+  });
+  renderHomework();
+  const reg = hwRenderers[weekKey] = {render:renderHomework, list:hwList, deferred:false};
+  hwList.addEventListener('focusout', ()=>{ if(reg.deferred){ reg.deferred=false; setTimeout(renderHomework, 0); } });
+
+  details.appendChild(body);
+
+  [t2].forEach(taskEl=>{
+    const cb = taskEl.querySelector('input');
+    cb.addEventListener('change', ()=>{
+      toggle(cb.id, cb.checked);
+      taskEl.classList.toggle('done', cb.checked);
+      updateStreak();
+    });
+  });
+  return details;
+}
+
+const bkContainer = document.getElementById('bkWeeks');
+const payContainer = document.getElementById('payWeeks');
+function renderAllWeeks(){
+  const open = new Set(Array.from(document.querySelectorAll('details.weekcard[open]')).map(d=>d.id));
+  payContainer.textContent = ''; bkContainer.textContent = '';
+  for(const k in hwRenderers) delete hwRenderers[k];
+  PAY_WEEKS.forEach(w=> payContainer.appendChild(renderWeek(w)));
+  BK_WEEKS.forEach(w=> bkContainer.appendChild(renderWeek(w)));
+  open.forEach(id=>{ const d = document.getElementById(id); if(d) d.open = true; });
+  lastOrderSig = orderSig();
+}
+renderAllWeeks();
+
+function renderChecklist(containerId, items, prefix){
+  const container = document.getElementById(containerId);
+  items.forEach((text,i)=>{
+    const id = prefix+'_'+i;
+    const row = document.createElement('div');
+    row.className = 'cl-item' + (isChecked(id)?' done':'');
+    row.innerHTML = `<input type="checkbox" id="${id}" ${isChecked(id)?'checked':''}><label for="${id}">${text}</label>`;
+    const cb = row.querySelector('input');
+    cb.addEventListener('change', ()=>{
+      toggle(id, cb.checked);
+      row.classList.toggle('done', cb.checked);
+    });
+    container.appendChild(row);
+  });
+}
+renderChecklist('clPAY', CHECKLIST_PAY, 'clpay');
+renderChecklist('clBK', CHECKLIST_BK, 'clbk');
+
+function allTaskIds(){
+  const ids = [];
+  PAY_WEEKS.forEach(w=>ids.push('pay'+w.n+'_attended'));
+  BK_WEEKS.forEach(w=>ids.push('bk'+w.n+'_attended'));
+  coveredTopics('pay').forEach(n=>ids.push('pay'+n+'_study'));
+  coveredTopics('bk').forEach(n=>ids.push('bk'+n+'_study'));
+  Object.entries(PAY_ASSIGN).forEach(([n,evs])=>evs.forEach(([k,t])=>{ if(t==='due') ids.push('pay'+n+'_'+k+'sub'); }));
+  Object.entries(BK_ASSIGN).forEach(([n,evs])=>evs.forEach(([k,t])=>{ if(t==='due') ids.push('bk'+n+'_'+k+'sub'); }));
+  CHECKLIST_PAY.forEach((_,i)=>ids.push('clpay_'+i));
+  CHECKLIST_BK.forEach((_,i)=>ids.push('clbk_'+i));
+  return ids;
+}
+function updateProgress(){
+  const ids = allTaskIds();
+  const hw = Object.values(homework).flat();
+  const total = ids.length + hw.length;
+  const done = ids.filter(id=>isChecked(id)).length + hw.filter(x=>x.done).length;
+  const pct = Math.round((done/total)*100);
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressText').textContent = `${done} of ${total} things checked off`;
+  document.getElementById('progressPct').textContent = pct+'%';
+  if(typeof renderNotifs==='function') renderNotifs();
+}
+function updateStreak(){
+  let streak = 0;
+  const full = (s,w)=>{ const c = chosenTopics(s,w.n); return c.length && c.every(n=>isChecked(s+n+'_study')) && isChecked(s+w.n+'_attended'); };
+  PAY_WEEKS.forEach(w=>{ if(full('pay',w)) streak++; });
+  BK_WEEKS.forEach(w=>{ if(full('bk',w)) streak++; });
+  document.getElementById('streakNum').textContent = streak;
+}
+
+function findCurrent(weeks, now){
+  for(const w of weeks){
+    const s = new Date(w.date+'T00:00:00');
+    const windowEnd = new Date(s); windowEnd.setDate(windowEnd.getDate()+6);
+    if(now >= s && now <= windowEnd) return w;
+  }
+  return null;
+}
+
+function renderSpotlight(){
+  const now = new Date();
+  const spotBody = document.getElementById('spotBody');
+  const courseStart = new Date('2026-09-28T00:00:00');
+  const examDay = new Date('2027-01-09T23:59:00');
+  const lastClass = new Date('2026-12-15T23:59:00');
+
+  if(now < courseStart){
+    const days = Math.ceil((courseStart-now)/(1000*60*60*24));
+    spotBody.innerHTML = `<h2>Course starts in ${days} day${days===1?'':'s'} 🚀</h2>
+      <div class="sub">Payroll starts Mon 28 Sep, Bookkeeping starts Tue 29 Sep. Get set up now.</div>
+      <ul>
+        <li>Confirm you have Windows 10 ready — this course is remote and the accounts/payroll software needs it</li>
+        <li>Set up a "Bookkeeping" and a "Payroll" folder for notes</li>
+        <li>Pick your Mon/Tue gym slot (morning or early afternoon) and put it in your calendar now</li>
+        <li>Skim Week 1 terminology for both subjects below so class isn't the first time you see the words</li>
+      </ul>`;
+    return;
+  }
+  if(now > examDay){
+    spotBody.innerHTML = `<h2>Exams complete 🎉</h2><div class="sub">Use the final checklists below to keep the skills sharp.</div>`;
+    return;
+  }
+  if(now > lastClass){
+    const days = Math.ceil((examDay-now)/(1000*60*60*24));
+    spotBody.innerHTML = `<h2>Revision block — ${days} day${days===1?'':'s'} to exams 📚</h2>
+      <div class="sub">Both exams are 9 Jan 2027 at Mallow Campus — Payroll 9:30am, Bookkeeping 12:00pm.</div>
+      <ul>
+        <li>Redo the Payroll self-check (Week 10) unaided and timed</li>
+        <li>Redo the Bookkeeping self-check (Week 12) unaided and timed</li>
+        <li>Work through both final revision checklists below and clear every item</li>
+      </ul>`;
+    return;
+  }
+  const curPay = findCurrent(PAY_WEEKS, now);
+  const curBk = findCurrent(BK_WEEKS, now);
+  let html = '';
+  const bhStart = new Date('2026-10-26T00:00:00'), bhEnd = new Date('2026-11-01T23:59:00');
+  if(!curPay && now>=bhStart && now<=bhEnd){
+    html += `<div class="track"><h2>📙 Payroll — no class this Monday 🏖️</h2>
+      <div class="sub">Mon 26 Oct is a bank holiday. Next Payroll class: Mon 2 Nov (Week 5).</div>
+      <ul><li>Use the free evening to catch up on any Payroll homework from Weeks 1–4</li></ul></div>`;
+  }
+  if(curPay){
+    html += `<div class="track"><h2>📙 Payroll — Week ${curPay.n}: ${topicsTitle(chosenTopics('pay',curPay.n).map(n=>topicByN('pay',n)))}</h2>
+      <div class="sub">Class: ${fmtDate(curPay.date)}</div>
+      <ul>${(PAY_ASSIGN[curPay.n]||[]).map(([k,t])=>`<li><b>${t==='issued'?'📤':'⏰'} ${ASSIGN[k].name} ${t==='issued'?'issued':'due'} Mon ${fmtDate(curPay.date)}</b> — ${ASSIGN[k].topic} (${ASSIGN[k].pct})</li>`).join('')}${chosenTopics('pay',curPay.n).map(n=>topicByN('pay',n)).map(t=>t.focus.map(f=>`<li>${f}</li>`).join('')+`<li><b>This week's task:</b> ${t.study}</li>`).join('')}</ul></div>`;
+  }
+  if(curBk){
+    html += `<div class="track"><h2>📗 Bookkeeping — Week ${curBk.n}: ${topicsTitle(chosenTopics('bk',curBk.n).map(n=>topicByN('bk',n)))}</h2>
+      <div class="sub">Class: ${fmtDate(curBk.date)}</div>
+      <ul>${BK_CLASS[curBk.n]?`<li><b>📂 In class (${bkPhase(curBk.n).toLowerCase()}): ${BK_CLASS[curBk.n]}</b></li>`:''}${(BK_ASSIGN[curBk.n]||[]).map(([k,t])=>`<li><b>${t==='issued'?'📤':'⏰'} ${ASSIGN[k].name} ${t==='issued'?'issued Tue '+fmtDate(curBk.date)+' — two weeks to complete':'due around now — check the exact date with your tutor'}</b> (${ASSIGN[k].pct})</li>`).join('')}${chosenTopics('bk',curBk.n).map(n=>topicByN('bk',n)).map(t=>t.focus.map(f=>`<li>${f}</li>`).join('')+`<li><b>This week's task:</b> ${t.study}</li>`).join('')}</ul></div>`;
+  }
+  if(!html){ html = `<h2>Between classes — catch your breath 🌤️</h2><div class="sub">Check the roadmap below for what's next.</div>`; }
+  spotBody.innerHTML = html;
+
+  setTimeout(()=>{
+    if(curPay){ const el = document.getElementById('payweek'+curPay.n); if(el) el.open = true; }
+    if(curBk){ const el = document.getElementById('bkweek'+curBk.n); if(el) el.open = true; }
+  }, 50);
+}
+
+
+const SECS=[...document.querySelectorAll('details.sec')];
+let secState=safeGet('sg_secs_v1', {'sec-now':true});
+SECS.forEach(d=>{
+  d.open = d.id==='sec-now' ? false : !!secState[d.id];   // Right now always starts closed
+  d.addEventListener('toggle',()=>{ secState[d.id]=d.open; safeSet('sg_secs_v1',secState); syncToggleAll(); });
+});
+const toggleAllBtn=document.getElementById('toggleAll');
+function syncToggleAll(){ const allOpen=SECS.every(d=>d.open); toggleAllBtn.textContent = allOpen ? '⊖ Close all' : '⊕ Open all'; }
+toggleAllBtn.addEventListener('click',()=>{ const open=!SECS.every(d=>d.open); SECS.forEach(d=>d.open=open); syncToggleAll(); });
+syncToggleAll();
+document.querySelectorAll('#indexBar a, #heroSyncPill, #heroRemPill').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href')); if(!t) return;
+    e.preventDefault(); const dd=t.closest('details'); if(dd) dd.open=true;
+    requestAnimationFrame(()=>t.scrollIntoView({behavior:'smooth',block:'start'}));
+  });
+});
+
+// ---------- notifications ----------
+const KEY_DATES = [
+  {date:'2026-10-26', s:'pay', ico:'🏖️', t:'No Payroll class — bank holiday', sub:'Next Payroll class Mon 2 Nov (Week 5)'},
+  {date:'2026-11-02', s:'pay', ico:'📤', t:'Payroll Assignment 1 issued', sub:'Understanding payroll fundamentals · 20% · due Mon 23 Nov'},
+  {date:'2026-11-03', s:'bk',  ico:'📤', t:'Bookkeeping Manual Assignment issued', sub:'50% · two weeks to complete'},
+  {date:'2026-11-09', s:'pay', ico:'📤', t:'Payroll Assignment 2 issued', sub:'Manual payroll computations · 40% · due Mon 7 Dec'},
+  {date:'2026-11-10', s:'bk',  ico:'💻', t:'Bookkeeping goes computerised', sub:'Week 7: Intro to Computerised Bookkeeping & Regency Case Study'},
+  {date:'2026-11-17', s:'bk',  ico:'⏰', t:'Bookkeeping Manual Assignment due (approx.)', sub:'50% · confirm exact date with your tutor', done:'bk8_bkmsub'},
+  {date:'2026-11-23', s:'pay', ico:'⏰', t:'Payroll Assignment 1 due', sub:'20% · hand in at class', done:'pay8_a1sub'},
+  {date:'2026-12-07', s:'pay', ico:'⏰', t:'Payroll Assignment 2 due + last Payroll class', sub:'40% · hand in at class', done:'pay10_a2sub'},
+  {date:'2026-12-15', s:'bk',  ico:'🎓', t:'Last Bookkeeping class — Q&A / exam prep', sub:'Bring your questions'},
+  {date:'2027-01-09', s:'pay', ico:'📝', t:'Payroll exam — Thesaurus (40%)', sub:'Sat 9:30am · onsite, Mallow Campus'},
+  {date:'2027-01-09', s:'bk',  ico:'📝', t:'Bookkeeping computerised exam (50%)', sub:'Sat 12:00pm · onsite, Mallow Campus'},
+];
+let notifShowAll = false;
+function dayDiff(iso){
+  const t = new Date(); t.setHours(0,0,0,0);
+  return Math.round((new Date(iso+'T00:00:00') - t)/86400000);
+}
+function whenLabel(n){
+  if(n<0) return (-n===1?'1 day':(-n)+' days')+' overdue';
+  if(n===0) return 'Today';
+  if(n===1) return 'Tomorrow';
+  if(n<14) return 'In '+n+' days';
+  return 'In '+Math.round(n/7)+' weeks';
+}
+window.renderNotifs = renderNotifs;
+function renderNotifs(){
+  const list = document.getElementById('notifList'); if(!list) return;
+  const items = [];
+  KEY_DATES.forEach(e=>{
+    const n = dayDiff(e.date);
+    if(e.done && isChecked(e.done)) return;          // already submitted
+    if(n < 0 && !e.done) return;                      // past info events drop off
+    if(n < -14) return;
+    items.push({n, ico:e.ico, s:e.s, t:e.t, sub:e.sub + (n<0 ? ' · tick "submitted" in its week card' : '')});
+  });
+  Object.entries(homework).forEach(([wk,arr])=>{
+    const strand = wk.startsWith('pay') ? 'pay' : 'bk';
+    const label = (strand==='pay'?'Payroll':'Bookkeeping')+' W'+wk.replace(/\D/g,'');
+    (arr||[]).forEach(h=>{
+      if(h.done || !h.due) return;
+      const n = dayDiff(h.due);
+      if(n > 14) return;
+      items.push({n, ico:'📝', s:strand, t:'Homework: '+h.text, sub:label+' · your own task'});
+    });
+  });
+  if(window.SGCustom) SGCustom.notifItems().forEach(i=>items.push(i));
+  items.sort((a,b)=>a.n-b.n);
+  const cls = n => n<=2 ? 'urgent' : n<=7 ? 'soon' : 'later';
+  const urgentCount = items.filter(i=>i.n<=7).length;
+  document.getElementById('notifCount').textContent = urgentCount ? urgentCount+' this week' : '';
+  const shown = notifShowAll ? items : items.slice(0,2);
+  list.innerHTML = '';
+  if(!items.length){ list.innerHTML = '<div class="nf-empty">Nothing coming up — you\'re all clear ✨</div>'; }
+  shown.forEach(i=>{
+    const row = document.createElement('div');
+    row.className = 'nf '+cls(i.n)+' '+i.s;
+    const txt = document.createElement('div'); txt.className='nf-txt';
+    const b = document.createElement('b'); b.textContent = (i.s==='pay'?'📙 ':i.s==='bk'?'📗 ':'')+i.t;
+    const sm = document.createElement('small'); sm.textContent = i.sub;
+    txt.append(b, sm);
+    const ico = document.createElement('span'); ico.className='nf-ico'; ico.textContent=i.ico;
+    const when = document.createElement('span'); when.className='nf-when'; when.textContent=whenLabel(i.n);
+    row.append(ico, txt, when);
+    if(i.cid){ const e = document.createElement('button'); e.type='button'; e.className='nf-del nf-ed'; e.dataset.cid=i.cid; e.textContent='✏️'; e.setAttribute('aria-label','Edit notification: '+i.t); row.appendChild(e); const x = document.createElement('button'); x.type='button'; x.className='nf-del'; x.dataset.cid=i.cid; x.textContent='×'; x.setAttribute('aria-label','Remove notification: '+i.t); row.appendChild(x); }
+    list.appendChild(row);
+  });
+  const more = document.getElementById('notifMore');
+  more.hidden = items.length <= 2;
+  more.textContent = notifShowAll ? 'Show less' : 'Show all '+items.length+' notifications';
+}
+document.getElementById('notifMore').addEventListener('click',()=>{ notifShowAll=!notifShowAll; renderNotifs(); });
+
+renderSpotlight();
+updateProgress();
+updateStreak();
+
+document.getElementById('resetBtn').addEventListener('click', async ()=>{
+  if(confirm('Clear all your checked-off progress and homework? This can\'t be undone.')){
+    if(window.SGSync && SGSync.active()) await SGSync.replaceAll({}, {});
+    state = {};
+    safeSet('sg_state_v2', state);
+    homework = {};
+    safeSet('sg_homework_v1', homework);
+    location.reload();
+  }
+});
+
+// ---------- hooks for sync ----------
+function refreshAll(){
+  if(lastOrderSig !== null && orderSig() !== lastOrderSig){ renderAllWeeks(); renderSpotlight(); }
+  document.querySelectorAll('.task input[type=checkbox], .cl-item input[type=checkbox]').forEach(cb=>{
+    if(cb.id.startsWith('hw_')) return;
+    const v = isChecked(cb.dataset.key || cb.id);
+    if(cb.checked!==v) cb.checked = v;
+    cb.parentElement.classList.toggle('done', v);
+  });
+  Object.values(hwRenderers).forEach(r=>{ if(r.list.contains(document.activeElement)){ r.deferred = true; return; } r.render(); });
+  updateProgress(); updateStreak();
+}
+window.SG = {
+  getState: ()=>state,
+  getHomework: ()=>homework,
+  applyRemote(s, h){
+    if(s){ state = s; safeSet('sg_state_v2', state); }
+    if(h){ homework = h; safeSet('sg_homework_v1', homework); }
+    refreshAll();
+  },
+};
+
+} catch(e){ console.error('Study guide error', e); }
+</script>
+<script>
+// ================= TABS: one view at a time =================
+(function(){
+  'use strict';
+  const LS = 'sg_view_v1';
+  const VIEWS = {
+    today: ['.hero-win', '#sec-now'],
+    pay:   ['#sec-pay'],
+    bk:    ['#sec-bk'],
+    more:  ['#moreTop', '#sec-details', '#sec-materials', '#sec-week', '#sec-check', '#sec-sync', '#resetBtn', '.footer'],
+  };
+  const OPEN_ON_SHOW = {pay:'#sec-pay', bk:'#sec-bk'};
+  const bar = document.getElementById('indexBar');
+  const tabs = Array.from(bar.querySelectorAll('.tab'));
+  // tabs go at the very top
+  const hero = document.querySelector('.hero-win');
+  if(hero && bar.compareDocumentPosition(hero) & Node.DOCUMENT_POSITION_FOLLOWING) {} else if(hero) hero.parentNode.insertBefore(bar, hero);
+
+  // tag every block with its view
+  const viewOf = new Map();
+  Object.entries(VIEWS).forEach(([v, sels]) => sels.forEach(sel => document.querySelectorAll(sel).forEach(el => { el.dataset.v = v; viewOf.set(el, v); })));
+
+  // move the sync / reminder status pills to the top of More
+  const pills = document.querySelector('.hero-win .sync-row');
+  const moreTop = document.getElementById('moreTop');
+  if(pills && moreTop) moreTop.appendChild(pills);
+
+  let current = null;
+  function show(v, opts){
+    if(!VIEWS[v]) v = 'today';
+    document.querySelectorAll('[data-v]').forEach(el => el.classList.toggle('v-on', el.dataset.v === v));
+    tabs.forEach(t => { const on = t.dataset.tab === v; t.classList.toggle('on', on); t.setAttribute('aria-selected', on ? 'true' : 'false'); });
+    if(OPEN_ON_SHOW[v]){ const d = document.querySelector(OPEN_ON_SHOW[v]); if(d && !d.open) d.open = true; }
+    if(v !== current && !(opts && opts.keepScroll)) window.scrollTo(0, 0);
+    current = v;
+    try { localStorage.setItem(LS, v); } catch(e){}
+  }
+  function viewFor(el){
+    for(let n = el; n; n = n.parentElement){ if(n.dataset && n.dataset.v) return n.dataset.v; }
+    return null;
+  }
+  tabs.forEach(t => t.addEventListener('click', () => show(t.dataset.tab)));
+
+  // links to a part of the page (e.g. the status pills) switch to the right tab first
+  document.addEventListener('click', e => {
+    const a = e.target.closest && e.target.closest('a[href^="#"]');
+    if(!a) return;
+    const t = document.querySelector(a.getAttribute('href'));
+    const v = t && viewFor(t);
+    if(v && v !== current) show(v, {keepScroll:true});
+  }, true);
+
+  window.SGView = { show, showFor(el){ const v = el && viewFor(el); if(v) show(v, {keepScroll:true}); }, current: () => current };
+
+  let start = 'today';
+  try { start = localStorage.getItem(LS) || 'today'; } catch(e){}
+  const hashEl = location.hash && location.hash.length > 1 && !/^#cfg=/.test(location.hash) ? document.querySelector(location.hash) : null;
+  show(hashEl && viewFor(hashEl) || start, {keepScroll: !!hashEl});
+  document.documentElement.classList.add('tabs-ready');
+})();
+</script>
+<script>
+// ================= SYNC (Firebase) =================
+(function(){
+  'use strict';
+  const FB_VERSIONS = ['12.19.0', '12.6.0', '11.10.0'];   // newest first; falls back if a version can't load
+  const LS_CFG = 'sg_fbconfig_v1';
+  const LS_READY = 'sg_sync_ready_uid';
+  const CFG_KEYS = ['apiKey','authDomain','projectId','storageBucket','messagingSenderId','appId','measurementId','databaseURL'];
+
+  const $ = id => document.getElementById(id);
+  let fb = null, app = null, auth = null, db = null, user = null;
+  let ready = false, queue = [], unsubs = [], pending = 0, lastMeta = null, lastErr = '', starting = false;
+  let uref = null, hcol = null;
+
+  // ---------- plain-English errors ----------
+  const ERRORS = {
+    'auth/invalid-email': 'That email address doesn\'t look right. Check for typos.',
+    'auth/missing-email': 'Type your email address first.',
+    'auth/missing-password': 'Type your password first.',
+    'auth/user-not-found': 'No account uses that email. Tap "Create account" to make one.',
+    'auth/wrong-password': 'Wrong password. Try again, or tap "Forgot password".',
+    'auth/invalid-credential': 'Email or password is wrong. Try again, or tap "Forgot password".',
+    'auth/invalid-login-credentials': 'Email or password is wrong. Try again, or tap "Forgot password".',
+    'auth/email-already-in-use': 'An account already uses that email. Tap "Sign in" instead.',
+    'auth/weak-password': 'Password is too short. Use at least 6 characters.',
+    'auth/too-many-requests': 'Too many tries. Wait a few minutes, then try again.',
+    'auth/network-request-failed': 'No internet connection. Connect, then try again.',
+    'auth/operation-not-allowed': 'Email/Password sign-in isn\'t switched on. In Firebase: Authentication → Sign-in method → Email/Password → Enable.',
+    'auth/configuration-not-found': 'Sign-in isn\'t set up yet. In Firebase: Authentication → Get started, then enable Email/Password.',
+    'auth/invalid-api-key': 'The Firebase settings you pasted aren\'t valid. Copy the firebaseConfig again and re-paste it.',
+    'auth/api-key-not-valid.-please-pass-a-valid-api-key.': 'The Firebase settings you pasted aren\'t valid. Copy the firebaseConfig again and re-paste it.',
+    'auth/unauthorized-domain': 'This web address isn\'t allowed yet. In Firebase: Authentication → Settings → Authorized domains → Add domain.',
+    'auth/user-disabled': 'This account has been switched off in Firebase.',
+    'auth/requires-recent-login': 'Please sign out and sign in again, then retry.',
+    'auth/internal-error': 'Firebase had a problem. Wait a moment and try again.',
+    'permission-denied': 'Firebase blocked the save. Check the Firestore rules were pasted and published exactly as in the guide.',
+    'unauthenticated': 'You\'re signed out. Sign in again.',
+    'unavailable': 'Can\'t reach Firebase right now. Your changes are kept and will sync when you\'re back online.',
+    'not-found': 'Your Firestore database doesn\'t exist yet. In Firebase: Firestore Database → Create database.',
+    'failed-precondition': 'Firestore isn\'t fully set up. Check Firestore Database has been created.',
+    'resource-exhausted': 'The free daily Firebase limit was reached. Syncing will resume tomorrow.',
+  };
+  function friendly(e){
+    const code = (e && e.code) ? String(e.code).replace(/^firestore\//,'') : '';
+    if(ERRORS[code]) return ERRORS[code];
+    const msg = (e && e.message) || String(e || '');
+    if(/API key not valid|api-key-not-valid/i.test(msg)) return ERRORS['auth/invalid-api-key'];
+    if(/database .* does not exist/i.test(msg)) return ERRORS['not-found'];
+    return 'Something went wrong' + (code ? ' ('+code+')' : '') + '. Try again.';
+  }
+
+  // ---------- config ----------
+  function validCfg(o){
+    if(!o || typeof o !== 'object') throw new Error('bad');
+    const out = {};
+    CFG_KEYS.forEach(k=>{ if(typeof o[k]==='string' && o[k]) out[k]=o[k]; });
+    if(!out.apiKey || !out.projectId || !out.appId) throw new Error('missing');
+    if(!out.authDomain) out.authDomain = out.projectId + '.firebaseapp.com';
+    return out;
+  }
+  function parseCfg(txt){
+    const link = String(txt||'').match(/[#&]cfg=([A-Za-z0-9_-]+)/);
+    if(link) return validCfg(JSON.parse(b64urlDec(link[1])));
+    const m = String(txt||'').match(/\{[\s\S]*\}/);
+    if(!m) throw new Error('none');
+    let body = m[0];
+    try { return validCfg(JSON.parse(body)); } catch(e){}
+    body = body
+      .replace(/^\s*\/\/.*$/gm, '')
+      .replace(/,\s*\/\/[^\n]*/g, ',')
+      .replace(/([{,]\s*)([A-Za-z_$][\w$]*)\s*:/g, '$1"$2":')
+      .replace(/'([^'\\]*)'/g, '"$1"')
+      .replace(/,\s*\}/g, '}');
+    return validCfg(JSON.parse(body));
+  }
+  function getCfg(){ try { const v = localStorage.getItem(LS_CFG); return v ? validCfg(JSON.parse(v)) : null; } catch(e){ return null; } }
+  function setCfg(c){ try { localStorage.setItem(LS_CFG, JSON.stringify(c)); } catch(e){} }
+  function b64urlEnc(s){ return btoa(unescape(encodeURIComponent(s))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
+  function b64urlDec(s){ s = s.replace(/-/g,'+').replace(/_/g,'/'); while(s.length%4) s+='='; return decodeURIComponent(escape(atob(s))); }
+
+  // ---------- status ----------
+  const LABELS = {
+    off:['⚪','Sync not set up'], signedout:['⚪','Signed out'], connecting:['🔄','Connecting…'],
+    saving:['💾','Saving…'], synced:['✅','Synced'], offline:['📴','Offline — saved on this device'], error:['⚠️','Sync error'],
+  };
+  let status = 'off';
+  function setStatus(s){
+    status = s;
+    const [ico, txt] = LABELS[s] || LABELS.off;
+    document.querySelectorAll('.sync-pill').forEach(p=>{ p.dataset.s = s; p.textContent = ico + ' ' + txt; });
+  }
+  function recompute(){
+    if(!getCfg()) return setStatus('off');
+    if(lastErr && status==='error') return;
+    if(!user) return setStatus(auth ? 'signedout' : 'connecting');
+    if(!navigator.onLine) return setStatus('offline');
+    if(!ready || (lastMeta && lastMeta.fromCache)) return setStatus('connecting');
+    if(pending > 0 || (lastMeta && lastMeta.hasPendingWrites)) return setStatus('saving');
+    setStatus('synced');
+  }
+  window.addEventListener('online', recompute);
+  window.addEventListener('offline', recompute);
+  function showMsg(txt, kind){
+    const el = $('syncMsg'); if(!el) return;
+    el.textContent = txt || ''; el.className = 'sync-msg' + (kind ? ' '+kind : ''); el.hidden = !txt;
+  }
+  function fail(e){
+    console.warn('Sync', e);
+    lastErr = friendly(e);
+    if(e && (e.code==='unavailable' || e.code==='firestore/unavailable')){ showMsg(lastErr,'info'); recompute(); return; }
+    setStatus('error'); showMsg(lastErr, 'err');
+  }
+
+  // ---------- writes ----------
+  function track(p){
+    pending++; recompute();
+    return Promise.resolve(p).then(()=>{ lastErr=''; if(status==='error') setStatus('synced'); },
+      fail).finally(()=>{ pending = Math.max(0, pending-1); recompute(); });
+  }
+  function run(op){ if(!user || !db) return; if(ready) track(op()); else queue.push(op); }
+  const hwDoc = (id)=> fb.fs.doc(hcol, id);
+  function hwData(week, item, i){
+    return {week, text:item.text, due:item.due||'', done:!!item.done, created: item.created || i || 0};
+  }
+  async function commitAll(ops){           // ops: [['set',ref,data] | ['del',ref]]
+    for(let i=0;i<ops.length;i+=400){
+      const b = fb.fs.writeBatch(db);
+      ops.slice(i,i+400).forEach(([k,ref,data])=> k==='set' ? b.set(ref,data) : b.delete(ref));
+      await b.commit();
+    }
+  }
+  function fullOps(state, homework, existingIds){
+    const ops = [['set', uref, {state: state||{}, updatedAt: Date.now()}]];
+    const keep = new Set();
+    Object.entries(homework||{}).forEach(([week, arr])=>(arr||[]).forEach((it,i)=>{ keep.add(it.id); ops.push(['set', hwDoc(it.id), hwData(week,it,i)]); }));
+    (existingIds||[]).forEach(id=>{ if(!keep.has(id)) ops.push(['del', hwDoc(id)]); });
+    return ops;
+  }
+
+  // ---------- remote → local ----------
+  function hwFromDocs(docs){
+    const out = {};
+    docs.map(d=>({id:d.id, ...d.data()}))
+      .sort((a,b)=>(a.created||0)-(b.created||0))
+      .forEach(h=>{ (out[h.week] = out[h.week] || []).push({id:h.id, text:h.text||'', due:h.due||'', done:!!h.done, created:h.created||0}); });
+    return out;
+  }
+  let hwIds = [];
+  function attach(u){
+    uref = fb.fs.doc(db, 'users', u.uid);
+    hcol = fb.fs.collection(db, 'users', u.uid, 'homework');
+    ready = (localStorage.getItem(LS_READY) === u.uid);
+    let mainSrv = null, hwSrv = null;
+    const maybeInit = ()=>{
+      if(ready || !mainSrv || !hwSrv) return;
+      const empty = !mainSrv.exists() && hwSrv.empty;
+      if(empty){
+        // brand-new account: upload what's on this device, once
+        const s = SG.getState(), h = SG.getHomework();
+        const ops = fullOps(s, h, []);
+        ops[0][2].createdAt = Date.now();
+        queue = [];
+        ready = true;
+        track(commitAll(ops));
+        showMsg('Your progress from this device was uploaded to your account. ✨', 'ok');
+      } else {
+        SG.applyRemote(mainSrv.exists() ? (mainSrv.data().state||{}) : {}, hwFromDocs(hwSrv.docs));
+        ready = true;
+        const q = queue; queue = [];
+        q.forEach(op=>track(op()));
+        showMsg('Signed in — your progress is loaded from your account. ✨', 'ok');
+      }
+      try { localStorage.setItem(LS_READY, u.uid); } catch(e){}
+      recompute();
+    };
+    unsubs.push(fb.fs.onSnapshot(uref, {includeMetadataChanges:true}, snap=>{
+      lastMeta = snap.metadata;
+      if(!ready){ if(!snap.metadata.fromCache){ mainSrv = snap; maybeInit(); } recompute(); return; }
+      if(snap.exists()) SG.applyRemote(snap.data().state||{}, null);
+      else if(!snap.metadata.fromCache) SG.applyRemote({}, null);
+      recompute();
+    }, fail));
+    unsubs.push(fb.fs.onSnapshot(hcol, {includeMetadataChanges:true}, snap=>{
+      hwIds = snap.docs.map(d=>d.id);
+      if(!ready){ if(!snap.metadata.fromCache){ hwSrv = snap; maybeInit(); } return; }
+      if(snap.empty && snap.metadata.fromCache) return;
+      SG.applyRemote(null, hwFromDocs(snap.docs));
+    }, fail));
+    watchers.forEach(startWatch);
+  }
+  const watchers = [];
+  function startWatch(w){
+    if(!user || !db) return;
+    unsubs.push(fb.fs.onSnapshot(fb.fs.collection(db, 'users', user.uid, w.name), {includeMetadataChanges:true}, snap=>{
+      try { w.cb(snap.docs.map(d=>Object.assign({}, d.data(), {id:d.id})), {fromCache: snap.metadata.fromCache, uid: user && user.uid}); } catch(e){ console.warn(e); }
+    }, fail));
+  }
+  function detach(){ unsubs.forEach(f=>{ try{ f(); }catch(e){} }); unsubs = []; ready = false; queue = []; lastMeta = null; }
+
+  // ---------- SDK ----------
+  async function loadSDK(){
+    let last;
+    for(const v of FB_VERSIONS){
+      const base = 'https://www.gstatic.com/firebasejs/'+v+'/';
+      try {
+        const [a, au, fs] = await Promise.all([import(base+'firebase-app.js'), import(base+'firebase-auth.js'), import(base+'firebase-firestore.js')]);
+        return {a, au, fs, v};
+      } catch(e){ last = e; }
+    }
+    throw last;
+  }
+  async function start(){
+    const cfg = getCfg();
+    renderPanel();
+    if(!cfg){ recompute(); return; }
+    if(starting || app) return; starting = true;
+    setStatus('connecting');
+    try { fb = await loadSDK(); }
+    catch(e){ starting=false; lastErr='x'; setStatus('error'); showMsg('Couldn\'t load the sync code. Check you\'re online, then reload the page.', 'err'); return; }
+    try {
+      app = fb.a.initializeApp(cfg);
+      auth = fb.au.getAuth(app);
+      try {
+        db = fb.fs.initializeFirestore(app, {localCache: fb.fs.persistentLocalCache({tabManager: fb.fs.persistentMultipleTabManager()})});
+      } catch(e){ console.warn('Offline cache unavailable', e); db = fb.fs.getFirestore(app); }
+    } catch(e){ starting=false; fail(e); return; }
+    starting = false;
+    fb.au.onAuthStateChanged(auth, u=>{
+      detach(); user = u || null;
+      if(user) attach(user);
+      renderPanel(); recompute();
+      authListeners.forEach(f=>{ try { f(user); } catch(e){ console.warn(e); } });
+    });
+  }
+
+  // ---------- hooks called by the study guide ----------
+  const Sync = {
+    active(){ return !!(user && db); },
+    onLocalState(id, val){ run(()=>fb.fs.setDoc(uref, {state:{[id]:val}, updatedAt: Date.now()}, {merge:true})); },
+    onHwPut(week, item){ run(()=>fb.fs.setDoc(hwDoc(item.id), hwData(week, item, 0))); },
+    onHwDel(id){ run(()=>fb.fs.deleteDoc(hwDoc(id))); },
+    replaceAll(state, homework){
+      if(!user || !db) return Promise.resolve();
+      const p = track(commitAll(fullOps(state, homework, hwIds)));
+      return Promise.race([p, new Promise(r=>setTimeout(r, 1500))]);
+    },
+    // helpers for reminders
+    uid(){ return user ? user.uid : null; },
+    idToken(){ return user ? user.getIdToken() : Promise.reject(new Error('signed out')); },
+    projectId(){ const c = getCfg(); return c ? c.projectId : null; },
+    apiKey(){ const c = getCfg(); return c ? c.apiKey : null; },
+    setUserDoc(segs, data, merge){ if(!user||!db) return Promise.reject({code:'unauthenticated'}); return fb.fs.setDoc(fb.fs.doc(db, 'users', user.uid, ...segs), data, merge?{merge:true}:undefined); },
+    getUserDoc(segs){ if(!user||!db) return Promise.resolve(null); return fb.fs.getDoc(fb.fs.doc(db, 'users', user.uid, ...segs)).then(s=>s.exists()?s.data():null); },
+    delUserDoc(segs){ if(!user||!db) return Promise.resolve(); return fb.fs.deleteDoc(fb.fs.doc(db, 'users', user.uid, ...segs)); },
+    friendly,
+    watch(name, cb){ const w = {name, cb}; watchers.push(w); startWatch(w); },
+  };
+  window.SGSync = Sync;
+  const authListeners = [];
+  Sync.onAuth = f => { authListeners.push(f); try { f(user); } catch(e){} };
+
+  // ---------- panel ----------
+  function renderPanel(){
+    const cfg = getCfg();
+    const step1 = $('syncCfgBox'), conn = $('syncConnected'), acct = $('syncAccount'), who = $('syncWho');
+    if(!step1) return;
+    step1.hidden = !!cfg;
+    conn.hidden = !cfg;
+    if(cfg) $('syncProject').textContent = cfg.projectId;
+    acct.hidden = !cfg || !!user;
+    who.hidden = !user;
+    if(user) $('syncEmail').textContent = user.email || '';
+    $('syncDiscWrap').hidden = !cfg;
+  }
+  function creds(){
+    const email = $('syncEmailIn').value.trim(), pw = $('syncPwIn').value;
+    return {email, pw};
+  }
+  async function busy(btn, fn){
+    btn.disabled = true;
+    try { await fn(); } catch(e){ fail(e); } finally { btn.disabled = false; }
+  }
+  function bind(){
+    $('syncSaveCfg').addEventListener('click', ()=>{
+      let c;
+      try { c = parseCfg($('syncCfgIn').value); }
+      catch(e){ showMsg('That doesn\'t look like a firebaseConfig or a sync link. Copy the whole block from Firebase, including { and }, or the whole link.', 'err'); return; }
+      setCfg(c); $('syncCfgIn').value = '';
+      showMsg('Connected to project "'+c.projectId+'". Now sign in or create your account.', 'ok');
+      start();
+    });
+    $('syncSignIn').addEventListener('click', e=>busy(e.target, async ()=>{
+      if(!auth) throw {code:'auth/network-request-failed'};
+      const {email, pw} = creds();
+      if(!email) throw {code:'auth/missing-email'}; if(!pw) throw {code:'auth/missing-password'};
+      await fb.au.signInWithEmailAndPassword(auth, email, pw);
+      $('syncPwIn').value = ''; lastErr = ''; showMsg('');
+    }));
+    $('syncCreate').addEventListener('click', e=>busy(e.target, async ()=>{
+      if(!auth) throw {code:'auth/network-request-failed'};
+      const {email, pw} = creds();
+      if(!email) throw {code:'auth/missing-email'}; if(!pw) throw {code:'auth/missing-password'};
+      await fb.au.createUserWithEmailAndPassword(auth, email, pw);
+      $('syncPwIn').value = ''; lastErr = ''; showMsg('');
+    }));
+    $('syncForgot').addEventListener('click', e=>busy(e.target, async ()=>{
+      if(!auth) throw {code:'auth/network-request-failed'};
+      const {email} = creds();
+      if(!email) throw {code:'auth/missing-email'};
+      await fb.au.sendPasswordResetEmail(auth, email);
+      showMsg('Password reset email sent to '+email+'. Check your inbox (and spam).', 'ok');
+    }));
+    $('syncSignOut').addEventListener('click', e=>busy(e.target, async ()=>{
+      await fb.au.signOut(auth); showMsg('Signed out. Your ticks stay on this device.', 'info');
+    }));
+    $('syncDisconnect').addEventListener('click', e=>busy(e.target, async ()=>{
+      if(!confirm('Disconnect this device from sync? Your ticks stay on this device; your account and cloud copy are not deleted.')) return;
+      detach();
+      try { if(auth) await fb.au.signOut(auth); } catch(err){}
+      try { if(db){ await fb.fs.terminate(db); await fb.fs.clearIndexedDbPersistence(db); } } catch(err){}
+      try { localStorage.removeItem(LS_CFG); localStorage.removeItem(LS_READY); } catch(err){}
+      location.reload();
+    }));
+    $('syncCopyLink').addEventListener('click', ()=>{
+      const cfg = getCfg(); if(!cfg) return;
+      if(!/^https:$/.test(location.protocol) || /^(127\.0\.0\.1|localhost)$/.test(location.hostname)){
+        showMsg('This is the offline copy, so the link wouldn\'t work on your phone. Open your website address and copy the link from there.', 'err'); return;
+      }
+      const link = location.origin + location.pathname + '#cfg=' + b64urlEnc(JSON.stringify(cfg));
+      copyText(link, 'Link copied. Email it to yourself, then on your iPhone copy it and paste it into this Sync box in the Home Screen app (or open it in Safari).');
+    });
+    // backup
+    $('bkCopy').addEventListener('click', ()=>{
+      const data = {app:'bookkeeper-study-guide', v:1, exported:new Date().toISOString(), state:SG.getState(), homework:SG.getHomework(), custom: window.SGCustom ? SGCustom.all() : []};
+      copyText(JSON.stringify(data), 'Backup copied. Paste it somewhere safe (Notes, an email to yourself).', true);
+    });
+    $('bkRestore').addEventListener('click', async ()=>{
+      const txt = $('bkIn').value.trim();
+      if(!txt){ bkMsg('Paste a backup into the box first.', 'err'); return; }
+      let d;
+      try {
+        d = JSON.parse(txt);
+        if(d.sg_state_v2 || d.sg_homework_v1) d = {state: typeof d.sg_state_v2==='string'?JSON.parse(d.sg_state_v2):d.sg_state_v2, homework: typeof d.sg_homework_v1==='string'?JSON.parse(d.sg_homework_v1):d.sg_homework_v1};
+        if(!d || typeof d!=='object' || (!d.state && !d.homework)) throw 0;
+      } catch(e){ bkMsg('That isn\'t a Study Guide backup. Copy it again with "Copy backup".', 'err'); return; }
+      if(!confirm('Replace everything on this device'+(Sync.active()?' and in your synced account':'')+' with this backup?')) return;
+      SG.applyRemote(d.state||{}, d.homework||{});
+      if(Array.isArray(d.custom) && window.SGCustom) await SGCustom.replaceAll(d.custom);
+      await Sync.replaceAll(d.state||{}, d.homework||{});
+      $('bkIn').value = '';
+      bkMsg('Backup restored. ✨', 'ok');
+    });
+  }
+  function bkMsg(txt, kind){ const el=$('bkMsg'); el.textContent=txt; el.className='sync-msg '+(kind||''); el.hidden=!txt; }
+  function copyText(txt, okMsg, isBackup){
+    const done = ()=> (isBackup ? bkMsg : showMsg)(okMsg, 'ok');
+    const fallback = ()=>{
+      const box = $('bkIn'); box.value = txt; box.focus(); box.select();
+      (isBackup ? bkMsg : showMsg)('Your device blocked copying. The text is in the backup box below — select it all and copy it.', 'info');
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, fallback);
+    else fallback();
+  }
+
+  // ---------- #cfg= link from another device ----------
+  function readHashCfg(){
+    const m = location.hash.match(/[#&]cfg=([^&]+)/);
+    if(!m) return;
+    try {
+      const c = validCfg(JSON.parse(b64urlDec(m[1])));
+      setCfg(c);
+      history.replaceState(null, '', location.pathname + location.search);
+      const sec = $('sec-sync'); if(sec){ sec.open = true; if(window.SGView) SGView.showFor(sec); }
+      setTimeout(()=>{ showMsg('This device is now connected to "'+c.projectId+'". Sign in with the same email and password as your other device.', 'ok'); sec && sec.scrollIntoView({block:'start'}); }, 300);
+    } catch(e){ setTimeout(()=>showMsg('That sync link is damaged. Copy it again from your other device.', 'err'), 300); }
+  }
+
+  try { bind(); readHashCfg(); start(); } catch(e){ console.error('Sync setup error', e); }
+})();
+
+// ---------- offline support (service worker) ----------
+if('serviceWorker' in navigator && (location.protocol==='https:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname))){
+  const regSW = ()=>navigator.serviceWorker.register('sw.js').catch(e=>console.warn('SW', e));
+  if(document.readyState === 'complete') regSW(); else window.addEventListener('load', regSW);
+}
+</script>
+<script>
+// ================= REMINDERS (push notifications) =================
+(function(){
+  'use strict';
+  const VAPID_PUBLIC = '__VAPID_PUBLIC_KEY__';          // filled in by build.mjs from Netlify settings
+  const TEST_URL = '/.netlify/functions/push-test';
+  const LS_DEV = 'sg_device_id';
+  const $ = id => document.getElementById(id);
+  const S = () => window.SGSync;
+  const DEFAULTS = {on:true, time:'08:00', leads:[7,1,0]};
+  let settings = Object.assign({}, DEFAULTS);
+  let busy = false;
+
+  function deviceId(){
+    let id = null;
+    try { id = localStorage.getItem(LS_DEV); } catch(e){}
+    if(!id){ id = 'd' + Date.now().toString(36) + Math.random().toString(36).slice(2,8); try { localStorage.setItem(LS_DEV, id); } catch(e){} }
+    return id;
+  }
+  function deviceName(){
+    const ua = navigator.userAgent || '';
+    if(/iPhone/.test(ua)) return 'iPhone';
+    if(/iPad/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)) return 'iPad';
+    if(/Android/.test(ua)) return 'Android phone';
+    if(/Windows/.test(ua)) return 'Windows laptop';
+    if(/Macintosh/.test(ua)) return 'Mac';
+    return 'This device';
+  }
+  const isIOS = () => /iPhone|iPad|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+  const standalone = () => (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+  const keyReady = () => /^[A-Za-z0-9_-]{80,}$/.test(VAPID_PUBLIC);
+  function supported(){ return 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window; }
+  const b64u = s => Uint8Array.from(atob((s + '='.repeat((4 - s.length % 4) % 4)).replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0));
+
+  function msg(txt, kind){ const el = $('remMsg'); if(!el) return; el.textContent = txt || ''; el.className = 'sync-msg ' + (kind||''); el.hidden = !txt; }
+  function setPill(state){
+    const L = {on:['🔔','Reminders on'], off:['🔕','Reminders off'], na:['🔕','Reminders not available'], need:['🔕','Sign in to sync first']};
+    const [i,t] = L[state] || L.off;
+    document.querySelectorAll('.rem-pill').forEach(p=>{ p.dataset.s = state; p.textContent = i + ' ' + t; });
+  }
+
+  async function currentSub(){
+    if(!supported()) return null;
+    try { const reg = await navigator.serviceWorker.getRegistration(); return reg ? await reg.pushManager.getSubscription() : null; } catch(e){ return null; }
+  }
+
+  async function render(){
+    const box = $('remBox'); if(!box) return;
+    const signedIn = !!(S() && S().uid());
+    const sub = await currentSub();
+    const on = !!(sub && signedIn && Notification.permission === 'granted');
+    $('remNeedSync').hidden = signedIn;
+    $('remIOS').hidden = !(signedIn && isIOS() && !standalone());
+    $('remNoKey').hidden = !(signedIn && !keyReady());
+    $('remUnsupported').hidden = !(signedIn && !supported() && !(isIOS() && !standalone()));
+    $('remDenied').hidden = !(signedIn && supported() && !(isIOS() && !standalone()) && Notification.permission === 'denied');
+    const canUse = signedIn && supported() && keyReady() && Notification.permission !== 'denied';
+    $('remOnBtn').hidden = !canUse || on;
+    $('remOnWrap').hidden = !on;
+    $('remSettings').hidden = !signedIn || !keyReady();
+    $('remTime').value = settings.time;
+    document.querySelectorAll('.rem-lead').forEach(cb=>{ cb.checked = settings.leads.includes(+cb.value); });
+    setPill(!signedIn ? 'need' : on ? 'on' : (supported() && keyReady()) ? 'off' : 'na');
+  }
+
+  async function loadSettings(){
+    try {
+      const d = await S().getUserDoc(['notify','settings']);
+      if(d) settings = {on: d.on !== false, time: d.time || DEFAULTS.time, leads: Array.isArray(d.leads) ? d.leads : DEFAULTS.leads};
+    } catch(e){}
+    render();
+  }
+  async function saveSettings(extra){
+    settings.time = $('remTime').value || DEFAULTS.time;
+    settings.leads = Array.from(document.querySelectorAll('.rem-lead')).filter(c=>c.checked).map(c=>+c.value);
+    const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone) || 'Europe/Dublin';
+    await S().setUserDoc(['notify','settings'], Object.assign({on:true, time:settings.time, leads:settings.leads, tz, updated:Date.now()}, extra||{}), true);
+  }
+
+  async function turnOn(){
+    if(busy) return; busy = true; msg('');
+    try {
+      if(isIOS() && !standalone()){ msg('On iPhone, open the Study Guide from its Home Screen icon first, then tap Turn on.', 'err'); return; }
+      if(!supported()){ msg('This browser can\'t show reminders.', 'err'); return; }
+      const perm = await Notification.requestPermission();            // must come straight from the tap
+      if(perm !== 'granted'){ msg(perm === 'denied' ? 'Notifications are blocked for this app. See the note below to allow them.' : 'You didn\'t allow notifications. Tap Turn on to try again.', 'err'); return; }
+      const reg = await navigator.serviceWorker.ready;
+      let sub = await reg.pushManager.getSubscription();
+      if(!sub) sub = await reg.pushManager.subscribe({userVisibleOnly:true, applicationServerKey:b64u(VAPID_PUBLIC)});
+      await S().setUserDoc(['push', deviceId()], {sub: sub.toJSON(), name: deviceName(), created: Date.now()});
+      await saveSettings();
+      msg('Reminders are on for this ' + deviceName() + '. Tap "Send a test" to check. ✨', 'ok');
+    } catch(e){ console.warn(e); msg(e && e.code ? S().friendly(e) : 'Couldn\'t turn reminders on: ' + (e && e.message || e), 'err'); }
+    finally { busy = false; render(); }
+  }
+  async function turnOff(){
+    if(busy) return; busy = true; msg('');
+    try {
+      const sub = await currentSub();
+      if(sub) await sub.unsubscribe();
+      await S().delUserDoc(['push', deviceId()]);
+      msg('Reminders are off on this device. Your other devices still get them.', 'info');
+    } catch(e){ msg('Couldn\'t turn reminders off: ' + (e && e.message || e), 'err'); }
+    finally { busy = false; render(); }
+  }
+  async function sendTest(){
+    if(busy) return; busy = true; msg('Sending…', 'info');
+    try {
+      const token = await S().idToken();
+      const r = await fetch(TEST_URL, {method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({idToken: token, device: deviceId(), project: S().projectId()})});
+      let j = {}; try { j = await r.json(); } catch(e){}
+      if(r.status === 404) msg('The reminder sender isn\'t set up on your website yet (see the Notifications guide, Part 3).', 'err');
+      else if(!r.ok || !j.ok) msg(j.error || ('Test failed (' + r.status + ').'), 'err');
+      else msg('Test sent — it should pop up within a few seconds. 🔔', 'ok');
+    } catch(e){ msg('Couldn\'t reach your website to send a test. Check you\'re online.', 'err'); }
+    finally { busy = false; }
+  }
+
+  function bind(){
+    if(!$('remBox')) return;
+    $('remOnBtn').addEventListener('click', turnOn);
+    $('remOffBtn').addEventListener('click', turnOff);
+    $('remTestBtn').addEventListener('click', sendTest);
+    $('remSave').addEventListener('click', async ()=>{
+      try { await saveSettings(); msg('Saved. Reminders come at ' + settings.time + '.', 'ok'); }
+      catch(e){ msg(S().friendly(e), 'err'); }
+    });
+    S().onAuth(u=>{ if(u) loadSettings(); else render(); });
+    document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) render(); });
+  }
+  try { bind(); render(); } catch(e){ console.error('Reminders setup error', e); }
+  window.SGReminders = {render, deviceId};
+})();
+</script>
+<script>
+// ================= YOUR OWN ITEMS: "Right now" list + notifications =================
+(function(){
+  'use strict';
+  const LS = 'sg_custom_v1', LS_MERGED = 'sg_custom_merged_uid';
+  const $ = id => document.getElementById(id);
+  const S = () => window.SGSync;
+  let items = load();
+  let editing = null, editDraft = '';      // My list item being edited
+  let nfEditing = null;                     // notification being edited
+
+  function load(){ try { const v = JSON.parse(localStorage.getItem(LS)); return Array.isArray(v) ? v : []; } catch(e){ return []; } }
+  function save(){ try { localStorage.setItem(LS, JSON.stringify(items)); } catch(e){} render(); }
+  const newId = () => 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  const today = () => new Date().toLocaleDateString('en-CA');
+  const signedIn = () => !!(S() && S().uid());
+  function cloudPut(it){ if(signedIn()) S().setUserDoc(['custom', it.id], it).catch(e=>console.warn('custom save', e)); }
+  function cloudDel(id){ if(signedIn()) S().delUserDoc(['custom', id]).catch(e=>console.warn('custom delete', e)); }
+
+  function add(kind, text, date){
+    text = (text || '').trim();
+    if(!text) return null;
+    if(kind === 'notif' && !/^\d{4}-\d{2}-\d{2}$/.test(date || '')) return null;
+    const now = Date.now();
+    const it = {id:newId(), kind, text, date: date || '', done:false, created:now, updated:now};
+    items.push(it); save(); cloudPut(it); return it;
+  }
+  function update(id, changes){
+    const it = items.find(x => x.id === id); if(!it) return;
+    Object.assign(it, changes, {updated: Date.now()}); save(); cloudPut(it);
+  }
+  function remove(id){
+    const i = items.findIndex(x => x.id === id); if(i < 0) return;
+    items.splice(i, 1); save(); cloudDel(id);
+  }
+
+  // ---------- sync from the account ----------
+  function fromCloud(docs, meta){
+    const uid = meta.uid;
+    let merged = null; try { merged = localStorage.getItem(LS_MERGED); } catch(e){}
+    if(merged !== uid){
+      if(meta.fromCache) return;                         // wait for the server's answer before merging
+      const have = new Set(docs.map(d => d.id));
+      items.filter(it => !have.has(it.id)).forEach(it => { docs.push(it); cloudPut(it); });   // upload this device's items once
+      try { localStorage.setItem(LS_MERGED, uid); } catch(e){}
+    }
+    items = docs.map(d => ({id:d.id, kind:d.kind === 'notif' ? 'notif' : 'now', text:String(d.text||''), date:d.date||'', done:!!d.done, created:d.created||0, updated:d.updated||0}));
+    save();
+  }
+
+  // ---------- notifications for the 🔔 panel ----------
+  function dayDiff(iso){ const t = new Date(); t.setHours(0,0,0,0); return Math.round((new Date(iso + 'T00:00:00') - t) / 86400000); }
+  function notifItems(){
+    return items.filter(it => it.kind === 'notif' && !it.done && it.date).map(it => ({it, n: dayDiff(it.date)}))
+      .filter(x => x.n >= -3)
+      .map(x => ({n:x.n, ico:'🔔', s:'mine', t:x.it.text, sub:'Your notification · ' + new Date(x.it.date + 'T12:00').toLocaleDateString(undefined, {weekday:'short', day:'numeric', month:'short'}), cid:x.it.id}));
+  }
+
+  // ---------- render ----------
+  function renderNow(){
+    const list = $('nowList'); if(!list) return;
+    const mine = items.filter(it => it.kind === 'now').sort((a,b) => (a.done - b.done) || (a.created - b.created));
+    list.textContent = '';
+    $('nowEmpty').hidden = mine.length > 0;
+    mine.forEach(it => {
+      const row = document.createElement('div'); row.className = 'task mine-item' + (it.done ? ' done' : '');
+      const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = it.done; cb.id = 'now_' + it.id;
+      cb.setAttribute('aria-label', 'Done: ' + it.text);
+      cb.addEventListener('change', () => update(it.id, {done: cb.checked}));
+      if(editing === it.id){
+        const inp = document.createElement('input'); inp.type = 'text'; inp.className = 'hw-text mine-edit'; inp.value = editDraft; inp.maxLength = 200;
+        inp.setAttribute('aria-label', 'Edit item');
+        inp.addEventListener('input', () => { editDraft = inp.value; });
+        const ok = document.createElement('button'); ok.type = 'button'; ok.className = 'gel g-pink mine-save'; ok.textContent = 'Save';
+        const no = document.createElement('button'); no.type = 'button'; no.className = 'mine-del'; no.textContent = '×'; no.setAttribute('aria-label', 'Cancel edit');
+        const finish = save => { const t = editDraft.trim(); editing = null; if(save && t && t !== it.text) update(it.id, {text: t}); else render(); };
+        ok.addEventListener('click', () => finish(true));
+        no.addEventListener('click', () => finish(false));
+        inp.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); finish(true); } else if(e.key === 'Escape'){ finish(false); } });
+        row.classList.add('editing'); row.append(inp, ok, no); list.appendChild(row);
+        setTimeout(() => { if(document.activeElement !== inp){ inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); } }, 0);
+        return;
+      }
+      const lab = document.createElement('label'); lab.htmlFor = cb.id; lab.textContent = it.text;
+      const ed = document.createElement('button'); ed.type = 'button'; ed.className = 'mine-del mine-ed'; ed.textContent = '✏️'; ed.setAttribute('aria-label', 'Edit ' + it.text);
+      ed.addEventListener('click', () => { editing = it.id; editDraft = it.text; render(); });
+      const del = document.createElement('button'); del.type = 'button'; del.className = 'mine-del'; del.textContent = '×'; del.setAttribute('aria-label', 'Remove ' + it.text);
+      del.addEventListener('click', () => remove(it.id));
+      row.append(cb, lab, ed, del); list.appendChild(row);
+    });
+  }
+  function render(){
+    renderNow();
+    if(typeof window.renderNotifs === 'function') window.renderNotifs();
+  }
+
+  function bind(){
+    const addNow = () => { const inp = $('nowText'); if(add('now', inp.value)){ inp.value = ''; } inp.focus(); };
+    $('nowAdd').addEventListener('click', addNow);
+    $('nowText').addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); addNow(); } });
+
+    const closeNf = () => { $('nfAddForm').hidden = true; $('nfAddToggle').textContent = '＋ Add a notification'; $('nfAddBtn').textContent = 'Add'; nfEditing = null; $('nfText').value = ''; $('nfMsg').textContent = ''; };
+    const openNf = (it) => {
+      nfEditing = it ? it.id : null;
+      $('nfText').value = it ? it.text : ''; $('nfDate').value = it ? it.date : today();
+      $('nfAddBtn').textContent = it ? 'Save' : 'Add';
+      $('nfAddForm').hidden = false; $('nfAddToggle').textContent = 'Cancel'; $('nfMsg').textContent = '';
+      $('nfText').focus();
+    };
+    $('nfAddToggle').addEventListener('click', () => { if($('nfAddForm').hidden) openNf(null); else closeNf(); });
+    const addNotif = () => {
+      const t = $('nfText').value, d = $('nfDate').value;
+      if(!t.trim()){ $('nfMsg').textContent = 'Type what to be reminded about.'; $('nfText').focus(); return; }
+      if(!d){ $('nfMsg').textContent = 'Pick a date.'; $('nfDate').focus(); return; }
+      if(nfEditing) update(nfEditing, {text: t.trim(), date: d}); else add('notif', t, d);
+      closeNf();
+    };
+    $('nfAddBtn').addEventListener('click', addNotif);
+    $('nfText').addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); addNotif(); } });
+    // remove buttons on custom notifications
+    $('notifList').addEventListener('click', e => {
+      const ed = e.target.closest('.nf-ed'); if(ed){ const it = items.find(x => x.id === ed.dataset.cid); if(it) openNf(it); return; }
+      const b = e.target.closest('.nf-del'); if(b){ if(nfEditing === b.dataset.cid) closeNf(); remove(b.dataset.cid); }
+    });
+    $('nfText').addEventListener('keydown', e => { if(e.key === 'Escape') closeNf(); });
+
+    if(S() && S().watch) S().watch('custom', fromCloud);
+  }
+
+  window.SGCustom = {
+    all: () => items.map(x => Object.assign({}, x)),
+    notifItems, add, update, remove,
+    replaceAll(list){
+      const old = items.map(x => x.id);
+      items = (list || []).filter(x => x && x.id && x.text).map(x => Object.assign({kind:'now', date:'', done:false}, x));
+      const keep = new Set(items.map(x => x.id));
+      old.filter(id => !keep.has(id)).forEach(cloudDel);
+      items.forEach(cloudPut); save();
+      return Promise.resolve();
+    },
+  };
+  try { bind(); render(); } catch(e){ console.error('Custom items setup error', e); }
+})();
+</script>
+</body>
+</html>

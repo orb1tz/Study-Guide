@@ -1,0 +1,11 @@
+{
+  "name": "study-guide",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "web-push": "^3.6.7"
+  }
+}

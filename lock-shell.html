@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Study Guide</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#f6cbe2">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Study Guide">
+<meta name="application-name" content="Study Guide">
+<style>
+  :root{ --page:#fbe3ee; --page2:#f6d0e2; --ink:#2b1a24; --sub:#7a5a6b; --edge:#6b4a5c; --pink:#e8479a;
+    --frame: linear-gradient(105deg, rgba(255,255,255,0) 18%, rgba(255,255,255,.5) 23%, rgba(255,255,255,0) 30%, rgba(255,255,255,0) 58%, rgba(255,255,255,.4) 62%, rgba(255,255,255,0) 68%),
+             linear-gradient(180deg, #f6cbe2 0%, #e8a8cc 38%, #f5d3e6 70%, #eab0d1 100%); }
+  *{box-sizing:border-box;}
+  html,body{margin:0; min-height:100%;}
+  body{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px 16px; color:var(--ink);
+    font-family:'Nunito','Segoe UI',system-ui,-apple-system,sans-serif; background:var(--page);
+    background-image:radial-gradient(circle at 12% 8%, rgba(255,255,255,.55), transparent 40%), radial-gradient(circle at 90% 30%, var(--page2), transparent 45%), radial-gradient(circle at 20% 80%, var(--page2), transparent 40%);}
+  #lock{width:100%; max-width:380px; background:var(--frame); border:1px solid var(--edge); border-radius:10px; padding:0 7px 7px 7px;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.55), 0 10px 28px rgba(140,40,90,.22);}
+  .bar{min-height:30px; display:flex; align-items:center; padding-left:4px; font-size:13px; font-weight:700; text-shadow:0 0 6px #fff;}
+  .body{background:#f6f2f4; border:1px solid var(--edge); border-radius:2px; padding:22px 20px 20px 20px; text-align:center;}
+  h1{margin:0 0 4px 0; font-size:21px; font-weight:800;}
+  p{margin:0 0 14px 0; color:var(--sub); font-weight:600; font-size:14px;}
+  input{width:100%; height:46px; text-align:center; font:700 20px 'Segoe UI',system-ui,sans-serif; letter-spacing:4px; color:var(--ink); background:#fff;
+    border:1px solid #f5b8cf; border-radius:10px; box-shadow:inset 0 1px 3px rgba(0,0,0,.08);}
+  input:focus{outline:2px solid var(--pink); border-color:transparent;}
+  button{margin-top:12px; width:100%; font:800 15px 'Segoe UI',system-ui,sans-serif; padding:11px; border-radius:999px; cursor:pointer; color:#fff; text-shadow:0 1px 1px rgba(0,0,0,.35);
+    background:linear-gradient(180deg, rgba(255,255,255,.75) 0%, rgba(255,255,255,.2) 48%, rgba(255,255,255,0) 50%), linear-gradient(180deg, #f080b8 0%, #e8479a 55%, #f08cbd 100%);
+    border:1px solid #a3155f; box-shadow:inset 0 1px 0 rgba(255,255,255,.7), 0 2px 5px rgba(232,71,154,.35);}
+  button:disabled{opacity:.6; cursor:default;}
+  #err{margin-top:12px; font-weight:700; font-size:13.5px; color:#a3153a; min-height:1em;}
+  #lock[hidden]{display:none;}
+</style>
+</head>
+<body>
+<div id="lock" hidden>
+  <div class="bar">♡ Study Guide</div>
+  <div class="body">
+    <h1>🔒 Study Guide</h1>
+    <p>Enter your code to open it. This device will remember it.</p>
+    <form id="f" autocomplete="off">
+      <input id="code" type="password" aria-label="Code" autocomplete="current-password" autofocus>
+      <button id="go" type="submit">Unlock</button>
+    </form>
+    <div id="err" role="alert"></div>
+  </div>
+</div>
+<script id="payload" type="application/json">__PAYLOAD__</script>
+<script>
+(function(){
+  'use strict';
+  var KEY = 'sg_lock_key_v1';
+  var P = JSON.parse(document.getElementById('payload').textContent);
+  var enc = new TextEncoder(), dec = new TextDecoder();
+  function unb64(s){ var b = atob(s), a = new Uint8Array(b.length); for(var i=0;i<b.length;i++) a[i]=b.charCodeAt(i); return a; }
+  function b64(buf){ var a = new Uint8Array(buf), s=''; for(var i=0;i<a.length;i++) s+=String.fromCharCode(a[i]); return btoa(s); }
+  function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+  function lsSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  function lsDel(k){ try { localStorage.removeItem(k); } catch(e){} }
+  var $ = function(id){ return document.getElementById(id); };
+
+  if('serviceWorker' in navigator && (location.protocol==='https:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname))){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  }
+  if(!window.crypto || !crypto.subtle){
+    $('lock').hidden = false;
+    $('err').textContent = 'This browser can\'t open the locked guide. Open it from your https:// web address in Safari, Edge or Chrome.';
+    $('go').disabled = true; return;
+  }
+
+  function decryptWith(rawKey){
+    return crypto.subtle.importKey('raw', rawKey, {name:'AES-GCM'}, false, ['decrypt'])
+      .then(function(k){ return crypto.subtle.decrypt({name:'AES-GCM', iv:unb64(P.i)}, k, unb64(P.c)); })
+      .then(function(pt){ return dec.decode(pt); });
+  }
+  function derive(code){
+    return crypto.subtle.importKey('raw', enc.encode(code), 'PBKDF2', false, ['deriveBits'])
+      .then(function(base){ return crypto.subtle.deriveBits({name:'PBKDF2', hash:'SHA-256', salt:unb64(P.s), iterations:P.n}, base, 256); });
+  }
+  function show(html){
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var root = document.importNode(doc.documentElement, true);
+    document.replaceChild(root, document.documentElement);
+    // scripts inserted this way don't run on their own: re-create them in order so they do
+    Array.prototype.forEach.call(document.querySelectorAll('script'), function(old){
+      var s = document.createElement('script');
+      Array.prototype.forEach.call(old.attributes, function(a){ s.setAttribute(a.name, a.value); });
+      s.text = old.text;
+      old.parentNode.replaceChild(s, old);
+    });
+    if(location.hash){ var t = document.getElementById(location.hash.slice(1)); if(t && t.scrollIntoView) t.scrollIntoView(); }
+  }
+  function ask(){ $('lock').hidden = false; try { $('code').focus(); } catch(e){} }
+
+  var saved = lsGet(KEY);
+  if(saved){
+    decryptWith(unb64(saved)).then(show, function(){ lsDel(KEY); ask(); });
+  } else ask();
+
+  $('f').addEventListener('submit', function(e){
+    e.preventDefault();
+    var code = $('code').value.trim();
+    if(!code){ $('err').textContent = 'Type your code first.'; return; }
+    $('go').disabled = true; $('err').textContent = ''; $('go').textContent = 'Unlocking…';
+    var raw;
+    derive(code).then(function(bits){ raw = bits; return decryptWith(bits); })
+      .then(function(html){ lsSet(KEY, b64(raw)); show(html); })
+      .catch(function(){
+        $('go').disabled = false; $('go').textContent = 'Unlock';
+        $('err').textContent = 'That code isn\'t right. Try again.';
+        $('code').select();
+      });
+  });
+})();
+</script>
+</body>
+</html>

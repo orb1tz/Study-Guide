@@ -1,0 +1,16 @@
+{
+  "name": "Study Guide",
+  "short_name": "Study Guide",
+  "description": "Payroll & Bookkeeping study guide with progress synced across your devices.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fbe3ee",
+  "theme_color": "#f6cbe2",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
