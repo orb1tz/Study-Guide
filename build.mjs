@@ -17,7 +17,7 @@ const PLACES = {
   'index.html': 'site', 'sw.js': 'site', 'manifest.webmanifest': 'site', '_headers': 'site', 'robots.txt': 'site',
   'icon-192.png': 'site/icons', 'icon-512.png': 'site/icons', 'icon-maskable-512.png': 'site/icons', 'apple-touch-icon.png': 'site/icons',
   'push-daily.mjs': 'netlify/functions', 'push-test.mjs': 'netlify/functions',
-  'firestore.mjs': 'netlify/lib', 'digest.mjs': 'netlify/lib', 'keydates.mjs': 'netlify/lib', 'vapid.mjs': 'netlify/lib',
+  'firestore.mjs': 'netlify/lib', 'digest.mjs': 'netlify/lib', 'keydates.mjs': 'netlify/lib', 'vapid.mjs': 'netlify/lib', 'notifcore.mjs': 'netlify/lib',
 };
 export function repair(root = ROOT) {
   let moved = 0;
@@ -72,6 +72,13 @@ export async function build({ root = ROOT, env = process.env } = {}) {
   fs.writeFileSync(path.join(root, 'netlify', 'lib', 'keydates.mjs'),
     '// Made by build.mjs from KEY_DATES in site/index.html — edit the dates there, not here.\nexport const KEY_DATES = ' + JSON.stringify(dates, null, 1) + ';\n');
   log(`${dates.length} key dates copied to the reminder sender`);
+
+  // the 🔔 rules → reminder sender (same code the page uses, so the list and the pop-ups agree)
+  const core = html.match(/\/\*NOTIFCORE-START\*\/([\s\S]*?)\/\*NOTIFCORE-END\*\//);
+  if(!core) throw new Error('Could not find the notification rules in site/index.html');
+  fs.writeFileSync(path.join(root, 'netlify', 'lib', 'notifcore.mjs'),
+    '// Made by build.mjs from site/index.html — edit it there, not here.\n' + core[1] + '\nexport default NotifCore;\nexport { NotifCore };\n');
+  log('notification rules copied to the reminder sender');
 
   // lock
   const code = (env.GUIDE_CODE || '').trim();

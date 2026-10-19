@@ -364,6 +364,40 @@
   .lo-planned{font-style:normal; font-weight:600; color:var(--sub); font-size:12px;}
   .lo-none{font-style:italic; color:var(--sub);}
   .as-tag.lo-tag{background:#fff0d9; color:#a3520f;}
+  /* ---------- notification editor ---------- */
+  .nf-btn{flex:none; width:26px; height:26px; border-radius:50%; border:1px solid #efc0da; background:#fff; color:var(--sub); font:800 14px/1 'Nunito',sans-serif; cursor:pointer;}
+  .nf-btn.nf-ed{font-size:12px;}
+  .nf-rem{display:block; font-size:11.5px; font-weight:700; color:#a3520f; margin-top:1px;}
+  .nf.muted{opacity:.7;}
+  .nf-ed-title{font-weight:800; font-size:14px; color:var(--link); margin-bottom:6px;}
+  .nf-f{display:block; font-weight:800; font-size:12.5px; margin-top:8px;}
+  .nf-f input, .nf-f select{display:block; width:100%; margin-top:3px; height:38px; font:600 15px 'Nunito',sans-serif; color:var(--ink); border:1px solid #f5b8cf; border-radius:8px; padding:4px 10px; background:#fff;}
+  .nf-opt{font-weight:600; color:var(--sub); font-size:12px;}
+  .nf-hint{margin-top:3px;}
+  .nf-chk{display:flex; align-items:center; gap:8px; font-weight:700; font-size:13.5px; margin-top:10px; cursor:pointer;}
+  .nf-chk input, .nf-chips input{width:18px; height:18px; accent-color:var(--pink); flex:none;}
+  .nf-chips{display:flex; flex-wrap:wrap; gap:6px 14px; margin:6px 0 2px 26px;}
+  .nf-chips label{display:flex; align-items:center; gap:6px; font-weight:700; font-size:13px; cursor:pointer;}
+  #nfPopOpts{margin-left:2px; padding-left:10px; border-left:3px solid #f5d3e2;}
+  .nf-ed-btns{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:12px;}
+  .nf-ed-btns .gel{font:800 13px 'Nunito',sans-serif; padding:8px 18px; border-radius:999px; cursor:pointer;}
+  .nf-link{background:none; border:none; font:800 12.5px 'Nunito',sans-serif; color:var(--link); text-decoration:underline dotted; cursor:pointer;}
+  .nf-danger{color:#a3153a; margin-left:auto;}
+  .nf-add [hidden]{display:none !important;}
+  /* ---------- tap to open week; reminders in week cards ---------- */
+  #notifList .nf{cursor:pointer; -webkit-touch-callout:none; -webkit-user-select:none; user-select:none; touch-action:manipulation;}
+  #notifList .nf:active{filter:brightness(.97);}
+  #notifList .nf:focus-visible{outline:2px solid var(--pink); outline-offset:2px;}
+  .nf-hint-line{text-align:center; font-size:11.5px; font-weight:700; color:var(--sub); margin-top:6px;}
+  .wk-rem{margin-top:4px; border-radius:8px;}
+  .wk-rem.flash{animation:wkflash 1.4s ease-out;}
+  @keyframes wkflash{0%{box-shadow:0 0 0 3px var(--pink); background:#fff0f7;} 100%{box-shadow:0 0 0 0 transparent; background:transparent;}}
+  .wr-item{display:flex; align-items:center; gap:8px; padding:6px 0; border-bottom:1px dashed #f5d3e2;}
+  .wr-item.done .wr-txt b{text-decoration:line-through; opacity:.6;} .wr-item.muted{opacity:.7;}
+  .wr-txt{flex:1; min-width:0; font-size:13px; font-weight:700; line-height:1.35;}
+  .wr-txt small{display:block; font-size:11.5px; font-weight:700; color:var(--sub);}
+  .wr-add{margin:6px 0 2px 0;}
+  .wk-rem .nf-add{margin-top:8px;}
 </style>
 </head>
 <body>
@@ -381,11 +415,39 @@
         <div class="notifs-head"><span>🔔 Notifications</span><span class="notifs-count" id="notifCount"></span></div>
         <div id="notifList"></div>
         <button type="button" class="notifs-more" id="notifMore" hidden></button>
+        <div class="nf-hint-line" id="nfHint">Tap to open its week · hold or double-tap to edit</div>
         <button type="button" class="notifs-more" id="nfAddToggle">＋ Add a notification</button>
         <div class="nf-add" id="nfAddForm" hidden>
-          <input type="text" id="nfText" placeholder="What to be reminded about" aria-label="Notification text" maxlength="140">
-          <div class="nf-add-row"><input type="date" id="nfDate" aria-label="Date"><button type="button" class="gel g-pink" id="nfAddBtn">Add</button></div>
+          <div class="nf-ed-title" id="nfEdTitle">New notification</div>
+          <label class="nf-f">What<input type="text" id="nfText" placeholder="What to be reminded about" maxlength="140"></label>
+          <label class="nf-f">Date<input type="date" id="nfDate"></label>
+          <label class="nf-f" id="nfWeekRow">Week <span class="nf-opt">(where it shows up)</span><select id="nfWeek"><option value="">No particular week</option></select></label>
+          <label class="nf-f">Note <span class="nf-opt">(optional — shown in the pop-up)</span><input type="text" id="nfNote" maxlength="140" placeholder="e.g. bring calculator"></label>
+          <label class="nf-chk"><input type="checkbox" id="nfPop" checked><span>Send me a pop-up for this</span></label>
+          <div id="nfPopOpts">
+            <div class="nf-f">Remind me</div>
+            <label class="nf-chk"><input type="checkbox" id="nfUsualDays" checked><span>Use my usual days <span class="nf-opt" id="nfUsualHint"></span></span></label>
+            <div class="nf-chips" id="nfLeads" hidden>
+              <label><input type="checkbox" value="14"> 2 weeks before</label><label><input type="checkbox" value="7"> a week before</label>
+              <label><input type="checkbox" value="3"> 3 days before</label><label><input type="checkbox" value="2"> 2 days before</label>
+              <label><input type="checkbox" value="1"> the day before</label><label><input type="checkbox" value="0"> on the day</label>
+            </div>
+            <label class="nf-f">At<input type="time" id="nfTime" step="900"></label>
+            <div class="nf-opt nf-hint" id="nfTimeHint"></div>
+            <label class="nf-f">Repeat<select id="nfRepeat">
+              <option value="none">Only on those days</option>
+              <option value="daily">Every day until the date</option>
+              <option value="untilDone">Every day until I mark it done</option>
+            </select></label>
+          </div>
+          <label class="nf-chk" id="nfDoneRow" hidden><input type="checkbox" id="nfDone"><span>Done — stop reminding me</span></label>
           <div class="nf-add-msg" id="nfMsg" role="alert"></div>
+          <div class="nf-ed-btns">
+            <button type="button" class="gel g-pink" id="nfAddBtn">Add</button>
+            <button type="button" class="gel g-silver" id="nfCancel">Cancel</button>
+            <button type="button" class="nf-link" id="nfReset" hidden>Reset to original</button>
+            <button type="button" class="nf-link nf-danger" id="nfRemove" hidden>Delete</button>
+          </div>
         </div>
       </div>
     </div>
@@ -600,12 +662,15 @@
         <h3>When to remind me</h3>
         <div class="rem-row"><label>Each day at <input type="time" id="remTime" value="08:00" step="900"></label></div>
         <div class="rem-row">
+          <label><input type="checkbox" class="rem-lead" value="14"> 2 weeks before</label>
           <label><input type="checkbox" class="rem-lead" value="7" checked> a week before</label>
+          <label><input type="checkbox" class="rem-lead" value="3"> 3 days before</label>
+          <label><input type="checkbox" class="rem-lead" value="2"> 2 days before</label>
           <label><input type="checkbox" class="rem-lead" value="1" checked> the day before</label>
           <label><input type="checkbox" class="rem-lead" value="0" checked> on the day</label>
         </div>
         <div class="sync-btns"><button type="button" class="gel g-pay" id="remSave">Save</button></div>
-        <p class="rem-note">Covers every date in 🔔 Notifications above plus homework you give a due date. Ticking "submitted" stops that reminder. These settings apply to all your devices.</p>
+        <p class="rem-note">These are your usual settings for everything in 🔔 Notifications. Tap ✏️ on any item there to give it its own days, time or repeat, or to switch its pop-up off. These settings apply to all your devices.</p>
       </div>
     </div>
   </div>
@@ -886,6 +951,8 @@ function renderWeek(w){
   });
 
   const weekKey = w.strand+w.n;
+  const remWrap = document.createElement('div'); remWrap.className = 'wk-rem'; remWrap.dataset.week = weekKey;
+  body.appendChild(remWrap);
   const hwWrap = document.createElement('div');
   hwWrap.innerHTML = `<h4>📝 My homework</h4><div class="hw-list"></div>
     <form class="hw-add" autocomplete="off">
@@ -957,12 +1024,14 @@ function renderWeek(w){
 const bkContainer = document.getElementById('bkWeeks');
 const payContainer = document.getElementById('payWeeks');
 function renderAllWeeks(){
+  if(window.SGNotif && SGNotif.park) SGNotif.park();
   const open = new Set(Array.from(document.querySelectorAll('details.weekcard[open]')).map(d=>d.id));
   payContainer.textContent = ''; bkContainer.textContent = '';
   for(const k in hwRenderers) delete hwRenderers[k];
   PAY_WEEKS.forEach(w=> payContainer.appendChild(renderWeek(w)));
   BK_WEEKS.forEach(w=> bkContainer.appendChild(renderWeek(w)));
   open.forEach(id=>{ const d = document.getElementById(id); if(d) d.open = true; });
+  if(window.SGNotif) SGNotif.renderWeeks();
   lastOrderSig = orderSig();
 }
 renderAllWeeks();
@@ -1133,7 +1202,8 @@ function whenLabel(n){
   return 'In '+Math.round(n/7)+' weeks';
 }
 window.renderNotifs = renderNotifs;
-function renderNotifs(){
+function renderNotifs(){ if(window.SGNotif) return SGNotif.render(notifShowAll); return renderNotifsOld(); }
+function renderNotifsOld(){
   const list = document.getElementById('notifList'); if(!list) return;
   const items = [];
   KEY_DATES.forEach(e=>{
@@ -1208,6 +1278,15 @@ function refreshAll(){
   updateProgress(); updateStreak();
 }
 window.SG = {
+  keyDates: KEY_DATES,
+  weeks: {pay: PAY_WEEKS, bk: BK_WEEKS},
+  hwUpdate(id, ch){
+    for(const [wk, arr] of Object.entries(homework)){
+      const it = (arr||[]).find(x=>x.id===id);
+      if(it){ Object.assign(it, ch); saveHomework(); if(hwRenderers[wk]) hwRenderers[wk].render(); if(window.SGSync) SGSync.onHwPut(wk, it); updateProgress(); return; }
+    }
+  },
+  setTick(id, v){ toggle(id, !!v); refreshAll(); },
   getState: ()=>state,
   getHomework: ()=>homework,
   applyRemote(s, h){
@@ -1220,6 +1299,115 @@ window.SG = {
 } catch(e){ console.error('Study guide error', e); }
 </script>
 <script>
+/*NOTIFCORE-START*/
+// Shared rules for the 🔔 list and the pop-up sender (the website build copies this into the sender).
+var NotifCore = (function(){
+  'use strict';
+  var LEAD_CHOICES = [[0, 'on the day'], [1, 'the day before'], [2, '2 days before'], [3, '3 days before'], [7, 'a week before'], [14, '2 weeks before']];
+  var DEFAULT_LEADS = [7, 1, 0];
+  function daysBetween(fromISO, toISO){ return Math.round((Date.parse(toISO + 'T00:00:00Z') - Date.parse(fromISO + 'T00:00:00Z')) / 86400000); }
+  function slug(s){ return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 60); }
+  function overrideId(key){ return 'o_' + String(key).replace(/[^A-Za-z0-9_-]/g, '_').slice(0, 120); }
+  function isTime(t){ return typeof t === 'string' && /^\d{2}:\d{2}$/.test(t); }
+  function isDate(d){ return typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d); }
+  function cleanLeads(l){ return Array.isArray(l) ? l.filter(function(n, i){ return typeof n === 'number' && n >= 0 && n <= 60 && l.indexOf(n) === i; }).sort(function(a, b){ return b - a; }) : null; }
+  function pick(o, k){ return o && Object.prototype.hasOwnProperty.call(o, k) ? o[k] : undefined; }
+
+  // everything that can appear in the list, before your edits
+  function baseItems(o){
+    var items = [], state = o.state || {};
+    (o.keyDates || []).forEach(function(e){
+      items.push({key: 'kd_' + e.date + '_' + slug(e.t), kind: 'kd', s: e.s, ico: e.ico, t: e.t, sub: e.sub, date: e.date,
+        doneFlag: e.done || null, done: !!(e.done && state[e.done])});
+    });
+    (o.homework || []).forEach(function(h){
+      var wk = String(h.week || ''), strand = wk.indexOf('pay') === 0 ? 'pay' : 'bk';
+      items.push({key: 'hw_' + h.id, kind: 'hw', id: h.id, week: wk, s: strand, ico: '📝', t: 'Homework: ' + h.text, rawText: h.text,
+        sub: (strand === 'pay' ? 'Payroll' : 'Bookkeeping') + ' W' + wk.replace(/\D/g, '') + ' · your own task', date: h.due || '', done: !!h.done});
+    });
+    (o.custom || []).forEach(function(c){
+      if(c.kind !== 'notif') return;
+      items.push({key: 'c_' + c.id, kind: 'mine', cid: c.id, week: c.week || '', s: 'mine', ico: '🔔', t: c.text, rawText: c.text, sub: 'Your notification', date: c.date || '',
+        done: !!c.done, note: c.note || '', off: !!c.off, leads: cleanLeads(c.leads), time: isTime(c.time) ? c.time : '', repeat: c.repeat || 'none'});
+    });
+    return items;
+  }
+  // apply your edits to built-in items (stored as kind:'override' records)
+  function withEdits(items, custom){
+    var ov = {};
+    (custom || []).forEach(function(c){ if(c.kind === 'override' && c.target) ov[c.target] = c; });
+    return items.map(function(it){
+      var e = ov[it.key]; if(!e || it.kind === 'mine') return it;
+      var x = {}; for(var k in it) x[k] = it[k];
+      x.edited = true; x.overrideId = e.id;
+      if(typeof e.t === 'string' && e.t.trim()) x.t = e.t.trim();
+      if(isDate(e.date) && e.date !== it.date){ x.date = e.date; x.moved = true; }
+      if(typeof e.note === 'string') x.note = e.note;
+      if(e.off === true) x.off = true;
+      if(cleanLeads(e.leads)) x.leads = cleanLeads(e.leads);
+      if(isTime(e.time)) x.time = e.time;
+      if(e.repeat) x.repeat = e.repeat;
+      if(e.done === true) x.done = true;
+      if(e.hidden === true) x.hidden = true;
+      return x;
+    });
+  }
+  function all(o){ return withEdits(baseItems(o), o.custom); }
+
+  // should it show in the 🔔 list?
+  function inList(it, today){
+    if(it.hidden || it.done || !it.date) return false;
+    var n = daysBetween(today, it.date);
+    if(it.repeat === 'untilDone') return true;
+    if(it.kind === 'kd') return n >= 0 || (!!it.doneFlag && n >= -14);
+    if(it.kind === 'hw') return n <= 14 && n >= -14;
+    return n >= -3;
+  }
+  // should it pop up today, and when?
+  function dueToday(it, today, settings){
+    settings = settings || {};
+    if(it.hidden || it.done || it.off || !it.date) return null;
+    var leads = it.leads && it.leads.length ? it.leads : (cleanLeads(settings.leads) || DEFAULT_LEADS);
+    if(!leads.length) return null;
+    var n = daysBetween(today, it.date), max = Math.max.apply(null, leads), hit;
+    if(it.repeat === 'daily') hit = n >= 0 && n <= max;
+    else if(it.repeat === 'untilDone') hit = n <= max;
+    else hit = leads.indexOf(n) >= 0;
+    if(!hit) return null;
+    return {n: n, time: it.time || (isTime(settings.time) ? settings.time : '08:00')};
+  }
+  function whenLabel(n){ return n === 0 ? 'Today' : n === 1 ? 'Tomorrow' : n === 7 ? 'In a week' : n < 0 ? (-n === 1 ? '1 day overdue' : (-n) + ' days overdue') : 'In ' + n + ' days'; }
+  function leadsText(leads){
+    var names = leads.map(function(n){ var c = LEAD_CHOICES.filter(function(x){ return x[0] === n; })[0]; return c ? c[1] : n + ' days before'; });
+    return names.length > 1 ? names.slice(0, -1).join(', ') + ' & ' + names[names.length - 1] : (names[0] || '');
+  }
+  // short description of a customised reminder, or '' if it uses your usual settings
+  function describe(it){
+    if(it.off) return '🔕 no pop-up';
+    if(!(it.leads && it.leads.length) && !it.time && (!it.repeat || it.repeat === 'none')) return '';
+    var parts = [];
+    if(it.repeat === 'daily') parts.push('daily until then');
+    else if(it.repeat === 'untilDone') parts.push('daily until done');
+    if(it.leads && it.leads.length && it.repeat !== 'daily' && it.repeat !== 'untilDone') parts.push(leadsText(it.leads));
+    else if(it.leads && it.leads.length) parts.push('from ' + leadsText([Math.max.apply(null, it.leads)]));
+    if(it.time) parts.push('at ' + it.time);
+    return '⏰ ' + parts.join(' · ');
+  }
+  // one pop-up for everything due at once
+  function message(due, today){
+    if(!due.length) return null;
+    if(due.length === 1){
+      var i = due[0];
+      return {title: i.ico + ' ' + i.t, body: whenLabel(i.n) + ' · ' + (i.note ? i.note : i.sub), tag: 'sg-' + today + '-' + i.key.slice(0, 40), url: './'};
+    }
+    var body = due.slice(0, 6).map(function(i){ return whenLabel(i.n) + ': ' + i.t; }).join('\n') + (due.length > 6 ? '\n+' + (due.length - 6) + ' more' : '');
+    return {title: '📚 ' + due.length + ' things coming up', body: body, tag: 'sg-' + today, url: './'};
+  }
+  return {LEAD_CHOICES: LEAD_CHOICES, DEFAULT_LEADS: DEFAULT_LEADS, daysBetween: daysBetween, overrideId: overrideId, cleanLeads: cleanLeads,
+    baseItems: baseItems, withEdits: withEdits, all: all, inList: inList, dueToday: dueToday, whenLabel: whenLabel, leadsText: leadsText, describe: describe, message: message};
+})();
+/*NOTIFCORE-END*/
+
 // ================= TABS: one view at a time =================
 (function(){
   'use strict';
@@ -1798,7 +1986,7 @@ if('serviceWorker' in navigator && (location.protocol==='https:' || /^(localhost
     document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) render(); });
   }
   try { bind(); render(); } catch(e){ console.error('Reminders setup error', e); }
-  window.SGReminders = {render, deviceId};
+  window.SGReminders = {render, deviceId, settings: () => Object.assign({}, settings)};
 })();
 </script>
 <script>
@@ -1820,13 +2008,19 @@ if('serviceWorker' in navigator && (location.protocol==='https:' || /^(localhost
   function cloudPut(it){ if(signedIn()) S().setUserDoc(['custom', it.id], it).catch(e=>console.warn('custom save', e)); }
   function cloudDel(id){ if(signedIn()) S().delUserDoc(['custom', id]).catch(e=>console.warn('custom delete', e)); }
 
-  function add(kind, text, date){
+  function add(kind, text, date, extra){
     text = (text || '').trim();
     if(!text) return null;
     if(kind === 'notif' && !/^\d{4}-\d{2}-\d{2}$/.test(date || '')) return null;
     const now = Date.now();
-    const it = {id:newId(), kind, text, date: date || '', done:false, created:now, updated:now};
+    const it = Object.assign({id:newId(), kind, text, date: date || '', done:false, created:now, updated:now}, extra || {});
     items.push(it); save(); cloudPut(it); return it;
+  }
+  function upsert(doc){
+    const i = items.findIndex(x => x.id === doc.id);
+    const it = Object.assign(i >= 0 ? items[i] : {}, doc, {updated: Date.now()});
+    if(i < 0){ it.created = it.updated; items.push(it); }
+    save(); cloudPut(it); return it;
   }
   function update(id, changes){
     const it = items.find(x => x.id === id); if(!it) return;
@@ -1847,7 +2041,7 @@ if('serviceWorker' in navigator && (location.protocol==='https:' || /^(localhost
       items.filter(it => !have.has(it.id)).forEach(it => { docs.push(it); cloudPut(it); });   // upload this device's items once
       try { localStorage.setItem(LS_MERGED, uid); } catch(e){}
     }
-    items = docs.map(d => ({id:d.id, kind:d.kind === 'notif' ? 'notif' : 'now', text:String(d.text||''), date:d.date||'', done:!!d.done, created:d.created||0, updated:d.updated||0}));
+    items = docs.map(d => Object.assign({}, d, {id:d.id, kind: d.kind === 'notif' || d.kind === 'override' ? d.kind : 'now', text:String(d.text||''), date:d.date||'', done:!!d.done}));
     save();
   }
 
@@ -1857,6 +2051,209 @@ if('serviceWorker' in navigator && (location.protocol==='https:' || /^(localhost
     return items.filter(it => it.kind === 'notif' && !it.done && it.date).map(it => ({it, n: dayDiff(it.date)}))
       .filter(x => x.n >= -3)
       .map(x => ({n:x.n, ico:'🔔', s:'mine', t:x.it.text, sub:'Your notification · ' + new Date(x.it.date + 'T12:00').toLocaleDateString(undefined, {weekday:'short', day:'numeric', month:'short'}), cid:x.it.id}));
+  }
+
+  // ---------- the 🔔 list: every item, with your edits ----------
+  let edKey = null;           // item being edited ('' = new)
+  const fmtDay = d => new Date(d + 'T12:00').toLocaleDateString(undefined, {weekday:'short', day:'numeric', month:'short'});
+  function hwFlat(){
+    const out = [], h = (window.SG && SG.getHomework()) || {};
+    Object.entries(h).forEach(([wk, arr]) => (arr || []).forEach(x => out.push({id:x.id, week:wk, text:x.text, due:x.due, done:x.done})));
+    return out;
+  }
+  function sources(){ return {keyDates: (window.SG && SG.keyDates) || [], homework: hwFlat(), custom: items, state: (window.SG && SG.getState()) || {}}; }
+  function allNotif(){ return NotifCore.all(sources()); }
+  function findNotif(key){ return allNotif().find(i => i.key === key); }
+  function usual(){ return (window.SGReminders && SGReminders.settings) ? SGReminders.settings() : {time:'08:00', leads:NotifCore.DEFAULT_LEADS}; }
+
+  // ---------- which week an item belongs to ----------
+  function addDays(iso, n){ const d = new Date(iso + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
+  function weekFor(it){
+    const W = (window.SG && SG.weeks) || {};
+    if(it.kind === 'hw') return it.week || null;
+    if(it.kind === 'mine') return it.week || null;
+    const list = W[it.s]; if(!list || !it.date) return null;
+    let w = list.find(x => it.date >= x.date && it.date < addDays(x.date, 7));
+    if(!w) w = list.find(x => x.date > it.date) || list[list.length - 1];
+    return w ? it.s + w.n : null;
+  }
+  function openWeek(weekKey){
+    const strand = weekKey.startsWith('pay') ? 'pay' : 'bk';
+    if(window.SGView) SGView.show(strand);
+    const card = document.getElementById(strand + 'week' + weekKey.replace(/\D/g, ''));
+    if(!card) return;
+    card.open = true;
+    const target = card.querySelector('.wk-rem') || card;
+    setTimeout(() => {
+      card.scrollIntoView({block: 'start'});
+      window.scrollBy(0, -70);
+      target.classList.remove('flash'); void target.offsetWidth; target.classList.add('flash');
+    }, 30);
+  }
+
+  // ---------- "🔔 Reminders" in each week card ----------
+  function renderWeeks(){
+    const boxes = document.querySelectorAll('.wk-rem'); if(!boxes.length) return;
+    const t = today();
+    const byWeek = {};
+    allNotif().filter(i => !i.hidden && i.date).forEach(i => { const wk = weekFor(i); if(wk) (byWeek[wk] = byWeek[wk] || []).push(i); });
+    boxes.forEach(box => {
+      const wk = box.dataset.week, its = (byWeek[wk] || []).sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+      const form = $('nfAddForm');
+      if(form && box.contains(form)){ if(!form.hidden) return; placeEditor(null); }   // never redraw under the open editor
+      box.textContent = '';
+      const h = document.createElement('h4'); h.textContent = '🔔 Reminders'; box.appendChild(h);
+      if(!its.length){ const e = document.createElement('div'); e.className = 'hw-empty'; e.textContent = 'No reminders for this week.'; box.appendChild(e); }
+      its.forEach(i => {
+        const n = NotifCore.daysBetween(t, i.date);
+        const row = document.createElement('div'); row.className = 'wr-item' + (i.done ? ' done' : '') + (i.off ? ' muted' : '');
+        const txt = document.createElement('div'); txt.className = 'wr-txt';
+        const b = document.createElement('b'); b.textContent = i.ico + ' ' + i.t;
+        const sm = document.createElement('small');
+        sm.textContent = fmtDay(i.date) + ' · ' + (i.done ? 'done' : NotifCore.whenLabel(n)) + (i.note ? ' · ' + i.note : '');
+        txt.append(b, sm);
+        const d = NotifCore.describe(i); if(d){ const r = document.createElement('small'); r.className = 'nf-rem'; r.textContent = d; txt.appendChild(r); }
+        const ed = document.createElement('button'); ed.type = 'button'; ed.className = 'nf-btn wr-ed'; ed.textContent = '✏️'; ed.setAttribute('aria-label', 'Edit: ' + i.t);
+        ed.addEventListener('click', () => openEditor(i.key, {anchor: box}));
+        row.append(txt, ed); box.appendChild(row);
+      });
+      const add = document.createElement('button'); add.type = 'button'; add.className = 'notifs-more wr-add'; add.textContent = '＋ Add a reminder for this week';
+      add.addEventListener('click', () => openEditor(null, {anchor: box, week: wk}));
+      box.appendChild(add);
+    });
+  }
+
+  function renderList(showAll){
+    const list = $('notifList'); if(!list) return;
+    const t = today();
+    const its = allNotif().filter(i => NotifCore.inList(i, t)).map(i => Object.assign({n: NotifCore.daysBetween(t, i.date)}, i)).sort((a, b) => a.n - b.n);
+    const cls = n => n <= 2 ? 'urgent' : n <= 7 ? 'soon' : 'later';
+    const urgent = its.filter(i => i.n <= 7).length;
+    $('notifCount').textContent = urgent ? urgent + ' this week' : '';
+    list.textContent = '';
+    if(!its.length){ const e = document.createElement('div'); e.className = 'nf-empty'; e.textContent = 'Nothing coming up — you\'re all clear ✨'; list.appendChild(e); }
+    (showAll ? its : its.slice(0, 2)).forEach(i => {
+      const row = document.createElement('div'); row.className = 'nf ' + cls(i.n) + ' ' + i.s + (i.off ? ' muted' : '');
+      const ico = document.createElement('span'); ico.className = 'nf-ico'; ico.textContent = i.ico;
+      const txt = document.createElement('div'); txt.className = 'nf-txt';
+      const b = document.createElement('b'); b.textContent = (i.s === 'pay' ? '📙 ' : i.s === 'bk' ? '📗 ' : '') + i.t;
+      const sm = document.createElement('small');
+      let sub = i.kind === 'mine' ? 'Your notification · ' + fmtDay(i.date) : i.sub + (i.moved ? ' · moved to ' + fmtDay(i.date) : '');
+      if(i.note) sub += ' · ' + i.note;
+      if(i.kind === 'kd' && i.n < 0) sub += ' · tick "submitted" in its week card';
+      sm.textContent = sub;
+      txt.append(b, sm);
+      const d = NotifCore.describe(i);
+      if(d){ const r = document.createElement('small'); r.className = 'nf-rem'; r.textContent = d; txt.appendChild(r); }
+      const when = document.createElement('span'); when.className = 'nf-when'; when.textContent = NotifCore.whenLabel(i.n);
+      row.dataset.key = i.key; row.tabIndex = 0; row.setAttribute('role', 'button');
+      const wk = weekFor(i);
+      row.setAttribute('aria-label', i.t + (wk ? ' — tap to open its week, hold or double-tap to edit' : ' — tap to edit'));
+      row.append(ico, txt, when);
+      if(i.kind === 'mine'){ const x = document.createElement('button'); x.type = 'button'; x.className = 'nf-btn nf-del'; x.dataset.key = i.key; x.textContent = '×'; x.setAttribute('aria-label', 'Remove: ' + i.t); row.appendChild(x); }
+      list.appendChild(row);
+    });
+    const hint = $('nfHint'); if(hint) hint.hidden = !its.length;
+    const more = $('notifMore');
+    more.hidden = its.length <= 2;
+    more.textContent = showAll ? 'Show less' : 'Show all ' + its.length + ' notifications';
+  }
+
+  // ---------- editor ----------
+  function setLeads(leads){ document.querySelectorAll('#nfLeads input').forEach(cb => { cb.checked = leads.includes(+cb.value); }); }
+  function getLeads(){ return Array.from(document.querySelectorAll('#nfLeads input:checked')).map(cb => +cb.value); }
+  let formHome = null;
+  function placeEditor(anchor){
+    const form = $('nfAddForm');
+    if(!formHome){ formHome = document.createComment('editor home'); form.parentNode.insertBefore(formHome, form); }
+    if(anchor) anchor.appendChild(form); else formHome.parentNode.insertBefore(form, formHome.nextSibling);
+  }
+  function fillWeeks(sel){
+    if(sel.options.length > 1) return;
+    const W = (window.SG && SG.weeks) || {};
+    [['pay', '📙 Payroll'], ['bk', '📗 Bookkeeping']].forEach(([s, name]) => (W[s] || []).forEach(w => {
+      const o = document.createElement('option'); o.value = s + w.n; o.textContent = name + ' · Week ' + w.n + ' (' + fmtDay(w.date) + ')'; sel.appendChild(o);
+    }));
+  }
+  function openEditor(key, opts){
+    opts = opts || {};
+    const it = key ? findNotif(key) : null;
+    if(key && !it) return;
+    placeEditor(opts.anchor || null);
+    edKey = key || '';
+    fillWeeks($('nfWeek'));
+    $('nfWeekRow').hidden = !!(it && it.kind !== 'mine');
+    $('nfWeek').value = it ? (it.kind === 'mine' ? (it.week || '') : '') : (opts.week || '');
+    const u = usual();
+    $('nfEdTitle').textContent = it ? (it.kind === 'mine' ? 'Edit notification' : 'Edit: ' + (it.kind === 'hw' ? 'homework' : 'course date')) : 'New notification';
+    $('nfText').value = it ? (it.rawText != null ? it.rawText : it.t) : '';
+    $('nfDate').value = it ? it.date : today();
+    $('nfNote').value = it ? (it.note || '') : '';
+    $('nfPop').checked = it ? !it.off : true;
+    const own = !!(it && it.leads && it.leads.length);
+    $('nfUsualDays').checked = !own;
+    setLeads(own ? it.leads : (u.leads || NotifCore.DEFAULT_LEADS));
+    $('nfLeads').hidden = !own;
+    $('nfUsualHint').textContent = '(' + NotifCore.leadsText((u.leads && u.leads.length ? u.leads : NotifCore.DEFAULT_LEADS).slice().sort((a,b)=>b-a)) + ')';
+    $('nfTime').value = it && it.time ? it.time : '';
+    $('nfTime').placeholder = u.time || '08:00';
+    $('nfTimeHint').textContent = 'Leave empty for your usual time (' + (u.time || '08:00') + ').';
+    $('nfRepeat').value = it && it.repeat ? it.repeat : 'none';
+    $('nfDone').checked = !!(it && it.done);
+    $('nfDoneRow').hidden = !it;
+    $('nfPopOpts').hidden = !$('nfPop').checked;
+    $('nfRemove').hidden = !it;
+    $('nfRemove').textContent = it && it.kind !== 'mine' ? 'Hide from list' : 'Delete';
+    $('nfReset').hidden = !(it && it.kind !== 'mine' && it.edited);
+    $('nfAddBtn').textContent = it ? 'Save' : 'Add';
+    $('nfMsg').textContent = '';
+    $('nfAddForm').hidden = false; $('nfAddToggle').textContent = opts.anchor ? '＋ Add a notification' : 'Cancel';
+    const wrap = $('nfAddForm'); if(wrap.scrollIntoView) wrap.scrollIntoView({block:'nearest'});
+    $('nfText').focus();
+  }
+  function closeEditor(){ placeEditor(null); $('nfAddForm').hidden = true; $('nfAddToggle').textContent = '＋ Add a notification'; edKey = null; $('nfMsg').textContent = ''; renderWeeks(); }
+  function readEditor(){
+    const pop = $('nfPop').checked;
+    return {text: $('nfText').value.trim(), date: $('nfDate').value, note: $('nfNote').value.trim(), week: $('nfWeek').value,
+      off: !pop, leads: pop && !$('nfUsualDays').checked ? getLeads() : null,
+      time: pop ? ($('nfTime').value || '') : '', repeat: pop ? $('nfRepeat').value : 'none', done: $('nfDone').checked};
+  }
+  function saveEditor(){
+    const v = readEditor();
+    if(!v.text){ $('nfMsg').textContent = 'Type what it\'s about.'; $('nfText').focus(); return; }
+    if(!v.date){ $('nfMsg').textContent = 'Pick a date.'; $('nfDate').focus(); return; }
+    if(v.leads && !v.leads.length){ $('nfMsg').textContent = 'Tick at least one day, or tick "Use my usual days".'; return; }
+    const it = edKey ? findNotif(edKey) : null;
+    const reminder = {note: v.note, off: v.off, leads: v.leads, time: v.time, repeat: v.repeat};
+    if(!it){ add('notif', v.text, v.date, Object.assign({week: v.week}, reminder)); closeEditor(); return; }
+    if(it.kind === 'mine'){ update(it.cid, Object.assign({text: v.text, date: v.date, done: v.done, week: v.week}, reminder)); closeEditor(); return; }
+    // built-in items: homework is changed directly; reminder settings + course-date changes are stored as your edits
+    const base = NotifCore.baseItems(sources()).find(x => x.key === it.key) || it;
+    const ov = {id: NotifCore.overrideId(it.key), kind: 'override', target: it.key, text: '', note: v.note, off: v.off, leads: v.leads, time: v.time, repeat: v.repeat, hidden: false};
+    if(it.kind === 'hw'){
+      if(window.SG && SG.hwUpdate) SG.hwUpdate(it.id, {text: v.text, due: v.date, done: v.done});
+      ov.t = ''; ov.date = '';
+    } else {
+      ov.t = v.text !== base.t ? v.text : '';
+      ov.date = v.date !== base.date ? v.date : '';
+      if(it.doneFlag && window.SG && SG.setTick){ SG.setTick(it.doneFlag, v.done); ov.done = false; } else ov.done = v.done;
+    }
+    const plain = !ov.note && !ov.off && !ov.leads && !ov.time && (!ov.repeat || ov.repeat === 'none') && !ov.t && !ov.date && !ov.done;
+    if(plain){ if(items.some(x => x.id === ov.id)) remove(ov.id); else render(); }
+    else upsert(ov);
+    closeEditor();
+  }
+  function removeFromEditor(){
+    const it = edKey ? findNotif(edKey) : null; if(!it) return;
+    if(it.kind === 'mine') remove(it.cid);
+    else upsert({id: NotifCore.overrideId(it.key), kind: 'override', target: it.key, hidden: true});
+    closeEditor();
+  }
+  function resetFromEditor(){
+    const it = edKey ? findNotif(edKey) : null; if(!it) return;
+    const id = NotifCore.overrideId(it.key);
+    if(items.some(x => x.id === id)) remove(id);
+    closeEditor();
   }
 
   // ---------- render ----------
@@ -1892,9 +2289,10 @@ if('serviceWorker' in navigator && (location.protocol==='https:' || /^(localhost
       row.append(cb, lab, ed, del); list.appendChild(row);
     });
   }
+  let showAllNotifs = false;
   function render(){
     renderNow();
-    if(typeof window.renderNotifs === 'function') window.renderNotifs();
+    if(typeof window.renderNotifs === 'function') window.renderNotifs(); else { renderList(showAllNotifs); renderWeeks(); }
   }
 
   function bind(){
@@ -1902,34 +2300,46 @@ if('serviceWorker' in navigator && (location.protocol==='https:' || /^(localhost
     $('nowAdd').addEventListener('click', addNow);
     $('nowText').addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); addNow(); } });
 
-    const closeNf = () => { $('nfAddForm').hidden = true; $('nfAddToggle').textContent = '＋ Add a notification'; $('nfAddBtn').textContent = 'Add'; nfEditing = null; $('nfText').value = ''; $('nfMsg').textContent = ''; };
-    const openNf = (it) => {
-      nfEditing = it ? it.id : null;
-      $('nfText').value = it ? it.text : ''; $('nfDate').value = it ? it.date : today();
-      $('nfAddBtn').textContent = it ? 'Save' : 'Add';
-      $('nfAddForm').hidden = false; $('nfAddToggle').textContent = 'Cancel'; $('nfMsg').textContent = '';
-      $('nfText').focus();
-    };
-    $('nfAddToggle').addEventListener('click', () => { if($('nfAddForm').hidden) openNf(null); else closeNf(); });
-    const addNotif = () => {
-      const t = $('nfText').value, d = $('nfDate').value;
-      if(!t.trim()){ $('nfMsg').textContent = 'Type what to be reminded about.'; $('nfText').focus(); return; }
-      if(!d){ $('nfMsg').textContent = 'Pick a date.'; $('nfDate').focus(); return; }
-      if(nfEditing) update(nfEditing, {text: t.trim(), date: d}); else add('notif', t, d);
-      closeNf();
-    };
-    $('nfAddBtn').addEventListener('click', addNotif);
-    $('nfText').addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); addNotif(); } });
-    // remove buttons on custom notifications
-    $('notifList').addEventListener('click', e => {
-      const ed = e.target.closest('.nf-ed'); if(ed){ const it = items.find(x => x.id === ed.dataset.cid); if(it) openNf(it); return; }
-      const b = e.target.closest('.nf-del'); if(b){ if(nfEditing === b.dataset.cid) closeNf(); remove(b.dataset.cid); }
+    $('nfAddToggle').addEventListener('click', () => { if($('nfAddForm').hidden) openEditor(null); else closeEditor(); });
+    $('nfAddBtn').addEventListener('click', saveEditor);
+    $('nfCancel').addEventListener('click', closeEditor);
+    $('nfRemove').addEventListener('click', removeFromEditor);
+    $('nfReset').addEventListener('click', resetFromEditor);
+    $('nfUsualDays').addEventListener('change', () => { $('nfLeads').hidden = $('nfUsualDays').checked; });
+    $('nfPop').addEventListener('change', () => { $('nfPopOpts').hidden = !$('nfPop').checked; });
+    $('nfText').addEventListener('keydown', e => { if(e.key === 'Escape') closeEditor(); });
+    // tap = open its week · hold or double-tap / double-click = edit
+    const L = $('notifList');
+    let tapTimer = null, tapKey = null, holdTimer = null, held = false, startXY = null;
+    const tapOpen = key => { const it = findNotif(key); if(!it) return; const wk = weekFor(it); if(wk) openWeek(wk); else openEditor(key); };
+    L.addEventListener('pointerdown', e => {
+      const row = e.target.closest('.nf'); if(!row || e.target.closest('.nf-del')) return;
+      held = false; startXY = [e.clientX, e.clientY];
+      clearTimeout(holdTimer);
+      holdTimer = setTimeout(() => { held = true; clearTimeout(tapTimer); tapTimer = null; if(navigator.vibrate) try { navigator.vibrate(15); } catch(err){} openEditor(row.dataset.key); }, 550);
     });
-    $('nfText').addEventListener('keydown', e => { if(e.key === 'Escape') closeNf(); });
-
+    const cancelHold = () => clearTimeout(holdTimer);
+    L.addEventListener('pointerup', cancelHold); L.addEventListener('pointercancel', cancelHold); L.addEventListener('pointerleave', cancelHold);
+    L.addEventListener('pointermove', e => { if(startXY && Math.hypot(e.clientX - startXY[0], e.clientY - startXY[1]) > 10) cancelHold(); });
+    L.addEventListener('contextmenu', e => { if(e.target.closest('.nf')) e.preventDefault(); });
+    L.addEventListener('click', e => {
+      const b = e.target.closest('.nf-del'); if(b){ const it = findNotif(b.dataset.key); if(it && it.kind === 'mine'){ if(edKey === it.key) closeEditor(); remove(it.cid); } return; }
+      const row = e.target.closest('.nf'); if(!row) return;
+      if(held){ held = false; return; }
+      const key = row.dataset.key;
+      if(tapTimer && tapKey === key){ clearTimeout(tapTimer); tapTimer = null; openEditor(key); return; }
+      clearTimeout(tapTimer); tapKey = key;
+      tapTimer = setTimeout(() => { tapTimer = null; tapOpen(key); }, 280);
+    });
+    L.addEventListener('keydown', e => {
+      const row = e.target.closest('.nf'); if(!row) return;
+      if(e.key === 'Enter'){ e.preventDefault(); tapOpen(row.dataset.key); }
+      else if(e.key === 'e' || e.key === 'E'){ e.preventDefault(); openEditor(row.dataset.key); }
+    });
     if(S() && S().watch) S().watch('custom', fromCloud);
   }
 
+  window.SGNotif = { render: (showAll) => { renderList(!!showAll); renderWeeks(); }, renderWeeks, park: () => placeEditor(null), all: allNotif, open: openEditor, weekFor, openWeek };
   window.SGCustom = {
     all: () => items.map(x => Object.assign({}, x)),
     notifItems, add, update, remove,
