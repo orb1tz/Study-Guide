@@ -5,6 +5,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
+import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
@@ -60,6 +61,18 @@ function pre(){
   let html = read(file);
   if(html.includes(MARK)) return log('helper already in the page');
   const script = '<script>' + MARK + '\nwindow.SG_DATA = ' + safeJSON(courseData(html)) + ';\n(function(){\n' + notifCore(html) + '\n' + miniCore() + '\n' + read(path.join(src, 'app-helper.js')) + '\n})();\n</script>\n';
+  // no character limits anywhere in the app
+  const before = html.length;
+  html = html.replace(/(maxlength\s*=\s*)(["']?)\d+\2/gi, '$1$2' + '1000000' + '$2')
+             .replace(/(["']?maxlength["']?\s*:\s*)(["']?)\d+\2/gi, '$1$2' + '1000000' + '$2')
+             .replace(/\.maxLength\s*=\s*\d+/g, '.maxLength = 1000000');
+  log('character limits removed');
+  // very long reminders: the pop-up shows the start, the app keeps all of it (pop-ups have a size limit)
+  const end = html.indexOf('/*NOTIFCORE-END*/');
+  if(end > 0 && !html.includes('SG-POPUP-CAP')){
+    html = html.slice(0, end) + "\n/*SG-POPUP-CAP*/ NotifCore.message = (function(orig){ return function(due, today){ var m = orig(due, today); if(m){ var cut = function(t, n){ t = String(t || ''); return t.length > n ? t.slice(0, n - 1) + '…' : t; }; m.title = cut(m.title, 140); m.body = cut(m.body, 900); } return m; }; })(NotifCore.message);\n" + html.slice(end);
+    log('pop-up text capped so long notes can’t stop a pop-up');
+  }
   const at = html.lastIndexOf('</body>');
   html = at >= 0 ? html.slice(0, at) + script + html.slice(at) : html + script;
   fs.writeFileSync(file, html);
@@ -97,6 +110,17 @@ function post(){
       W('sg-list', 'My list', 'Your own to-do list — tap to tick', 'list.json', 'list.png'),
       W('sg-count', 'Exam countdown', 'Days until exams and your progress', 'count.json', 'count.png')]};
   fs.writeFileSync(path.join(dist, 'mini.webmanifest'), JSON.stringify(manifest, null, 1));
+  // course dates for the Windows widgets app, locked with your Study Guide code
+  const code = process.env.GUIDE_CODE;
+  if(code && sitePage){
+    const data = Buffer.from(JSON.stringify(courseData(sitePage)));
+    const salt = crypto.randomBytes(16), iv = crypto.randomBytes(12), iter = 310000;
+    const key = crypto.pbkdf2Sync(String(code).trim(), salt, iter, 32, 'sha256');
+    const c = crypto.createCipheriv('aes-256-gcm', key, iv);
+    const enc = Buffer.concat([c.update(data), c.final(), c.getAuthTag()]);
+    fs.writeFileSync(path.join(dist, 'widgets', 'course.enc.json'), JSON.stringify({v: 1, iter, salt: salt.toString('base64'), iv: iv.toString('base64'), data: enc.toString('base64')}));
+    log('locked course dates for the Windows app');
+  } else log('GUIDE_CODE not set — the Windows app can’t unlock course dates');
   // service worker
   const swFile = path.join(dist, 'sw.js');
   const add = read(path.join(src, 'sw-widgets.js'));

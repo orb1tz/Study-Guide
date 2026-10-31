@@ -138,6 +138,58 @@
   @keyframes land{0%{box-shadow:0 0 0 0 rgba(232,71,154,.8);} 100%{box-shadow:0 0 0 12px rgba(232,71,154,0);}}
   /* fallback when Windows won't let the page close itself: a tab inside the window */
   #tabmode{position:fixed; inset:0; z-index:30; display:flex; align-items:center; padding:6px;}
+
+  textarea.txt{height:auto; min-height:30px; padding:5px 8px; resize:none; line-height:1.35; display:block; overflow:auto;}
+  body.sticky textarea.txt{padding:2px;}
+  .over textarea.txt{border:1px solid #f5b8cf; border-radius:8px; font:700 13px 'Nunito',sans-serif; background:#fff; padding:5px 8px; color:#2b1a24;}
+  /* borderless Windows app: resize edges */
+  .rz{position:fixed; z-index:40;}
+  .rz-r{top:40px; right:0; bottom:16px; width:6px; cursor:ew-resize;} .rz-l{top:40px; left:0; bottom:16px; width:6px; cursor:ew-resize;}
+  .rz-b{left:16px; right:16px; bottom:0; height:6px; cursor:ns-resize;}
+  .rz-br{right:0; bottom:0; width:16px; height:16px; cursor:nwse-resize;} .rz-bl{left:0; bottom:0; width:16px; height:16px; cursor:nesw-resize;}
+  .rz-br::after{content:''; position:absolute; right:3px; bottom:3px; width:8px; height:8px; border-right:2px solid rgba(0,0,0,.25); border-bottom:2px solid rgba(0,0,0,.25); opacity:0; transition:opacity .15s;}
+  body:hover .rz-br::after{opacity:1;}
+  html.native body.pink #app{padding-top:0;}
+  html.native .tb{cursor:grab;} html.native .tb button{cursor:pointer;}
+  /* the dock */
+  body.dockmode{background:linear-gradient(180deg, rgba(255,255,255,.7) 0%, rgba(255,255,255,.15) 48%, rgba(255,255,255,0) 52%), linear-gradient(180deg,#f6cbe2,#e8a8cc 60%,#f5d3e6) !important;}
+  body.dockmode #app{padding:0 !important; position:static; display:inline-block;}
+  body.dockmode .tb, body.dockmode #deco{display:none !important;}
+  body.dockmode #body{background:none !important; border:none !important; padding:0 !important; overflow:visible;}
+  .dock{display:inline-flex; align-items:center; gap:6px; padding:9px 10px 11px;}
+  .dock.vert{flex-direction:column; padding:10px 9px;}
+  .di{position:relative; width:46px; height:46px; border-radius:12px; border:1px solid rgba(107,74,92,.45); display:grid; place-items:center; cursor:pointer; font-size:23px; padding:0;
+    box-shadow:0 2px 5px rgba(0,0,0,.18); transition:transform .14s ease; background:linear-gradient(180deg, rgba(255,255,255,.8) 0%, rgba(255,255,255,.25) 48%, rgba(255,255,255,0) 50%), linear-gradient(180deg,#f9b7d6,#e8479a 60%,#f08cbd);}
+  .di:hover, .di:focus-visible{transform:translateY(-3px) scale(1.08);}
+  .dock.vert .di:hover{transform:scale(1.08);}
+  .di.sticky{border-radius:3px 3px 3px 12px; background:#fff27a;} .di.sticky.c-pink{background:#ffc2dc;} .di.sticky.c-blue{background:#bfe4ff;} .di.sticky.c-green{background:#c9f2b3;} .di.sticky.c-purple{background:#e2cdfa;}
+  .di.add{background:#fff; font-weight:800; color:#c2187a;}
+  .di.warn{background:#f07a14; color:#fff; font:800 22px 'Nunito',sans-serif; animation:pulse 1.6s infinite;}
+  @keyframes pulse{50%{box-shadow:0 0 0 6px rgba(240,122,20,.25);}}
+  .di .run{position:absolute; bottom:-7px; left:50%; margin-left:-2.5px; width:5px; height:5px; border-radius:50%; background:#6b4a5c; display:none;}
+  .dock.vert .di .run{bottom:auto; top:50%; left:-7px; margin:-2.5px 0 0;}
+  .di.on .run{display:block;}
+  .di .db{position:absolute; top:-6px; right:-6px; min-width:18px; height:18px; border-radius:9px; background:#e0335a; color:#fff; font:800 10.5px 'Nunito',sans-serif; padding:0 4px; display:grid; place-items:center; box-shadow:0 1px 2px rgba(0,0,0,.3);}
+  .dsep{width:1px; align-self:stretch; background:rgba(107,74,92,.35); margin:2px;} .dock.vert .dsep{width:auto; height:1px;}
+  .dhint{font:800 12px 'Nunito',sans-serif; color:#6b4a5c; padding:0 6px; white-space:nowrap;}
+  /* gallery */
+  .gtabs{display:flex; flex-wrap:wrap; gap:4px; margin:0 0 8px; border-bottom:2px solid #f5d3e2; padding-bottom:6px;}
+  .gtabs button{border:1px solid #efc0da; background:#fff; border-radius:999px; padding:5px 12px; font:800 12.5px 'Nunito',sans-serif; cursor:pointer;}
+  .gtabs button.on{background:#e8479a; color:#fff; border-color:#a3155f;}
+  .ggrid{display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:10px;}
+  .gcard{display:flex; flex-direction:column; gap:4px; text-align:left; border:1px solid #efc0da; background:#fff; border-radius:12px; padding:8px; cursor:pointer; font:inherit;}
+  .gcard:hover{border-color:#e8479a; box-shadow:0 4px 12px rgba(232,71,154,.25); transform:translateY(-1px);}
+  .th{position:relative; height:96px; border-radius:6px; overflow:hidden; margin-bottom:2px;}
+  .th.pink{border:1px solid #6b4a5c; padding:0 3px 3px; background:linear-gradient(180deg,#f6cbe2,#e8a8cc 55%,#f5d3e6);}
+  .th.pink .th-t{font:800 10.5px 'Nunito',sans-serif; padding:4px 2px;} .th.pink .th-b{background:#f6f2f4; border:1px solid #6b4a5c; height:66px; padding:4px 5px;}
+  .th.sticky{background:#fff27a; padding:12px 8px 0; color:#3a2f12;} .th.sticky.c-pink{background:#ffc2dc;} .th.sticky.c-blue{background:#bfe4ff;} .th.sticky.c-green{background:#c9f2b3;} .th.sticky.c-purple{background:#e2cdfa;}
+  .th.sticky.lined{background-image:repeating-linear-gradient(180deg, transparent 0 15px, rgba(0,0,0,.1) 15px 16px);}
+  .th.sticky .th-t{font:700 19px 'Caveat',cursive; color:#b5341e; line-height:1;} .th.sticky .th-l{font:13px 'Patrick Hand',cursive;}
+  .th-l{font:700 10.5px 'Nunito',sans-serif; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.5;}
+  .th-tape{position:absolute; top:-3px; left:50%; width:44px; height:11px; margin-left:-22px; background:rgba(255,255,255,.6); transform:rotate(-3deg);}
+  .th-pin{position:absolute; top:2px; left:50%; width:9px; height:9px; margin-left:-4px; border-radius:50%; background:#c2187a;}
+  .step{border:1px solid #efc0da; border-radius:10px; padding:8px 10px; margin:0 0 8px; background:#fff;} .step.ok{background:#f1fbe9; border-color:#b9e3a0;}
+  .step .addb input.txt{flex:1 1 100%;}
 </style>
 </head>
 <body class="pink">
@@ -193,21 +245,29 @@
       theme: 'pink', color: 'yellow', paper: 'plain', deco: 'tape', w: preset === 'week' ? 320 : 300, h: preset === 'week' ? 520 : 380, open: true, min: false, made: Date.now()}, look || {});
   }
   const params = new URLSearchParams(location.search);
-  const SHELF = params.get('w') === 'shelf' || params.get('w') === 'home';
+  const VIEW = params.get('w');
+  const NATIVE = !!(window.chrome && window.chrome.webview);
+  const post = m => { try { window.chrome.webview.postMessage(JSON.stringify(m)); } catch(e){} };
+  const SHELF = !NATIVE && (VIEW === 'shelf' || VIEW === 'home');
+  const DOCK = NATIVE && VIEW === 'dock', GAL = NATIVE && VIEW === 'gallery';
+  const PAGE = SHELF || DOCK || GAL;
+  let dockEdge = (window.SGNative && SGNative.dock) || 'bottom';
+  if(NATIVE) document.documentElement.classList.add('native');
   let ID = params.get('id');
-  if(!SHELF && (!ID || !reg()[ID])){
+  if(!PAGE && (!ID || !reg()[ID])){
     // an old-style link (?w=next&s=sticky) or a brand new window
     const w = params.get('w'), s = params.get('s');
     ID = ID || uid();
     regPut(ID, newCfg({today: 'week'}[w] || w || 'next', s === 'sticky' ? {theme: 'sticky', color: params.get('c') || 'yellow'} : {}));
     history.replaceState(null, '', location.pathname + '?id=' + ID);
   }
-  const cfg = () => SHELF ? {title: 'My widgets', theme: 'pink'} : (reg()[ID] || newCfg('next'));
-  function save(patch){ if(!SHELF) regPut(ID, patch); }
+  const cfg = () => PAGE ? {title: GAL ? 'Study Guide Widgets' : 'My widgets', theme: 'pink'} : (reg()[ID] || newCfg('next'));
+  function save(patch){ if(!PAGE) regPut(ID, patch); }
 
   function winURL(id){ return new URL('mini.html?id=' + encodeURIComponent(id), location.href).href; }
   function openWin(id, focusMsg){
     const c = regPut(id, {open: true, min: false});
+    if(NATIVE){ post(Object.assign({cmd: 'show', id, w: c.w || 300, h: c.h || 380, on: !!c.top}, c.x != null && c.y != null ? {x: c.x, y: c.y} : {})); return true; }
     let f = 'popup=yes,width=' + Math.round(c.w || 300) + ',height=' + Math.round(c.h || 380);
     if(c.x != null && c.y != null) f += ',left=' + Math.round(c.x) + ',top=' + Math.round(c.y);
     const w = window.open(winURL(id), 'sgw_' + id, f);
@@ -230,17 +290,20 @@
   if(bc) bc.onmessage = e => {
     const d = e.data || {};
     if(SHELF && d.type === 'shelf?'){ bc.postMessage({type: 'shelf-here'}); if(d.from){ landed = d.from; render(); } }
-    if(!SHELF && d.type === 'close' && d.id === ID){ save({open: false}); window.close(); }
+    if(!PAGE && !NATIVE && d.type === 'close' && d.id === ID){ save({open: false}); window.close(); }
   };
 
   // ---------- look ----------
+  let lastRound = null;
   function applyLook(){
-    const c = cfg(), sticky = !SHELF && c.theme === 'sticky';
+    const c = cfg(), sticky = !PAGE && c.theme === 'sticky';
     document.body.className = (sticky ? 'sticky c-' + c.color + (c.paper === 'lined' ? ' lined' : '') : 'pink');
     const d = $('deco'); d.hidden = !sticky || c.deco === 'none'; d.className = 'deco ' + c.deco;
     $('ttl').textContent = c.title || 'Study Guide';
-    document.title = (c.title || 'Study Guide') + (SHELF ? '' : ' · Study Guide');
-    $('bGear').hidden = SHELF; $('bCopy').hidden = SHELF; $('bMin').hidden = SHELF; $('bHome').hidden = SHELF;
+    document.title = (c.title || 'Study Guide') + (PAGE ? '' : ' · Study Guide');
+    $('bGear').hidden = PAGE; $('bCopy').hidden = PAGE; $('bMin').hidden = PAGE; $('bHome').hidden = PAGE || NATIVE;
+    if(DOCK) document.body.classList.add('dockmode');
+    if(NATIVE && !PAGE && lastRound !== !sticky){ lastRound = !sticky; post({cmd: 'corners', round: !sticky}); }
   }
 
   // ---------- data: your account (live) or this device ----------
@@ -281,9 +344,10 @@
     try {
       const fb = await loadSDK(); const app = fb.a.initializeApp(conf); const auth = fb.au.getAuth(app);
       let db; try { db = fb.fs.initializeFirestore(app, {localCache: fb.fs.persistentLocalCache({tabManager: fb.fs.persistentMultipleTabManager()})}); } catch(e){ db = fb.fs.getFirestore(app); }
-      S.fb = fb; S.db = db; let unsubs = [];
+      S.fb = fb; S.db = db; S.auth = auth; let unsubs = [];
       fb.au.onAuthStateChanged(auth, u => {
         unsubs.forEach(f => { try { f(); } catch(e){} }); unsubs = [];
+        S.email = u ? u.email : ''; S.authKnown = true;
         if(!u){ S.mode = 'local'; S.uid = null; loadLocal(); render(); setDot(); return; }
         S.mode = 'cloud'; S.uid = u.uid; setDot();
         unsubs.push(fb.fs.onSnapshot(udoc(), snap => { if(snap.exists() || !snap.metadata.fromCache){ S.state = (snap.exists() && snap.data().state) || {}; render(); } }, e => console.warn(e)));
@@ -312,6 +376,7 @@
   let acked = false;
   if(app) app.onmessage = e => { if(e.data && e.data.type === 'ack') acked = true; };
   function openApp(hash){
+    if(NATIVE){ post({cmd: 'app', hash: hash || ''}); return; }
     acked = false; if(app && hash) app.postMessage({type: 'open', hash});
     setTimeout(() => { if(!acked) window.open(new URL('./' + (hash ? '#' + hash : ''), location.href).href, 'sg_main'); }, app && hash ? 350 : 0);
   }
@@ -328,12 +393,13 @@
     kids.flat().forEach(c => { if(c != null && c !== false) e.append(c); });
     return e;
   }
+  function grow(t){ const fit = () => { t.style.height = 'auto'; t.style.height = Math.min(t.scrollHeight + 2, 320) + 'px'; }; t.addEventListener('input', fit); setTimeout(fit, 0); return t; }
   function taskRow(fid, text, done, onToggle, extras){
     const cb = el('input', {type: 'checkbox', id: fid}); cb.checked = !!done; cb.addEventListener('change', () => onToggle(cb.checked));
     return el('div', {class: 'task' + (done ? ' done' : '')}, cb, el('label', {for: fid, text}), extras || []);
   }
   function addBox(fid, ph, onAdd, extra){
-    const inp = el('input', {class: 'txt', placeholder: ph, maxlength: '200', 'data-fid': fid, 'aria-label': ph});
+    const inp = el('input', {class: 'txt', placeholder: ph, 'data-fid': fid, 'aria-label': ph});
     const ex = extra ? extra() : [];
     const go = () => { const t = inp.value.trim(); if(!t){ inp.focus(); return; } const vals = ex.map(x => x.value); inp.value = ''; ex.forEach(x => { if(x.tagName !== 'SELECT') x.value = ''; }); onAdd(t, vals); const again = document.querySelector('[data-fid="' + fid + '"]'); if(again) again.focus(); };
     inp.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); go(); } });
@@ -391,9 +457,9 @@
       if(!M.list.length) box.append(el('div', {class: 'empty', text: 'Nothing on your list yet.'}));
       M.list.forEach(it => {
         if(editingList === it.id){
-          const inp = el('input', {class: 'txt', value: it.text, 'data-fid': ID + 'ed' + it.id, style: 'flex:1'});
+          const inp = grow(el('textarea', {class: 'txt', rows: '2', 'data-fid': ID + 'ed' + it.id, style: 'flex:1'})); inp.value = it.text;
           const fin = ok => { const t = inp.value.trim(); editingList = null; if(ok && t && t !== it.text) W.customPut({id: it.id, kind: 'now', text: t}); else render(); };
-          inp.addEventListener('keydown', e => { if(e.key === 'Enter') fin(true); if(e.key === 'Escape') fin(false); });
+          inp.addEventListener('keydown', e => { if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); fin(true); } if(e.key === 'Escape') fin(false); });
           box.append(el('div', {class: 'task'}, inp, el('button', {class: 'gel', type: 'button', text: 'Save', onclick: () => fin(true)}), el('button', {class: 'mini', type: 'button', text: '×', 'aria-label': 'Cancel', onclick: () => fin(false)})));
           setTimeout(() => { if(document.activeElement !== inp) inp.focus(); }, 0);
           return;
@@ -447,6 +513,155 @@
       openWin(id); render(); }}))));
     v.append(el('div', {class: 'hint', text: 'Tip: keep this window open; minimised windows wait here.'}));
   }
+
+  // ================= the dock (Windows app) =================
+  let restored = false, lastDockSize = '';
+  window.__sgDock = edge => { dockEdge = edge; lastDockSize = ''; render(); };
+  const setupNeeded = () => !HAVE_COURSE || !(LSget('sg_fbconfig_v1', null) || {}).apiKey;
+  function shortBadge(c){ const b = badge(c); const m = /^(\d+)/.exec(b); return m ? m[1] : ''; }
+  function renderDock(v){
+    const r = reg(), ids = Object.keys(r).sort((a, b) => (r[a].made || 0) - (r[b].made || 0));
+    const vert = dockEdge === 'left' || dockEdge === 'right';
+    const bar = el('div', {class: 'dock' + (vert ? ' vert' : '')});
+    const dbtn = (txt, tip, fn, cls) => el('button', {type: 'button', class: 'di ' + (cls || ''), title: tip, 'aria-label': tip, onclick: fn}, el('span', {text: txt}));
+    const sep = () => el('span', {class: 'dsep'});
+    bar.append(dbtn('＋', 'Add a widget', () => post({cmd: 'gallery', view: 'add'}), 'add'), sep());
+    ids.forEach(id => {
+      const c = r[id], live = c.open && !c.min, b = shortBadge(c);
+      bar.append(el('button', {type: 'button', class: 'di ' + (c.theme === 'sticky' ? 'sticky c-' + c.color : 'pink') + (live ? ' on' : ''),
+        title: (c.title || 'Widget') + (live ? ' — tap to minimise' : ' — tap to show'), 'aria-label': c.title || 'Widget',
+        onclick: () => { const cur = reg()[id]; if(cur && cur.open && !cur.min){ regPut(id, {min: true, minAt: Date.now()}); post({cmd: 'hideid', id}); render(); } else { openWin(id); render(); } }},
+        el('span', {text: iconOf(c)}), b ? el('span', {class: 'db', text: b}) : null, el('i', {class: 'run'})));
+    });
+    if(!ids.length) bar.append(el('span', {class: 'dhint', text: vert ? '' : 'Tap ＋ to add a widget'}));
+    bar.append(sep(), dbtn('♡', 'Open the Study Guide', () => post({cmd: 'app'})), dbtn('⚙', 'Settings & set up', () => post({cmd: 'gallery', view: setupNeeded() ? 'setup' : 'mine'})));
+    if(setupNeeded()) bar.append(dbtn('!', 'Finish setting up', () => post({cmd: 'gallery', view: 'setup'}), 'warn'));
+    v.append(bar);
+    requestAnimationFrame(() => { const rc = bar.getBoundingClientRect(), k = Math.ceil(rc.width) + 'x' + Math.ceil(rc.height) + dockEdge;
+      if(k !== lastDockSize){ lastDockSize = k; post({cmd: 'docksize', w: Math.ceil(rc.width), h: Math.ceil(rc.height)}); } });
+    if(!restored){
+      restored = true;
+      const list = ids.filter(id => r[id].open && !r[id].min).map(id => { const c = r[id]; return Object.assign({cmd: 'show', id, w: c.w || 300, h: c.h || 380, on: !!c.top}, c.x != null && c.y != null ? {x: c.x, y: c.y} : {}); });
+      if(list.length) post({cmd: 'restore', list});
+      if(setupNeeded()) setTimeout(() => post({cmd: 'gallery', view: 'setup'}), 600);
+      else if(!ids.length) setTimeout(() => post({cmd: 'gallery', view: 'add'}), 600);
+    }
+  }
+
+  // ================= gallery: add widgets, my widgets, settings, set up =================
+  let tab = params.get('tab') || 'add', galLook = {theme: 'pink', color: 'yellow', paper: 'plain', deco: 'tape'}, galMsg = '', setupMsg = {};
+  const DESC = {next: 'Your next reminders and deadlines', week: 'This week’s classes, learning outcomes & homework', list: 'Your own to-do list', count: 'Days to exams, progress & key dates', home: 'All your homework in one place', blank: 'Start empty and pick what shows'};
+  function thumb(p){
+    const pr = PRESETS[p], st = galLook.theme === 'sticky';
+    const t = el('div', {class: 'th ' + (st ? 'sticky c-' + galLook.color + (galLook.paper === 'lined' ? ' lined' : '') : 'pink')});
+    t.append(el('div', {class: 'th-t', text: (st ? '' : '♡ ') + pr.title}));
+    const body = el('div', {class: 'th-b'});
+    (pr.on.length ? pr.on : ['?']).slice(0, 3).forEach(k => body.append(el('div', {class: 'th-l', text: k === '?' ? '✨ you choose' : SECTIONS[k].replace(/ \(.*\)$/, '')})));
+    t.append(body);
+    if(st && galLook.deco !== 'none') t.append(el('i', {class: 'th-' + galLook.deco}));
+    return t;
+  }
+  function renderGallery(v){
+    const tabs = [['add', '＋ Add widgets'], ['mine', '🪟 My widgets'], ['settings', '⚙ Settings'], ['setup', '🔑 Set up' + (setupNeeded() ? ' !' : '')]];
+    v.append(el('div', {class: 'gtabs'}, tabs.map(([k, n]) => el('button', {type: 'button', class: tab === k ? 'on' : '', text: n, onclick: () => { tab = k; galMsg = ''; render(); }}))));
+    if(galMsg) v.append(el('div', {class: 'note', role: 'status', text: galMsg}));
+    const seg = (opts, cur, set) => el('div', {class: 'seg'}, opts.map(([val, t]) => el('button', {type: 'button', class: val === cur ? 'on' : '', text: t, onclick: () => { set(val); render(); }})));
+    if(tab === 'add'){
+      v.append(el('div', {class: 'grp', text: 'Look'}), seg([['pink', 'Pink'], ['sticky', 'Sticky note']], galLook.theme, x => galLook.theme = x));
+      if(galLook.theme === 'sticky'){
+        v.append(el('div', {class: 'seg', style: 'margin-top:6px'}, [['yellow', '#fff27a'], ['pink', '#ffc2dc'], ['blue', '#bfe4ff'], ['green', '#c9f2b3'], ['purple', '#e2cdfa']]
+          .map(([col, hex]) => el('button', {class: 'sw' + (galLook.color === col ? ' on' : ''), type: 'button', style: 'background:' + hex, 'aria-label': col, onclick: () => { galLook.color = col; render(); }}))),
+          el('div', {style: 'display:flex;gap:10px;flex-wrap:wrap;margin-top:6px'}, seg([['plain', 'Plain'], ['lined', 'Lined']], galLook.paper, x => galLook.paper = x), seg([['tape', 'Tape'], ['pin', 'Pin'], ['none', 'No top']], galLook.deco, x => galLook.deco = x)));
+      }
+      v.append(el('div', {class: 'grp', text: 'Tap a widget to put it on your desktop (add as many as you like)'}));
+      v.append(el('div', {class: 'ggrid'}, PRESET_BTNS.map(([p, n]) => el('button', {type: 'button', class: 'gcard', onclick: () => {
+        const id = uid();
+        regPut(id, newCfg(p, galLook.theme === 'sticky' ? {theme: 'sticky', color: galLook.color, paper: galLook.paper, deco: galLook.deco} : {}));
+        openWin(id); galMsg = '✓ Added “' + PRESETS[p].title + '” — it’s in the middle of your screen. Drag it by the top to move it; ⚙ on it chooses what shows.'; render();
+      }}, thumb(p), el('b', {text: n}), el('span', {class: 'muted small', text: DESC[p]})))));
+    } else if(tab === 'mine'){
+      const r = reg(), ids = Object.keys(r).sort((a, b) => (r[a].made || 0) - (r[b].made || 0));
+      if(!ids.length) v.append(el('div', {class: 'empty', text: 'No widgets yet — go to “＋ Add widgets”.'}));
+      else v.append(el('div', {class: 'seg', style: 'margin:6px 0'}, el('button', {type: 'button', text: 'Show all', onclick: () => { ids.forEach(id => openWin(id)); render(); }}),
+        el('button', {type: 'button', text: 'Minimise all', onclick: () => { ids.forEach(id => { regPut(id, {min: true, minAt: Date.now()}); post({cmd: 'hideid', id}); }); render(); }})));
+      ids.forEach(id => { const c = r[id], live = c.open && !c.min;
+        v.append(el('div', {class: 'wrow'}, el('span', {text: iconOf(c)}), el('span', {class: 'nm', text: (c.title || 'Widget') + (live ? '' : c.min ? ' · minimised' : ' · closed')}),
+          live ? el('button', {class: 'gel grey', type: 'button', text: 'Minimise', onclick: () => { regPut(id, {min: true, minAt: Date.now()}); post({cmd: 'hideid', id}); render(); }})
+               : el('button', {class: 'gel', type: 'button', text: 'Show', onclick: () => { openWin(id); render(); }}),
+          el('button', {class: 'mini', type: 'button', text: '🗑', title: 'Delete', 'aria-label': 'Delete ' + (c.title || 'widget'), onclick: () => { post({cmd: 'remove', id}); regDel(id); render(); }}))); });
+    } else if(tab === 'settings'){
+      v.append(el('div', {class: 'grp', text: 'Dock position'}), seg([['bottom', 'Bottom'], ['left', 'Left'], ['right', 'Right'], ['top', 'Top']], dockEdge, x => { dockEdge = x; post({cmd: 'dockedge', edge: x}); }));
+      const auto = el('input', {type: 'checkbox'}); auto.checked = !!(window.SGNative && SGNative.autostart);
+      auto.addEventListener('change', () => { post({cmd: 'autostart', on: auto.checked}); if(window.SGNative) SGNative.autostart = auto.checked; });
+      v.append(el('div', {class: 'grp', text: 'Start-up'}), el('label', {class: 'chk'}, auto, 'Start Study Guide Widgets when I turn on the laptop'));
+      const addr = el('input', {class: 'txt', value: location.origin.replace(/^https?:\/\//, ''), 'aria-label': 'Study Guide web address'});
+      v.append(el('div', {class: 'grp', text: 'Study Guide web address'}), el('div', {class: 'addb'}, addr, el('button', {class: 'gel', type: 'button', text: 'Save', onclick: () => post({cmd: 'seturl', url: addr.value})})));
+      v.append(el('div', {class: 'grp', text: 'Close'}), el('button', {class: 'gel grey', type: 'button', text: 'Quit Study Guide Widgets', onclick: () => post({cmd: 'quit'})}),
+        el('div', {class: 'muted small', style: 'margin-top:4px', text: 'Your widgets come back where you left them next time it starts.'}));
+    } else renderSetup(v);
+  }
+
+  // ---------- set up: course dates (code), sync link, sign in ----------
+  const b64 = x => Uint8Array.from(atob(x), c => c.charCodeAt(0));
+  async function unlock(code){
+    const r = await fetch('widgets/course.enc.json', {cache: 'no-store'});
+    if(!r.ok) throw new Error('missing');
+    const j = await r.json();
+    const km = await crypto.subtle.importKey('raw', new TextEncoder().encode(String(code).trim()), 'PBKDF2', false, ['deriveKey']);
+    const key = await crypto.subtle.deriveKey({name: 'PBKDF2', salt: b64(j.salt), iterations: j.iter, hash: 'SHA-256'}, km, {name: 'AES-GCM', length: 256}, false, ['decrypt']);
+    const pt = await crypto.subtle.decrypt({name: 'AES-GCM', iv: b64(j.iv)}, key, b64(j.data));
+    LSset('sg_data_v1', JSON.parse(new TextDecoder().decode(pt)));
+  }
+  function parseConfig(t){
+    t = String(t || '').trim();
+    const m = /cfg=([^&\s]+)/.exec(t), raw = m ? m[1] : t, cands = [raw];
+    try { cands.push(decodeURIComponent(raw)); } catch(e){}
+    cands.slice().forEach(c => { try { cands.push(atob(c.replace(/-/g, '+').replace(/_/g, '/').replace(/\s/g, ''))); } catch(e){} });
+    cands.slice().forEach(c => { try { cands.push(decodeURIComponent(escape(c))); } catch(e){} });
+    for(const c of cands){ try { const o = JSON.parse(c), f = o && o.apiKey ? o : o && (o.firebaseConfig || o.config || o.cfg); if(f && f.apiKey && f.projectId) return f; } catch(e){} }
+    const o = {};
+    ['apiKey', 'authDomain', 'projectId', 'storageBucket', 'messagingSenderId', 'appId', 'measurementId'].forEach(k => { const r = new RegExp('["\']?' + k + '["\']?\\s*:\\s*["\']([^"\']+)').exec(t); if(r) o[k] = r[1]; });
+    return o.apiKey && o.projectId ? o : null;
+  }
+  const AUTH_ERR = {'auth/invalid-credential': 'That email or password isn’t right.', 'auth/wrong-password': 'That password isn’t right.', 'auth/user-not-found': 'There’s no account with that email.',
+    'auth/invalid-email': 'That email address doesn’t look right.', 'auth/too-many-requests': 'Too many tries — wait a few minutes and try again.', 'auth/network-request-failed': 'No internet connection — check your Wi-Fi.',
+    'auth/missing-password': 'Type your password.', 'auth/unauthorized-domain': 'This address isn’t allowed in Firebase yet (Authentication → Settings → Authorized domains).'};
+  function renderSetup(v){
+    const step = (n, title, ok, body) => el('div', {class: 'step' + (ok ? ' ok' : '')}, el('div', {class: 'sh'}, el('span', {text: (ok ? '✓ ' : n + '. ') + title})), body);
+    const msg = k => setupMsg[k] ? el('div', {class: 'msg', role: 'alert', text: setupMsg[k]}) : null;
+    // 1 course dates
+    const code = el('input', {class: 'txt', type: 'password', placeholder: 'Your Study Guide code', 'aria-label': 'Your Study Guide code', 'data-fid': 'code'});
+    const goCode = async () => { setupMsg.code = 'Checking…'; render(); try { await unlock(code.value); setupMsg.code = ''; post({cmd: 'reloadall'}); location.reload(); } catch(e){ setupMsg.code = e.message === 'missing' ? 'The website hasn’t been updated yet — wait for Netlify to finish, then try again.' : 'That code didn’t work — try again.'; render(); } };
+    code.addEventListener('keydown', e => { if(e.key === 'Enter') goCode(); });
+    v.append(step(1, 'Course dates', HAVE_COURSE, HAVE_COURSE ? el('div', {class: 'muted small', text: 'Unlocked on this laptop.'}) :
+      el('div', {}, el('div', {class: 'muted small', text: 'Type the code you use to open the Study Guide.'}), el('div', {class: 'addb'}, code, el('button', {class: 'gel', type: 'button', text: 'Unlock', onclick: goCode})), msg('code'))));
+    // 2 sync link
+    const conf = LSget('sg_fbconfig_v1', null), hasConf = !!(conf && conf.apiKey);
+    const link = grow(el('textarea', {class: 'txt', rows: '2', placeholder: 'Paste the link here', 'aria-label': 'Sync link', 'data-fid': 'link'}));
+    const goLink = () => { const c = parseConfig(link.value); if(!c){ setupMsg.link = 'That doesn’t look like the sync link. In the Study Guide, open Sync and tap “Copy link for my other devices”, then paste it here.'; render(); return; }
+      LSset('sg_fbconfig_v1', c); setupMsg.link = ''; post({cmd: 'reloadall'}); location.reload(); };
+    v.append(step(2, 'Connect to your account', hasConf, hasConf ? el('div', {class: 'muted small'}, 'Connected to ' + (conf.projectId || 'your Firebase') + '. ', el('button', {class: 'link', type: 'button', text: 'Change', onclick: () => { LSset('sg_fbconfig_v1', null); render(); }})) :
+      el('div', {}, el('div', {class: 'muted small', text: 'In the Study Guide app on this laptop, open Sync → “Copy link for my other devices”. Paste it here.'}), link, el('div', {class: 'ebtns'}, el('button', {class: 'gel', type: 'button', text: 'Connect', onclick: goLink})), msg('link'))));
+    // 3 sign in
+    if(hasConf){
+      const signed = S.mode === 'cloud';
+      const em = el('input', {class: 'txt', type: 'email', placeholder: 'Email', 'aria-label': 'Email', 'data-fid': 'em', autocomplete: 'username'});
+      const pw = el('input', {class: 'txt', type: 'password', placeholder: 'Password', 'aria-label': 'Password', 'data-fid': 'pw', autocomplete: 'current-password'});
+      const goIn = async () => {
+        if(!S.auth){ setupMsg.auth = 'Still connecting — try again in a moment.'; render(); return; }
+        setupMsg.auth = 'Signing in…'; render();
+        try { await S.fb.au.signInWithEmailAndPassword(S.auth, em.value.trim(), pw.value); setupMsg.auth = ''; post({cmd: 'reloadall'}); render(); }
+        catch(e){ setupMsg.auth = AUTH_ERR[e.code] || ('Couldn’t sign in (' + (e.code || e.message) + ').'); render(); }
+      };
+      pw.addEventListener('keydown', e => { if(e.key === 'Enter') goIn(); });
+      v.append(step(3, 'Sign in (same as the Study Guide)', signed, signed ? el('div', {class: 'muted small'}, 'Signed in as ' + (S.email || 'you') + ' — your widgets sync live. ',
+          el('button', {class: 'link', type: 'button', text: 'Sign out', onclick: () => S.fb.au.signOut(S.auth).then(() => post({cmd: 'reloadall'}))})) :
+        el('div', {}, el('div', {class: 'addb'}, em), el('div', {class: 'addb'}, pw), el('div', {class: 'ebtns'}, el('button', {class: 'gel', type: 'button', text: 'Sign in', onclick: goIn}),
+          el('button', {class: 'link', type: 'button', text: 'Forgot password?', onclick: async () => { try { await S.fb.au.sendPasswordResetEmail(S.auth, em.value.trim()); setupMsg.auth = 'Check your email for a reset link.'; } catch(e){ setupMsg.auth = AUTH_ERR[e.code] || 'Type your email first.'; } render(); }})), msg('auth'))));
+    }
+    if(HAVE_COURSE && hasConf && S.mode === 'cloud') v.append(el('div', {class: 'note', style: 'margin-top:10px', text: 'All set ✨ Go to “＋ Add widgets” to put widgets on your desktop.'}));
+  }
+
   function render(){
     if(!window.NotifCore || !window.MiniCore) return;
     if(!document.getElementById('panel').hidden && document.activeElement && document.getElementById('panel').contains(document.activeElement)) { M = MiniCore.model({state: S.state, homework: S.homework, custom: S.custom}); return; }
@@ -454,12 +669,14 @@
     applyLook();
     const v = $('view');
     const a = document.activeElement, fid = a && a.dataset && a.dataset.fid;
-    const keep = {}; v.querySelectorAll('[data-fid]').forEach(i => { if(i.value) keep[i.dataset.fid] = i.value; });
+    const keep = {}; v.querySelectorAll('[data-fid]').forEach(i => { if(i.value && i.type !== 'checkbox') keep[i.dataset.fid] = i.value; });
     const pos = fid && a.selectionStart != null ? a.selectionStart : null;
     v.textContent = '';
-    if(sayMsg) v.append(el('div', {class: 'note', role: 'status', text: sayMsg}));
-    if(!HAVE_COURSE) v.append(el('div', {class: 'note', text: 'Open the Study Guide once on this computer so the course dates show here.'}));
+    if(sayMsg && !DOCK) v.append(el('div', {class: 'note', role: 'status', text: sayMsg}));
+    if(!HAVE_COURSE && !PAGE) v.append(el('div', {class: 'note', text: NATIVE ? 'Tap ⚙ on the dock → Set up, and enter your code to show the course dates.' : 'Open the Study Guide once on this computer so the course dates show here.'}));
     if(SHELF) renderShelf(v);
+    else if(DOCK) renderDock(v);
+    else if(GAL) renderGallery(v);
     else {
       const c = cfg(), shown = (c.order || ALL).filter(k => (c.on || []).includes(k));
       if(!shown.length) v.append(el('div', {class: 'empty', text: 'Nothing chosen yet. Tap ⚙ to choose what shows.'}));
@@ -501,7 +718,7 @@
     const c = cfg();
     P.textContent = '';
     P.append(el('h3', {}, el('span', {text: '⚙ This window'}), el('button', {class: 'gel', type: 'button', text: 'Done', onclick: closePanel})));
-    const ti = el('input', {class: 'txt', value: c.title || '', maxlength: '40', 'aria-label': 'Window name'});
+    const ti = el('input', {class: 'txt', value: c.title || '', 'aria-label': 'Window name'});
     ti.addEventListener('input', () => { save({title: ti.value}); applyLook(); });
     P.append(el('label', {class: 'f', text: 'Name'}, ti));
     P.append(el('div', {class: 'grp', text: 'Show (tick what you want · ↑↓ to reorder)'}));
@@ -523,7 +740,12 @@
       P.append(el('div', {class: 'grp', text: 'Paper'}), seg([['plain', 'Plain'], ['lined', 'Lined']], c.paper, 'paper'));
       P.append(el('div', {class: 'grp', text: 'Top'}), seg([['tape', 'Tape'], ['pin', 'Pin'], ['none', 'None']], c.deco, 'deco'));
     }
-    P.append(el('div', {class: 'grp', text: 'More'}), el('button', {class: 'link', type: 'button', text: '♡ All my widgets (the shelf)', onclick: () => { if(!openShelf()) say('Edge blocked the shelf window — choose “Always allow” pop-ups.'); }}));
+    if(NATIVE){
+      const top = el('input', {type: 'checkbox'}); top.checked = !!c.top;
+      top.addEventListener('change', () => { save({top: top.checked}); post({cmd: 'top', on: top.checked}); });
+      P.append(el('div', {class: 'grp', text: 'Position'}), el('label', {class: 'chk'}, top, '📌 Keep on top of other windows'),
+        el('div', {class: 'muted small', style: 'margin-top:4px', text: 'Move it by dragging the top. Resize it from any edge or the bottom corners.'}));
+    } else P.append(el('div', {class: 'grp', text: 'More'}), el('button', {class: 'link', type: 'button', text: '♡ All my widgets (the shelf)', onclick: () => { if(!openShelf()) say('Edge blocked the shelf window — choose “Always allow” pop-ups.'); }}));
     P.hidden = false;
   }
 
@@ -535,11 +757,11 @@
     const u = LSget('sg_mini_usual', {time: '08:00', leads: NotifCore.DEFAULT_LEADS});
     const v = it || {t: '', date: MiniCore.todayISO(), note: '', time: '', repeat: 'none', off: false, kind: 'mine'};
     P.textContent = '';
-    const txt = el('input', {class: 'txt', value: it ? (it.rawText != null ? it.rawText : it.t) : '', maxlength: '140'});
+    const txt = grow(el('textarea', {class: 'txt', rows: '2'})); txt.value = it ? (it.rawText != null ? it.rawText : it.t) : '';
     const dt = el('input', {class: 'txt', type: 'date', value: v.date || ''});
     const wk = el('select', {class: 'txt'}, el('option', {value: '', text: 'No particular week'}),
       [['pay', '📙 Payroll'], ['bk', '📗 Bookkeeping']].map(([s, n]) => MiniCore.weeks(s).map(w => el('option', {value: s + w.n, text: n + ' · Week ' + w.n + ' (' + fmt(w.date) + ')', selected: (v.week || '') === s + w.n}))));
-    const note = el('input', {class: 'txt', value: v.note || '', maxlength: '140', placeholder: 'optional — shown in the pop-up'});
+    const note = grow(el('textarea', {class: 'txt', rows: '2', placeholder: 'optional — as long as you like; the pop-up shows the start of it'})); note.value = v.note || '';
     const pop = el('input', {type: 'checkbox'}); pop.checked = !v.off;
     const usual = el('input', {type: 'checkbox'}); usual.checked = !(v.leads && v.leads.length);
     const chips = el('div', {class: 'chips'}, [[14, '2 weeks'], [7, 'a week'], [3, '3 days'], [2, '2 days'], [1, 'day before'], [0, 'on the day']].map(([n, t]) => {
@@ -592,11 +814,13 @@
     openWin(id);
   });
   $('bClose').addEventListener('click', () => {
-    if(!SHELF) save({open: false});
+    if(!PAGE) save({open: false});
+    if(NATIVE){ post({cmd: 'close'}); return; }
     window.close();
     setTimeout(() => say('Windows wouldn’t let this close itself — use the × at the very top of the window.'), 300);
   });
   async function minimise(){
+    if(NATIVE){ save({min: true, minAt: Date.now()}); post({cmd: 'hide'}); return; }
     save({min: true, open: false, minAt: Date.now()});
     const there = await pingShelf();
     if(!there) openShelf();
@@ -612,10 +836,18 @@
     try { window.resizeTo(260, 100); } catch(e){}
   }
   $('bMin').addEventListener('click', minimise);
-  $('ttl').addEventListener('dblclick', () => { if(!SHELF) minimise(); });
+  $('ttl').addEventListener('dblclick', () => { if(!PAGE) minimise(); });
+  // borderless windows: drag by the top, resize from the edges
+  if(NATIVE && !DOCK){
+    document.querySelector('.tb').addEventListener('pointerdown', e => { if(e.button === 0 && !e.target.closest('button,input,select,textarea')){ e.preventDefault(); post({cmd: 'drag'}); } });
+    [['rz-r', 11], ['rz-b', 15], ['rz-l', 10], ['rz-br', 17], ['rz-bl', 16]].forEach(([c, ht]) => {
+      const g = el('div', {class: 'rz ' + c, title: 'Drag to resize'}); g.addEventListener('pointerdown', e => { if(e.button === 0){ e.preventDefault(); post({cmd: 'resize', ht}); } }); document.body.append(g); });
+    window.__sgGeom = (x, y, w, h) => { if(!PAGE) save({x, y, w, h}); };
+    if(!PAGE) setTimeout(() => post({cmd: 'geom'}), 800);
+  }
 
   // remember where this window sits and its size
-  if(!SHELF){
+  if(!PAGE && !NATIVE){
     let last = '';
     const track2 = () => {
       if(!$('tabmode').hidden) return;
@@ -641,7 +873,7 @@
   function applyQueue(){ MiniCore.takeQueue().then(q => q.forEach(applyAction)); }
   if(navigator.serviceWorker){
     navigator.serviceWorker.addEventListener('message', e => { if(e.data && e.data.type === 'sg-widget-action') applyAction(e.data.action); });
-    if(SHELF) navigator.serviceWorker.register('sw.js').then(r => { if(r.periodicSync) r.periodicSync.register('sg-widgets', {minInterval: 15 * 60 * 1000}).catch(() => {}); }).catch(() => {});
+    if(SHELF || DOCK) navigator.serviceWorker.register('sw.js').then(r => { if(r.periodicSync) r.periodicSync.register('sg-widgets', {minInterval: 15 * 60 * 1000}).catch(() => {}); }).catch(() => {});
   }
 
   // ---------- start ----------
