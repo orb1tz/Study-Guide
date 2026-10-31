@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Study Guide widgets</title>
+<link rel="manifest" href="mini.webmanifest">
+<link rel="icon" type="image/png" href="/*ICON*/">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Patrick+Hand&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html, body{margin:0; height:100%;}
+  body{font-family:'Nunito','Segoe UI',system-ui,sans-serif; font-size:13.5px; overflow:hidden;}
+  [hidden]{display:none !important;}
+  button{font:inherit; color:inherit;}
+  #app{position:fixed; inset:0; display:flex; flex-direction:column; overflow:hidden;}
+  .tb{flex:none; display:flex; align-items:center; gap:3px; user-select:none;}
+  .ttl{flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .ib{flex:none; width:27px; height:27px; border:none; border-radius:50%; background:transparent; cursor:pointer; font-size:13px; opacity:.75; line-height:1; padding:0;}
+  .ib:hover, .ib:focus-visible{opacity:1; background:rgba(255,255,255,.55);}
+  .ib.minb{font-size:18px; font-weight:800;} .ib.minb:hover{background:#fff; box-shadow:0 0 0 1px rgba(0,0,0,.15);}
+  .ib.close:hover{background:#e0335a; color:#fff;}
+  .dot{width:8px; height:8px; border-radius:50%; background:#9e9aa0; flex:none; margin:0 3px;} .dot.live{background:#3fa81c;} .dot.saving{background:#f07a14;}
+  #body{flex:1; overflow:auto; overscroll-behavior:contain;}
+
+  /* pink: the window is the panel */
+  body.pink{--ink:#2b1a24; --sub:#7a5a6b; --link:#c2187a; --line:#f5d3e2; --fl:#f5b8cf; color:var(--ink);
+    background:linear-gradient(105deg, rgba(255,255,255,0) 18%, rgba(255,255,255,.5) 23%, rgba(255,255,255,0) 30%, rgba(255,255,255,0) 58%, rgba(255,255,255,.4) 62%, rgba(255,255,255,0) 68%), linear-gradient(180deg,#f6cbe2 0%,#e8a8cc 38%,#f5d3e6 70%,#eab0d1 100%);}
+  body.pink #app{padding:0 5px 5px;}
+  body.pink .tb{height:32px; padding-left:4px; font-weight:800; font-size:12.5px; text-shadow:0 0 6px #fff;}
+  body.pink .ttl::before{content:'♡ ';}
+  body.pink #body{background:#f6f2f4; border:1px solid #6b4a5c; border-radius:2px; padding:8px 10px 10px;}
+
+  /* sticky note: the window is the paper */
+  body.sticky{--paper:#fff27a; --paper2:#ffe94a; --ink:#3a2f12; --sub:#6b5d2c; --line:rgba(80,70,20,.17); --link:#b5341e; --fl:rgba(80,70,20,.3);
+    color:var(--ink); font-family:'Patrick Hand','Comic Sans MS',cursive; font-size:17px; line-height:1.3; background:linear-gradient(170deg,var(--paper) 0%,var(--paper2) 100%);}
+  body.sticky.c-pink{--paper:#ffc2dc; --paper2:#ffa8cc; --ink:#4a1730; --sub:#7a3a5a; --line:rgba(120,20,70,.15); --link:#c2187a; --fl:rgba(120,20,70,.3);}
+  body.sticky.c-blue{--paper:#bfe4ff; --paper2:#a3d4fb; --ink:#13324d; --sub:#355a7a; --line:rgba(20,60,110,.16); --link:#1c5ea3; --fl:rgba(20,60,110,.3);}
+  body.sticky.c-green{--paper:#c9f2b3; --paper2:#b2e996; --ink:#1f3b12; --sub:#46632f; --line:rgba(40,90,20,.16); --link:#2f7a14; --fl:rgba(40,90,20,.3);}
+  body.sticky.c-purple{--paper:#e2cdfa; --paper2:#d2b4f5; --ink:#33184f; --sub:#5d4378; --line:rgba(80,30,130,.16); --link:#8a22b3; --fl:rgba(80,30,130,.3);}
+  body.sticky .tb{padding:14px 6px 0 14px; min-height:44px;}
+  body.sticky .ttl{font-family:'Caveat',cursive; font-weight:700; font-size:27px; color:var(--link); line-height:1;}
+  body.sticky #body{padding:2px 14px 30px;}
+  body.sticky.lined #body{background-image:repeating-linear-gradient(180deg, transparent 0 25px, var(--line) 25px 26px); background-attachment:local;}
+  body.sticky::after{content:''; position:fixed; right:0; bottom:0; width:28px; height:28px; pointer-events:none; background:linear-gradient(135deg, var(--paper2) 45%, rgba(0,0,0,.13) 50%, rgba(255,255,255,.35) 56%, transparent 60%);}
+  .deco{position:fixed; pointer-events:none; z-index:5;}
+  .deco.tape{top:-8px; left:50%; width:90px; height:22px; transform:translateX(-50%) rotate(-3deg); background:rgba(255,255,255,.55); box-shadow:0 1px 2px rgba(0,0,0,.15);}
+  .deco.pin{top:4px; left:50%; width:18px; height:18px; margin-left:-9px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #fff 0 12%, #ff6fa8 25%, #c2187a 70%); box-shadow:0 3px 4px rgba(0,0,0,.4);}
+
+  /* sections */
+  .sec{margin:0 0 10px;} .sec:last-child{margin-bottom:0;}
+  .sh{font-size:12.5px; font-weight:800; margin:2px 0 5px; display:flex; align-items:center; gap:6px;}
+  body.sticky .sh{font-family:'Caveat',cursive; font-size:22px; font-weight:700; color:var(--link); margin:4px 0 0;}
+  .go{margin-left:auto; font-size:11px; color:var(--link); cursor:pointer; white-space:nowrap; background:none; border:none; font-weight:800; padding:0;}
+  body.sticky .go{font-family:'Patrick Hand',cursive; font-size:15px; font-weight:400;}
+  .muted{color:var(--sub);} .small{font-size:12px;} body.sticky .small{font-size:15px;}
+  .empty{color:var(--sub); font-style:italic; padding:2px 0;}
+  .note{font-size:12px; font-weight:700; color:var(--sub); background:rgba(255,255,255,.6); border-radius:6px; padding:6px 8px; margin:0 0 8px;}
+  body.sticky .note{font-size:14px; font-weight:400; background:rgba(255,255,255,.35);}
+  .nf{display:flex; align-items:center; gap:7px; padding:6px 8px; margin:4px 0; border-radius:8px; background:#fff; border:1px solid #efc0da; border-left:5px solid var(--nfc,#c95fa0); cursor:pointer; user-select:none; -webkit-touch-callout:none; touch-action:manipulation;}
+  .nf.urgent{--nfc:#e0335a; background:#fff4f6;} .nf.soon{--nfc:#f07a14;}
+  .nf .t{flex:1; min-width:0; font-weight:800; font-size:12.5px; line-height:1.3;}
+  .nf .t small{display:block; font-weight:700; font-size:11px; color:var(--sub);} .nf .t .rem{color:#a3520f;}
+  .nf .t.pay b{color:#b12fd0;} .nf .t.bk b{color:#2a7fd4;} .nf .t.mine b{color:#c2187a;}
+  .when{flex:none; font-size:10.5px; font-weight:800; padding:2px 8px; border-radius:999px; color:#fff; background:var(--nfc,#c95fa0); white-space:nowrap;}
+  body.sticky .nf{background:transparent; border:none; border-bottom:2px dashed var(--line); border-radius:0; padding:4px 0; margin:0;}
+  body.sticky .nf .t{font-weight:400; font-size:17px;} body.sticky .nf .t small{font-size:14px; font-weight:400;} body.sticky .nf .t b{font-weight:400; color:var(--ink) !important;}
+  body.sticky .when{background:none; color:var(--link); font-family:'Caveat',cursive; font-size:19px; font-weight:700; padding:0;}
+  .task{display:flex; align-items:flex-start; gap:7px; padding:4px 0; border-bottom:1px dashed var(--line);}
+  .task label{flex:1; cursor:pointer; font-weight:700; min-width:0; overflow-wrap:anywhere;} body.sticky .task label{font-weight:400;}
+  .task input[type=checkbox]{flex:none; width:17px; height:17px; margin:1px 0 0; accent-color:#e8479a; cursor:pointer;}
+  body.sticky .task input[type=checkbox]{appearance:none; -webkit-appearance:none; width:17px; height:17px; margin-top:4px; border:2px solid var(--ink); border-radius:3px; opacity:.75; position:relative;}
+  body.sticky .task input[type=checkbox]:checked::after{content:'✓'; position:absolute; left:1px; top:-11px; font-size:24px; color:var(--link); font-family:'Caveat',cursive; font-weight:700;}
+  .task.done label{text-decoration:line-through; opacity:.55;}
+  .mini{flex:none; width:23px; height:23px; border-radius:50%; border:1px solid #efc0da; background:#fff; cursor:pointer; font-size:11px; color:var(--sub); font-weight:800; line-height:1; padding:0;}
+  body.sticky .mini{border:none; background:transparent; font-size:15px;}
+  .cls{font-size:12px; color:var(--sub); font-weight:700; margin-bottom:2px;} body.sticky .cls{font-size:15px; font-weight:400;}
+  .addb{display:flex; gap:5px; margin-top:6px; flex-wrap:wrap;}
+  input.txt, select.txt{width:100%; min-width:0; height:30px; border:1px solid var(--fl); border-radius:8px; padding:0 8px; font:700 13px 'Nunito',sans-serif; color:var(--ink); background:#fff;}
+  body.sticky input.txt, body.sticky select.txt{border:none; border-bottom:2px solid var(--fl); border-radius:0; font:16px 'Patrick Hand',cursive; padding:0 2px; background:transparent;}
+  body.sticky select.txt option{color:#222;}
+  .addb input.txt{flex:1 1 120px;} .addb input[type=date]{flex:0 0 128px;} .addb select.txt{flex:0 0 100%;}
+  .gel{font:800 12px 'Nunito',sans-serif; padding:0 12px; min-height:30px; border-radius:999px; color:#fff; border:1px solid #a3155f; cursor:pointer; text-shadow:0 1px 1px rgba(0,0,0,.3); white-space:nowrap;
+    background:linear-gradient(180deg, rgba(255,255,255,.75) 0%, rgba(255,255,255,.2) 48%, rgba(255,255,255,0) 50%), linear-gradient(180deg,#f080b8,#e8479a 55%,#f08cbd);}
+  .gel.grey{border-color:#77737a; background:linear-gradient(180deg, rgba(255,255,255,.75) 0%, rgba(255,255,255,.2) 48%, rgba(255,255,255,0) 50%), linear-gradient(180deg,#c4c1c6,#9e9aa0 55%,#c4c1c6);}
+  body.sticky .gel{background:none; border:2px solid var(--link); color:var(--link); text-shadow:none; font:700 18px 'Caveat',cursive; border-radius:6px;}
+  .link{background:none; border:none; padding:3px 0; font-weight:800; font-size:12.5px; color:var(--link); text-decoration:underline dotted; cursor:pointer;}
+  body.sticky .link{font-weight:400; font-size:16px;}
+  .prog{height:11px; border-radius:999px; background:#fff; border:1px solid #efc0da; overflow:hidden; margin:2px 0 3px;}
+  .prog i{display:block; height:100%; background:linear-gradient(180deg,#f9a9cf,#e8479a 60%,#f08cbd);}
+  body.sticky .prog{background:transparent; border:2px solid var(--ink); opacity:.85; border-radius:3px;} body.sticky .prog i{background:var(--link);}
+  .plab{display:flex; justify-content:space-between; font-size:11.5px; font-weight:800; color:var(--sub);} body.sticky .plab{font-size:15px; font-weight:400;}
+  .count{display:flex; align-items:baseline; gap:8px;} .count b{font-size:38px; line-height:1; color:var(--link);} body.sticky .count b{font-family:'Caveat',cursive; font-size:52px;}
+  .kd{display:flex; gap:8px; padding:3px 0; border-bottom:1px dashed var(--line); font-weight:700; font-size:12.5px; cursor:pointer;}
+  .kd span:first-child{flex:0 0 82px; color:var(--sub);} body.sticky .kd{font-weight:400; font-size:16px;} body.sticky .kd span:first-child{flex-basis:92px;}
+  .hint{text-align:center; font-size:11px; font-weight:700; color:var(--sub); margin-top:5px;} body.sticky .hint{font-size:14px; font-weight:400;}
+
+  /* panels (customise / editor) */
+  .over{position:fixed; inset:0; z-index:20; overflow:auto; padding:10px 12px 12px; font-family:'Nunito',sans-serif; font-size:13px; color:#2b1a24; background:#fdf6fa;}
+  .over h3{margin:0 0 6px; font-size:14px; color:#c2187a; display:flex; align-items:center;} .over h3 .gel{margin-left:auto;}
+  .grp{margin:9px 0 3px; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:#c2187a;}
+  .srow{display:flex; align-items:center; gap:6px; padding:3px 4px; border-radius:6px;} .srow:nth-child(odd){background:#fbeaf3;}
+  .srow label{flex:1; display:flex; align-items:center; gap:7px; font-weight:700; cursor:pointer;}
+  .srow input{accent-color:#e8479a; width:16px; height:16px;}
+  .mv{width:24px; height:24px; border:1px solid #efc0da; background:#fff; border-radius:6px; cursor:pointer; font-size:11px; padding:0;} .mv:disabled{opacity:.3; cursor:default;}
+  .seg{display:flex; flex-wrap:wrap; gap:4px;}
+  .seg button{border:1px solid #efc0da; background:#fff; border-radius:999px; padding:3px 10px; font:800 12px 'Nunito',sans-serif; cursor:pointer;}
+  .seg button.on{background:#e8479a; color:#fff; border-color:#a3155f;}
+  .sw{width:24px; height:24px; border-radius:5px; border:2px solid rgba(0,0,0,.15); cursor:pointer; padding:0;} .sw.on{border-color:#222; box-shadow:0 0 0 2px #fff inset;}
+  .over .f{display:block; font-weight:800; font-size:12px; margin-top:7px;} .over .f input, .over .f select{margin-top:3px;}
+  .over input.txt, .over select.txt{border:1px solid #f5b8cf; border-radius:8px; font:700 13px 'Nunito',sans-serif; background:#fff; padding:0 8px; color:#2b1a24; height:30px;}
+  .over .gel{font:800 12px 'Nunito',sans-serif; color:#fff; border:1px solid #a3155f; border-radius:999px; text-shadow:0 1px 1px rgba(0,0,0,.3); background:linear-gradient(180deg, rgba(255,255,255,.75) 0%, rgba(255,255,255,.2) 48%, rgba(255,255,255,0) 50%), linear-gradient(180deg,#f080b8,#e8479a 55%,#f08cbd);}
+  .over .gel.grey{border-color:#77737a; background:linear-gradient(180deg, rgba(255,255,255,.75) 0%, rgba(255,255,255,.2) 48%, rgba(255,255,255,0) 50%), linear-gradient(180deg,#c4c1c6,#9e9aa0 55%,#c4c1c6);}
+  .over .link{color:#c2187a; font:800 12.5px 'Nunito',sans-serif;}
+  .chk{display:flex; align-items:center; gap:7px; margin-top:7px; font-weight:700; cursor:pointer;} .chk input{accent-color:#e8479a; width:16px; height:16px; flex:none;}
+  .chips{display:flex; flex-wrap:wrap; gap:3px 10px; margin:4px 0 0 22px;} .chips label{display:flex; align-items:center; gap:4px; font-weight:700; font-size:12px; cursor:pointer;} .chips input{accent-color:#e8479a;}
+  .opts{border-left:3px solid #f5d3e2; padding-left:9px; margin-top:4px;}
+  .ebtns{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:10px;} .danger{margin-left:auto; color:#a3153a !important;}
+  .msg{color:#a3153a; font-weight:800; font-size:12.5px; margin-top:6px;} .msg:empty{display:none;}
+
+  /* the shelf (home for all your windows) */
+  .mtab{display:flex; align-items:center; gap:7px; width:100%; height:36px; margin:0 0 6px; padding:0 6px 0 10px; border-radius:18px; cursor:pointer; text-align:left;
+    font:800 13px 'Nunito',sans-serif; box-shadow:0 2px 6px rgba(0,0,0,.2); border:1px solid #6b4a5c; color:#2b1a24;
+    background:linear-gradient(180deg, rgba(255,255,255,.75) 0%, rgba(255,255,255,.2) 48%, rgba(255,255,255,0) 50%), linear-gradient(180deg,#f6cbe2,#e8a8cc 55%,#f5d3e6);}
+  .mtab.sticky{border:none; border-radius:3px 3px 3px 14px; background:#fff27a; color:#3a2f12; font:18px 'Patrick Hand',cursive;}
+  .mtab.sticky.c-pink{background:#ffc2dc;} .mtab.sticky.c-blue{background:#bfe4ff;} .mtab.sticky.c-green{background:#c9f2b3;} .mtab.sticky.c-purple{background:#e2cdfa;}
+  .mtab:hover{transform:translateY(-1px); box-shadow:0 5px 12px rgba(0,0,0,.25);}
+  .mtab .mt{flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .mtab .mb{flex:none; background:#e0335a; color:#fff; font:800 11px 'Nunito',sans-serif; border-radius:999px; padding:2px 7px;}
+  .mtab .mo{flex:none; width:22px; height:22px; border-radius:50%; display:grid; place-items:center; font:800 12px 'Nunito',sans-serif; background:rgba(255,255,255,.6);}
+  .wrow{display:flex; align-items:center; gap:6px; padding:4px 0; border-bottom:1px dashed var(--line); font-weight:700;}
+  .wrow .nm{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .pre{display:flex; flex-wrap:wrap; gap:4px; margin:4px 0;}
+  .pre button{border:1px solid #efc0da; background:#fff; border-radius:8px; padding:3px 8px; font:800 12px 'Nunito',sans-serif; cursor:pointer;}
+  .pre button:hover{background:#fde3f0;}
+  #landed{animation:land .9s ease-out;}
+  @keyframes land{0%{box-shadow:0 0 0 0 rgba(232,71,154,.8);} 100%{box-shadow:0 0 0 12px rgba(232,71,154,0);}}
+  /* fallback when Windows won't let the page close itself: a tab inside the window */
+  #tabmode{position:fixed; inset:0; z-index:30; display:flex; align-items:center; padding:6px;}
+</style>
+</head>
+<body class="pink">
+<div id="app">
+  <div class="tb">
+    <span class="ttl" id="ttl">Study Guide</span>
+    <span class="dot" id="dot"></span>
+    <button class="ib" id="bGear" type="button" title="Choose what shows & the look" aria-label="Choose what shows and the look">⚙</button>
+    <button class="ib" id="bCopy" type="button" title="Open another window like this" aria-label="Open another window like this">⧉</button>
+    <button class="ib" id="bHome" type="button" title="All my widgets (the shelf)" aria-label="All my widgets" hidden>♡</button>
+    <button class="ib minb" id="bMin" type="button" title="Minimise to the shelf (tap it there to bring it back)" aria-label="Minimise to the shelf">–</button>
+    <button class="ib close" id="bClose" type="button" title="Close (reopen it from the shelf)" aria-label="Close">×</button>
+  </div>
+  <div id="body"><div id="view"></div></div>
+</div>
+<div class="deco" id="deco" hidden></div>
+<div id="panel" class="over" hidden></div>
+<div id="tabmode" hidden></div>
+
+<script>
+/*NOTIFCORE*/
+</script>
+<script>
+/*MINICORE*/
+</script>
+<script>
+(function(){
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const FB_VERSIONS = ['12.19.0', '12.6.0', '11.10.0'];
+  const LSget = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } };
+  const LSset = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} };
+  window.SG_DATA = LSget('sg_data_v1', null) || {};
+  const HAVE_COURSE = !!(SG_DATA.payWeeks && SG_DATA.payWeeks.length);
+  const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+
+  const SECTIONS = {next: '🔔 Next up (reminders)', count: '⏳ Exam countdown', prog: '📊 Progress', pay: '📙 This week · Payroll', bk: '📗 This week · Bookkeeping', home: '📝 Homework', list: '📌 My list', dates: '📅 Key dates'};
+  const ALL = Object.keys(SECTIONS);
+  const PRESETS = {
+    next: {title: 'Next up', on: ['next']}, week: {title: 'This week', on: ['prog', 'pay', 'bk', 'next'], count: 2},
+    list: {title: 'My list', on: ['list', 'next'], count: 2}, count: {title: 'Countdown', on: ['count', 'prog', 'dates']},
+    home: {title: 'Homework', on: ['home']}, blank: {title: 'My widget', on: []}};
+  const PRESET_BTNS = [['next', '🔔 Next up'], ['week', '📍 This week'], ['list', '📌 My list'], ['count', '⏳ Countdown'], ['home', '📝 Homework'], ['blank', '✨ Choose my own']];
+
+  // ---------- your windows on this computer ----------
+  const REG = 'sg_mini_wins_v1';
+  const reg = () => LSget(REG, {}) || {};
+  function regPut(id, patch){ const r = reg(); r[id] = Object.assign({}, r[id] || {}, patch); LSset(REG, r); return r[id]; }
+  function regDel(id){ const r = reg(); delete r[id]; LSset(REG, r); }
+  function newCfg(preset, look){
+    const p = PRESETS[preset] || PRESETS.next;
+    return Object.assign({title: p.title, on: p.on.slice(), order: p.on.concat(ALL.filter(k => !p.on.includes(k))), count: p.count || 5,
+      theme: 'pink', color: 'yellow', paper: 'plain', deco: 'tape', w: preset === 'week' ? 320 : 300, h: preset === 'week' ? 520 : 380, open: true, min: false, made: Date.now()}, look || {});
+  }
+  const params = new URLSearchParams(location.search);
+  const SHELF = params.get('w') === 'shelf' || params.get('w') === 'home';
+  let ID = params.get('id');
+  if(!SHELF && (!ID || !reg()[ID])){
+    // an old-style link (?w=next&s=sticky) or a brand new window
+    const w = params.get('w'), s = params.get('s');
+    ID = ID || uid();
+    regPut(ID, newCfg({today: 'week'}[w] || w || 'next', s === 'sticky' ? {theme: 'sticky', color: params.get('c') || 'yellow'} : {}));
+    history.replaceState(null, '', location.pathname + '?id=' + ID);
+  }
+  const cfg = () => SHELF ? {title: 'My widgets', theme: 'pink'} : (reg()[ID] || newCfg('next'));
+  function save(patch){ if(!SHELF) regPut(ID, patch); }
+
+  function winURL(id){ return new URL('mini.html?id=' + encodeURIComponent(id), location.href).href; }
+  function openWin(id, focusMsg){
+    const c = regPut(id, {open: true, min: false});
+    let f = 'popup=yes,width=' + Math.round(c.w || 300) + ',height=' + Math.round(c.h || 380);
+    if(c.x != null && c.y != null) f += ',left=' + Math.round(c.x) + ',top=' + Math.round(c.y);
+    const w = window.open(winURL(id), 'sgw_' + id, f);
+    if(!w) say('Edge blocked the new window. Click the blocked pop-up icon at the top of this window and choose “Always allow”, then try again.');
+    return w;
+  }
+  function openShelf(){
+    const W = 280, H = 420, L = (screen.availLeft || 0) + screen.availWidth - W - 16, T = (screen.availTop || 0) + screen.availHeight - H - 16;
+    return window.open(new URL('mini.html?w=shelf', location.href).href, 'sg_shelf', 'popup=yes,width=' + W + ',height=' + H + ',left=' + L + ',top=' + T);
+  }
+  const bc = 'BroadcastChannel' in window ? new BroadcastChannel('sg-mini') : null;
+  function pingShelf(){
+    return new Promise(res => {
+      if(!bc) return res(false);
+      let ok = false; const h = e => { if(e.data && e.data.type === 'shelf-here'){ ok = true; } };
+      bc.addEventListener('message', h); bc.postMessage({type: 'shelf?', from: ID});
+      setTimeout(() => { bc.removeEventListener('message', h); res(ok); }, 250);
+    });
+  }
+  if(bc) bc.onmessage = e => {
+    const d = e.data || {};
+    if(SHELF && d.type === 'shelf?'){ bc.postMessage({type: 'shelf-here'}); if(d.from){ landed = d.from; render(); } }
+    if(!SHELF && d.type === 'close' && d.id === ID){ save({open: false}); window.close(); }
+  };
+
+  // ---------- look ----------
+  function applyLook(){
+    const c = cfg(), sticky = !SHELF && c.theme === 'sticky';
+    document.body.className = (sticky ? 'sticky c-' + c.color + (c.paper === 'lined' ? ' lined' : '') : 'pink');
+    const d = $('deco'); d.hidden = !sticky || c.deco === 'none'; d.className = 'deco ' + c.deco;
+    $('ttl').textContent = c.title || 'Study Guide';
+    document.title = (c.title || 'Study Guide') + (SHELF ? '' : ' · Study Guide');
+    $('bGear').hidden = SHELF; $('bCopy').hidden = SHELF; $('bMin').hidden = SHELF; $('bHome').hidden = SHELF;
+  }
+
+  // ---------- data: your account (live) or this device ----------
+  const S = {mode: 'local', state: {}, homework: {}, custom: [], uid: null, fb: null, db: null};
+  function loadLocal(){ S.state = LSget('sg_state_v2', {}) || {}; S.homework = LSget('sg_homework_v1', {}) || {}; S.custom = LSget('sg_custom_v1', []) || []; }
+  function saveLocal(){ LSset('sg_state_v2', S.state); LSset('sg_homework_v1', S.homework); LSset('sg_custom_v1', S.custom); }
+  let pending = 0;
+  function setDot(){ const d = $('dot'); d.className = 'dot ' + (S.mode === 'cloud' ? (pending ? 'saving' : 'live') : ''); d.title = S.mode === 'cloud' ? (pending ? 'Saving…' : 'Synced with your account') : 'Saved on this computer only — sign in to Sync in the Study Guide to keep it live'; }
+  function track(p){ pending++; setDot(); return Promise.resolve(p).catch(e => { console.warn('save', e); say('Couldn’t save that — check your internet.'); }).finally(() => { pending = Math.max(0, pending - 1); setDot(); }); }
+  const udoc = (...segs) => S.fb.fs.doc(S.db, 'users', S.uid, ...segs);
+  const W = {
+    tick(id, val){ S.state[id] = val; render(); if(S.mode === 'cloud') track(S.fb.fs.setDoc(udoc(), {state: {[id]: val}, updatedAt: Date.now()}, {merge: true})); else saveLocal(); },
+    hwPut(week, item){
+      Object.keys(S.homework).forEach(k => { if(k !== week) S.homework[k] = (S.homework[k] || []).filter(x => x.id !== item.id); });
+      const arr = S.homework[week] = S.homework[week] || []; const i = arr.findIndex(x => x.id === item.id); if(i >= 0) arr[i] = item; else arr.push(item);
+      render();
+      if(S.mode === 'cloud') track(S.fb.fs.setDoc(udoc('homework', item.id), {week, text: item.text, due: item.due || '', done: !!item.done, created: item.created || Date.now()})); else saveLocal();
+    },
+    hwDel(id){ Object.keys(S.homework).forEach(k => S.homework[k] = (S.homework[k] || []).filter(x => x.id !== id)); render(); if(S.mode === 'cloud') track(S.fb.fs.deleteDoc(udoc('homework', id))); else saveLocal(); },
+    hwFind(id){ for(const wk of Object.keys(S.homework)){ const it = (S.homework[wk] || []).find(x => x.id === id); if(it) return [wk, it]; } return null; },
+    customPut(doc){
+      doc = Object.assign({}, doc, {updated: Date.now()});
+      const i = S.custom.findIndex(x => x.id === doc.id);
+      let full; if(i >= 0){ full = S.custom[i] = Object.assign({}, S.custom[i], doc); } else { if(!doc.created) doc.created = doc.updated; full = doc; S.custom.push(doc); }
+      render(); if(S.mode === 'cloud') track(S.fb.fs.setDoc(udoc('custom', doc.id), full)); else saveLocal();
+    },
+    customDel(id){ S.custom = S.custom.filter(x => x.id !== id); render(); if(S.mode === 'cloud') track(S.fb.fs.deleteDoc(udoc('custom', id))); else saveLocal(); },
+  };
+  async function loadSDK(){
+    let last;
+    for(const v of FB_VERSIONS){ const b = 'https://www.gstatic.com/firebasejs/' + v + '/';
+      try { const [a, au, fs] = await Promise.all([import(b + 'firebase-app.js'), import(b + 'firebase-auth.js'), import(b + 'firebase-firestore.js')]); return {a, au, fs}; } catch(e){ last = e; } }
+    throw last;
+  }
+  async function connect(){
+    const conf = LSget('sg_fbconfig_v1', null);
+    if(!conf || !conf.apiKey){ setDot(); return; }
+    try {
+      const fb = await loadSDK(); const app = fb.a.initializeApp(conf); const auth = fb.au.getAuth(app);
+      let db; try { db = fb.fs.initializeFirestore(app, {localCache: fb.fs.persistentLocalCache({tabManager: fb.fs.persistentMultipleTabManager()})}); } catch(e){ db = fb.fs.getFirestore(app); }
+      S.fb = fb; S.db = db; let unsubs = [];
+      fb.au.onAuthStateChanged(auth, u => {
+        unsubs.forEach(f => { try { f(); } catch(e){} }); unsubs = [];
+        if(!u){ S.mode = 'local'; S.uid = null; loadLocal(); render(); setDot(); return; }
+        S.mode = 'cloud'; S.uid = u.uid; setDot();
+        unsubs.push(fb.fs.onSnapshot(udoc(), snap => { if(snap.exists() || !snap.metadata.fromCache){ S.state = (snap.exists() && snap.data().state) || {}; render(); } }, e => console.warn(e)));
+        unsubs.push(fb.fs.onSnapshot(fb.fs.collection(db, 'users', u.uid, 'homework'), snap => {
+          if(snap.empty && snap.metadata.fromCache) return;
+          const out = {};
+          snap.docs.map(d => Object.assign({id: d.id}, d.data())).sort((a, b) => (a.created || 0) - (b.created || 0))
+            .forEach(h => { (out[h.week] = out[h.week] || []).push({id: h.id, text: h.text || '', due: h.due || '', done: !!h.done, created: h.created || 0}); });
+          S.homework = out; render();
+        }, e => console.warn(e)));
+        unsubs.push(fb.fs.onSnapshot(fb.fs.collection(db, 'users', u.uid, 'custom'), snap => {
+          if(snap.empty && snap.metadata.fromCache) return;
+          S.custom = snap.docs.map(d => Object.assign({}, d.data(), {id: d.id})); render();
+        }, e => console.warn(e)));
+        setTimeout(applyQueue, 1500);
+      });
+    } catch(e){ console.warn('Sync unavailable', e); setDot(); }
+  }
+  window.addEventListener('storage', e => {
+    if(S.mode === 'local' && /^sg_(state_v2|homework_v1|custom_v1)$/.test(e.key || '')){ loadLocal(); render(); }
+    if(e.key === REG){ applyLook(); render(); }
+  });
+
+  // ---------- open the full Study Guide at a week ----------
+  const app = 'BroadcastChannel' in window ? new BroadcastChannel('sg-app') : null;
+  let acked = false;
+  if(app) app.onmessage = e => { if(e.data && e.data.type === 'ack') acked = true; };
+  function openApp(hash){
+    acked = false; if(app && hash) app.postMessage({type: 'open', hash});
+    setTimeout(() => { if(!acked) window.open(new URL('./' + (hash ? '#' + hash : ''), location.href).href, 'sg_main'); }, app && hash ? 350 : 0);
+  }
+
+  // ---------- render ----------
+  const fmt = d => new Date(d + 'T12:00').toLocaleDateString('en-IE', {weekday: 'short', day: 'numeric', month: 'short'});
+  let M = null, editingList = null, landed = null, sayT = null, sayMsg = '';
+  function say(m){ sayMsg = m; render(); clearTimeout(sayT); sayT = setTimeout(() => { sayMsg = ''; render(); }, 7000); }
+  function el(tag, a, ...kids){
+    const e = document.createElement(tag);
+    for(const k in (a || {})){ const v = a[k];
+      if(k === 'class') e.className = v; else if(k === 'text') e.textContent = v; else if(k === 'style') e.style.cssText = v;
+      else if(k.startsWith('on')) e.addEventListener(k.slice(2), v); else if(v === true) e.setAttribute(k, ''); else if(v !== false && v != null) e.setAttribute(k, v); }
+    kids.flat().forEach(c => { if(c != null && c !== false) e.append(c); });
+    return e;
+  }
+  function taskRow(fid, text, done, onToggle, extras){
+    const cb = el('input', {type: 'checkbox', id: fid}); cb.checked = !!done; cb.addEventListener('change', () => onToggle(cb.checked));
+    return el('div', {class: 'task' + (done ? ' done' : '')}, cb, el('label', {for: fid, text}), extras || []);
+  }
+  function addBox(fid, ph, onAdd, extra){
+    const inp = el('input', {class: 'txt', placeholder: ph, maxlength: '200', 'data-fid': fid, 'aria-label': ph});
+    const ex = extra ? extra() : [];
+    const go = () => { const t = inp.value.trim(); if(!t){ inp.focus(); return; } const vals = ex.map(x => x.value); inp.value = ''; ex.forEach(x => { if(x.tagName !== 'SELECT') x.value = ''; }); onAdd(t, vals); const again = document.querySelector('[data-fid="' + fid + '"]'); if(again) again.focus(); };
+    inp.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); go(); } });
+    return el('div', {class: 'addb'}, ex.filter(x => x.tagName === 'SELECT'), inp, ex.filter(x => x.tagName !== 'SELECT'), el('button', {class: 'gel', type: 'button', text: '+ Add', onclick: go}));
+  }
+  const clsN = n => n <= 2 ? 'urgent' : n <= 7 ? 'soon' : 'later';
+  function nfRow(i){
+    const sub = (i.kind === 'mine' ? fmt(i.date) : i.sub) + (i.note ? ' · ' + i.note : '');
+    const t = el('div', {class: 't ' + i.s}, el('b', {text: (i.s === 'pay' ? '📙 ' : i.s === 'bk' ? '📗 ' : i.ico + ' ') + i.t}), sub ? el('small', {text: sub}) : null);
+    const d = NotifCore.describe(i); if(d) t.append(el('small', {class: 'rem', text: d}));
+    return el('div', {class: 'nf ' + clsN(i.n), 'data-key': i.key, tabindex: '0', role: 'button', 'aria-label': i.t + ' — tap to open its week, hold or double-tap to edit'}, t, el('span', {class: 'when', text: NotifCore.whenLabel(i.n)}));
+  }
+  function section(k, c, first){
+    const box = el('div', {class: 'sec'});
+    const many = c.on.length > 1 && !(first && SECTIONS[k].replace(/^\S+ /, '').replace(/ \(.*\)$/, '').toLowerCase().startsWith((c.title || '').toLowerCase()));
+    const head = (txt, go) => el('div', {class: 'sh'}, el('span', {text: txt}), go ? el('button', {class: 'go', type: 'button', text: 'open ↗', onclick: () => openApp('open=' + go)}) : null);
+    if(k === 'next'){
+      if(many) box.append(head('🔔 Next up'));
+      const items = c.count >= 99 ? M.next : M.next.slice(0, c.count || 5);
+      if(!items.length) box.append(el('div', {class: 'empty', text: 'Nothing coming up ✨'}));
+      items.forEach(i => box.append(nfRow(i)));
+      box.append(el('button', {class: 'link', type: 'button', text: '＋ Add a reminder', onclick: () => openEditor(null)}));
+      if(c.on.length === 1) box.append(el('div', {class: 'hint', text: 'Tap to open its week · hold or double-tap to edit'}));
+    } else if(k === 'count'){
+      if(many) box.append(head('⏳ Exams'));
+      const ex = MiniCore.examDate();
+      box.append(el('div', {class: 'count'}, el('b', {text: Math.max(0, NotifCore.daysBetween(M.today, ex))}), el('span', {class: 'muted', text: 'days to go · ' + fmt(ex)})));
+    } else if(k === 'prog'){
+      if(many) box.append(head('📊 Progress'));
+      const p = M.progress;
+      if(!p) box.append(el('div', {class: 'empty', text: 'Open the Study Guide once to show this.'}));
+      else box.append(el('div', {class: 'prog'}, el('i', {style: 'width:' + p.pct + '%'})), el('div', {class: 'plab'}, el('span', {text: p.done + ' of ' + p.total + ' checked off'}), el('span', {text: p.pct + '%'})));
+    } else if(k === 'pay' || k === 'bk'){
+      const w = M.week[k];
+      if(!w){ box.append(head(k === 'pay' ? '📙 Payroll' : '📗 Bookkeeping'), el('div', {class: 'empty', text: 'Open the Study Guide once to show this.'})); return box; }
+      box.append(head((k === 'pay' ? '📙 Payroll' : '📗 Bookkeeping') + ' · W' + w.n + ' · ' + fmt(w.date) + (w.now ? '' : w.over ? ' (done)' : ' (next)'), w.key));
+      if(w.cls) box.append(el('div', {class: 'cls', text: '📂 ' + w.cls}));
+      if(!w.topics.length) box.append(el('div', {class: 'empty', text: 'No learning outcome ticked — choose one in the app.'}));
+      w.topics.forEach(t => box.append(taskRow(ID + t.key, 'LO ' + t.lo + ' · ' + t.study, t.done, v => W.tick(t.key, v))));
+      box.append(taskRow(ID + w.attendedKey, 'I attended / caught up', w.attended, v => W.tick(w.attendedKey, v)));
+      w.homework.forEach(h => box.append(taskRow(ID + 'hw' + h.id, '📝 ' + h.text + (h.due ? ' · ' + fmt(h.due) : ''), h.done, v => { const f = W.hwFind(h.id); if(f) W.hwPut(f[0], Object.assign({}, f[1], {done: v})); })));
+    } else if(k === 'home'){
+      if(many) box.append(head('📝 Homework'));
+      const cur = Object.values(M.week).map(w => w.key);
+      const hw = MiniCore.hwFlat(S.homework).filter(h => !h.done || cur.includes(h.week)).sort((a, b) => (a.done - b.done) || ((a.due || '9') < (b.due || '9') ? -1 : 1));
+      if(!hw.length) box.append(el('div', {class: 'empty', text: 'No homework 🎉'}));
+      hw.forEach(h => box.append(taskRow(ID + 'h' + h.id, (h.week.indexOf('pay') === 0 ? '📙 ' : '📗 ') + h.text + (h.due ? ' · ' + fmt(h.due) : ''), h.done, v => W.hwPut(h.week, {id: h.id, text: h.text, due: h.due, done: v, created: h.created}),
+        [el('button', {class: 'mini', type: 'button', text: '✏️', title: 'Edit', 'aria-label': 'Edit ' + h.text, onclick: () => openEditor('hw_' + h.id)}),
+         el('button', {class: 'mini', type: 'button', text: '×', title: 'Remove', 'aria-label': 'Remove ' + h.text, onclick: () => W.hwDel(h.id)})])));
+      if(cur.length) box.append(addBox(ID + 'hw', 'Add homework…', (t, [wk, due]) => W.hwPut(wk, {id: uid(), text: t, due: due || '', done: false, created: Date.now()}),
+        () => [el('select', {class: 'txt', 'aria-label': 'Which class', 'data-fid': ID + 'hwwk'}, Object.values(M.week).map(w => el('option', {value: w.key, text: (w.strand === 'pay' ? '📙 Payroll' : '📗 Bookkeeping') + ' Week ' + w.n}))),
+               el('input', {class: 'txt', type: 'date', 'aria-label': 'Due date (optional)', 'data-fid': ID + 'hwd'})]));
+    } else if(k === 'list'){
+      if(many) box.append(head('📌 My list'));
+      if(!M.list.length) box.append(el('div', {class: 'empty', text: 'Nothing on your list yet.'}));
+      M.list.forEach(it => {
+        if(editingList === it.id){
+          const inp = el('input', {class: 'txt', value: it.text, 'data-fid': ID + 'ed' + it.id, style: 'flex:1'});
+          const fin = ok => { const t = inp.value.trim(); editingList = null; if(ok && t && t !== it.text) W.customPut({id: it.id, kind: 'now', text: t}); else render(); };
+          inp.addEventListener('keydown', e => { if(e.key === 'Enter') fin(true); if(e.key === 'Escape') fin(false); });
+          box.append(el('div', {class: 'task'}, inp, el('button', {class: 'gel', type: 'button', text: 'Save', onclick: () => fin(true)}), el('button', {class: 'mini', type: 'button', text: '×', 'aria-label': 'Cancel', onclick: () => fin(false)})));
+          setTimeout(() => { if(document.activeElement !== inp) inp.focus(); }, 0);
+          return;
+        }
+        box.append(taskRow(ID + 'l' + it.id, it.text, it.done, v => W.customPut({id: it.id, kind: 'now', done: v}), [
+          el('button', {class: 'mini', type: 'button', text: '✏️', title: 'Edit', 'aria-label': 'Edit ' + it.text, onclick: () => { editingList = it.id; render(); }}),
+          el('button', {class: 'mini', type: 'button', text: '×', title: 'Remove', 'aria-label': 'Remove ' + it.text, onclick: () => W.customDel(it.id)})]));
+      });
+      box.append(addBox(ID + 'add', 'Add something…', t => W.customPut({id: 'c' + uid(), kind: 'now', text: t, date: '', done: false})));
+    } else if(k === 'dates'){
+      if(many) box.append(head('📅 Key dates'));
+      const kd = M.all.filter(i => i.kind === 'kd' && !i.hidden && i.date >= M.today).sort((a, b) => a.date < b.date ? -1 : 1).slice(0, c.count >= 99 ? 99 : Math.max(5, c.count || 5));
+      if(!kd.length) box.append(el('div', {class: 'empty', text: HAVE_COURSE ? 'No more key dates.' : 'Open the Study Guide once to show this.'}));
+      kd.forEach(i => box.append(el('div', {class: 'kd', title: 'Open its week', onclick: () => { const wk = MiniCore.weekFor(i); if(wk) openApp('open=' + wk); }}, el('span', {text: fmt(i.date)}), el('span', {text: i.ico + ' ' + i.t}))));
+    }
+    return box;
+  }
+  function badge(c){
+    if(!M) return '';
+    if(c.on.includes('next')){ const n = M.next.filter(i => i.n <= 3).length; return n ? n + ' due soon' : ''; }
+    if(c.on.includes('list')){ const n = M.list.filter(x => !x.done).length; return n ? n + ' to do' : ''; }
+    if(c.on.includes('home')){ const n = MiniCore.hwFlat(S.homework).filter(x => !x.done).length; return n ? n + ' to do' : ''; }
+    if(c.on.includes('count')) return Math.max(0, NotifCore.daysBetween(M.today, MiniCore.examDate())) + ' days';
+    return '';
+  }
+  const iconOf = c => { const k = (c.order || ALL).find(x => (c.on || []).includes(x)); return k ? SECTIONS[k].split(' ')[0] : '✨'; };
+  let addLook = 'pink';
+  function renderShelf(v){
+    const r = reg(), ids = Object.keys(r).sort((a, b) => (r[a].made || 0) - (r[b].made || 0));
+    const mins = ids.filter(id => r[id].min).sort((a, b) => (r[a].minAt || 0) - (r[b].minAt || 0));
+    if(mins.length){
+      v.append(el('div', {class: 'sh'}, el('span', {text: '– Minimised (' + mins.length + ')'}), el('button', {class: 'go', type: 'button', text: 'Show all', onclick: () => mins.forEach(id => openWin(id))})));
+      mins.forEach(id => { const c = r[id], b = badge(c);
+        v.append(el('button', {type: 'button', class: 'mtab' + (c.theme === 'sticky' ? ' sticky c-' + c.color : ''), id: landed === id ? 'landed' : null, title: 'Bring back ' + c.title, onclick: () => openWin(id)},
+          el('span', {text: iconOf(c)}), el('span', {class: 'mt', text: c.title || 'Study Guide'}), b ? el('span', {class: 'mb', text: b}) : null, el('span', {class: 'mo', text: '▢', 'aria-hidden': 'true'}))); });
+      landed = null;
+    }
+    const others = ids.filter(id => !r[id].min);
+    v.append(el('div', {class: 'sh', style: 'margin-top:10px'}, el('span', {text: '🪟 My windows'}), others.length > 1 ? el('button', {class: 'go', type: 'button', text: 'Open all', onclick: () => others.forEach(id => openWin(id))}) : null));
+    if(!others.length && !mins.length) v.append(el('div', {class: 'empty', text: 'No windows yet — add one below.'}));
+    others.forEach(id => { const c = r[id];
+      v.append(el('div', {class: 'wrow'}, el('span', {text: iconOf(c)}), el('span', {class: 'nm', text: c.title || 'Study Guide'}),
+        el('button', {class: 'gel', type: 'button', text: 'Open', onclick: () => openWin(id)}),
+        el('button', {class: 'mini', type: 'button', text: '🗑', title: 'Delete this window', 'aria-label': 'Delete ' + c.title, onclick: () => { if(bc) bc.postMessage({type: 'close', id}); regDel(id); render(); }}))); });
+    v.append(el('div', {class: 'sh', style: 'margin-top:10px'}, el('span', {text: '＋ Add a window'})));
+    v.append(el('div', {class: 'seg', style: 'margin-bottom:4px'}, [['pink', 'Pink'], ['sticky', 'Sticky note']].map(([t, n]) => el('button', {type: 'button', class: addLook === t ? 'on' : '', text: n, onclick: () => { addLook = t; render(); }}))));
+    const colors = ['yellow', 'pink', 'blue', 'green', 'purple'];
+    v.append(el('div', {class: 'pre'}, PRESET_BTNS.map(([p, n]) => el('button', {type: 'button', text: n, onclick: () => {
+      const id = uid(), k = Object.keys(reg()).length;
+      regPut(id, newCfg(p, addLook === 'sticky' ? {theme: 'sticky', color: colors[k % 5], deco: ['tape', 'pin', 'none'][k % 3]} : {}));
+      openWin(id); render(); }}))));
+    v.append(el('div', {class: 'hint', text: 'Tip: keep this window open; minimised windows wait here.'}));
+  }
+  function render(){
+    if(!window.NotifCore || !window.MiniCore) return;
+    if(!document.getElementById('panel').hidden && document.activeElement && document.getElementById('panel').contains(document.activeElement)) { M = MiniCore.model({state: S.state, homework: S.homework, custom: S.custom}); return; }
+    M = MiniCore.model({state: S.state, homework: S.homework, custom: S.custom});
+    applyLook();
+    const v = $('view');
+    const a = document.activeElement, fid = a && a.dataset && a.dataset.fid;
+    const keep = {}; v.querySelectorAll('[data-fid]').forEach(i => { if(i.value) keep[i.dataset.fid] = i.value; });
+    const pos = fid && a.selectionStart != null ? a.selectionStart : null;
+    v.textContent = '';
+    if(sayMsg) v.append(el('div', {class: 'note', role: 'status', text: sayMsg}));
+    if(!HAVE_COURSE) v.append(el('div', {class: 'note', text: 'Open the Study Guide once on this computer so the course dates show here.'}));
+    if(SHELF) renderShelf(v);
+    else {
+      const c = cfg(), shown = (c.order || ALL).filter(k => (c.on || []).includes(k));
+      if(!shown.length) v.append(el('div', {class: 'empty', text: 'Nothing chosen yet. Tap ⚙ to choose what shows.'}));
+      shown.forEach((k, i) => v.append(section(k, c, i === 0)));
+    }
+    v.querySelectorAll('[data-fid]').forEach(i => { if(keep[i.dataset.fid] != null && !i.value) i.value = keep[i.dataset.fid]; });
+    if(fid){ const n = v.querySelector('[data-fid="' + fid + '"]'); if(n){ n.focus(); try { if(pos != null) n.setSelectionRange(pos, pos); } catch(e){} } }
+    MiniCore.feed(M);
+  }
+
+  // ---------- reminders: tap = open week · hold / double-tap = edit ----------
+  const V = $('view');
+  let tapT = null, tapKey = null, holdT = null, held = false, start = null;
+  const find = key => M && M.all.find(i => i.key === key);
+  function tapOpen(key){ const it = find(key); if(!it) return; const wk = MiniCore.weekFor(it); if(wk) openApp('open=' + wk); else openEditor(key); }
+  V.addEventListener('pointerdown', e => {
+    const row = e.target.closest('.nf'); if(!row) return;
+    held = false; start = [e.clientX, e.clientY]; clearTimeout(holdT);
+    holdT = setTimeout(() => { held = true; clearTimeout(tapT); tapT = null; openEditor(row.dataset.key); }, 550);
+  });
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(t => V.addEventListener(t, () => clearTimeout(holdT)));
+  V.addEventListener('pointermove', e => { if(start && Math.hypot(e.clientX - start[0], e.clientY - start[1]) > 10) clearTimeout(holdT); });
+  V.addEventListener('contextmenu', e => { if(e.target.closest('.nf')) e.preventDefault(); });
+  V.addEventListener('click', e => {
+    const row = e.target.closest('.nf'); if(!row) return;
+    if(held){ held = false; return; }
+    const key = row.dataset.key;
+    if(tapT && tapKey === key){ clearTimeout(tapT); tapT = null; openEditor(key); return; }
+    clearTimeout(tapT); tapKey = key; tapT = setTimeout(() => { tapT = null; tapOpen(key); }, 280);
+  });
+  V.addEventListener('keydown', e => { const row = e.target.closest('.nf'); if(!row) return;
+    if(e.key === 'Enter'){ e.preventDefault(); tapOpen(row.dataset.key); } else if(e.key === 'e' || e.key === 'E'){ e.preventDefault(); openEditor(row.dataset.key); } });
+
+  // ---------- panels ----------
+  const P = $('panel');
+  function closePanel(){ P.hidden = true; P.textContent = ''; render(); }
+  P.addEventListener('keydown', e => { if(e.key === 'Escape') closePanel(); });
+  function customise(){
+    const c = cfg();
+    P.textContent = '';
+    P.append(el('h3', {}, el('span', {text: '⚙ This window'}), el('button', {class: 'gel', type: 'button', text: 'Done', onclick: closePanel})));
+    const ti = el('input', {class: 'txt', value: c.title || '', maxlength: '40', 'aria-label': 'Window name'});
+    ti.addEventListener('input', () => { save({title: ti.value}); applyLook(); });
+    P.append(el('label', {class: 'f', text: 'Name'}, ti));
+    P.append(el('div', {class: 'grp', text: 'Show (tick what you want · ↑↓ to reorder)'}));
+    const order = (c.order || ALL).concat(ALL.filter(k => !(c.order || []).includes(k)));
+    order.forEach((k, i) => {
+      const cb = el('input', {type: 'checkbox'}); cb.checked = (c.on || []).includes(k);
+      cb.addEventListener('change', () => { const on = cfg().on || []; save({on: cb.checked ? on.concat(k) : on.filter(x => x !== k)}); });
+      const mv = d => { const o = order.slice(); [o[i], o[i + d]] = [o[i + d], o[i]]; save({order: o}); customise(); };
+      P.append(el('div', {class: 'srow'}, el('label', {}, cb, el('span', {text: SECTIONS[k]})),
+        el('button', {class: 'mv', type: 'button', text: '↑', disabled: i === 0, 'aria-label': 'Move up', onclick: () => mv(-1)}),
+        el('button', {class: 'mv', type: 'button', text: '↓', disabled: i === order.length - 1, 'aria-label': 'Move down', onclick: () => mv(1)})));
+    });
+    const seg = (opts, cur, key) => el('div', {class: 'seg'}, opts.map(([v, t]) => el('button', {type: 'button', class: v === cur ? 'on' : '', text: t, onclick: () => { save({[key]: v}); applyLook(); customise(); }})));
+    P.append(el('div', {class: 'grp', text: 'How many reminders'}), seg([[2, '2'], [3, '3'], [5, '5'], [8, '8'], [99, 'All']], c.count || 5, 'count'));
+    P.append(el('div', {class: 'grp', text: 'Look'}), seg([['pink', 'Pink'], ['sticky', 'Sticky note']], c.theme, 'theme'));
+    if(c.theme === 'sticky'){
+      P.append(el('div', {class: 'grp', text: 'Colour'}), el('div', {class: 'seg'}, [['yellow', '#fff27a'], ['pink', '#ffc2dc'], ['blue', '#bfe4ff'], ['green', '#c9f2b3'], ['purple', '#e2cdfa']]
+        .map(([col, hex]) => el('button', {class: 'sw' + (c.color === col ? ' on' : ''), type: 'button', style: 'background:' + hex, 'aria-label': col, onclick: () => { save({color: col}); applyLook(); customise(); }}))));
+      P.append(el('div', {class: 'grp', text: 'Paper'}), seg([['plain', 'Plain'], ['lined', 'Lined']], c.paper, 'paper'));
+      P.append(el('div', {class: 'grp', text: 'Top'}), seg([['tape', 'Tape'], ['pin', 'Pin'], ['none', 'None']], c.deco, 'deco'));
+    }
+    P.append(el('div', {class: 'grp', text: 'More'}), el('button', {class: 'link', type: 'button', text: '♡ All my widgets (the shelf)', onclick: () => { if(!openShelf()) say('Edge blocked the shelf window — choose “Always allow” pop-ups.'); }}));
+    P.hidden = false;
+  }
+
+  // reminder editor (same choices as the app)
+  let edKey = null;
+  function openEditor(key){
+    const it = key ? find(key) : null; if(key && !it) return;
+    edKey = key || '';
+    const u = LSget('sg_mini_usual', {time: '08:00', leads: NotifCore.DEFAULT_LEADS});
+    const v = it || {t: '', date: MiniCore.todayISO(), note: '', time: '', repeat: 'none', off: false, kind: 'mine'};
+    P.textContent = '';
+    const txt = el('input', {class: 'txt', value: it ? (it.rawText != null ? it.rawText : it.t) : '', maxlength: '140'});
+    const dt = el('input', {class: 'txt', type: 'date', value: v.date || ''});
+    const wk = el('select', {class: 'txt'}, el('option', {value: '', text: 'No particular week'}),
+      [['pay', '📙 Payroll'], ['bk', '📗 Bookkeeping']].map(([s, n]) => MiniCore.weeks(s).map(w => el('option', {value: s + w.n, text: n + ' · Week ' + w.n + ' (' + fmt(w.date) + ')', selected: (v.week || '') === s + w.n}))));
+    const note = el('input', {class: 'txt', value: v.note || '', maxlength: '140', placeholder: 'optional — shown in the pop-up'});
+    const pop = el('input', {type: 'checkbox'}); pop.checked = !v.off;
+    const usual = el('input', {type: 'checkbox'}); usual.checked = !(v.leads && v.leads.length);
+    const chips = el('div', {class: 'chips'}, [[14, '2 weeks'], [7, 'a week'], [3, '3 days'], [2, '2 days'], [1, 'day before'], [0, 'on the day']].map(([n, t]) => {
+      const c = el('input', {type: 'checkbox', value: n}); c.checked = (v.leads && v.leads.length ? v.leads : (u.leads || NotifCore.DEFAULT_LEADS)).includes(n); return el('label', {}, c, t); }));
+    chips.hidden = usual.checked; usual.addEventListener('change', () => chips.hidden = usual.checked);
+    const tm = el('input', {class: 'txt', type: 'time', value: v.time || '', step: '900'});
+    const rp = el('select', {class: 'txt'}, [['none', 'Only on those days'], ['daily', 'Every day until the date'], ['untilDone', 'Every day until I mark it done']].map(([a, b]) => el('option', {value: a, text: b, selected: (v.repeat || 'none') === a})));
+    const done = el('input', {type: 'checkbox'}); done.checked = !!v.done;
+    const msg = el('div', {class: 'msg', role: 'alert'});
+    const opts = el('div', {class: 'opts'}, el('label', {class: 'chk'}, usual, 'Use my usual days (' + NotifCore.leadsText((u.leads && u.leads.length ? u.leads : NotifCore.DEFAULT_LEADS).slice().sort((a, b) => b - a)) + ')'), chips,
+      el('label', {class: 'f', text: 'At (leave empty for your usual time)'}, tm), el('label', {class: 'f', text: 'Repeat'}, rp));
+    opts.hidden = !pop.checked; pop.addEventListener('change', () => opts.hidden = !pop.checked);
+    const saveIt = () => {
+      const val = {text: txt.value.trim(), date: dt.value, note: note.value.trim(), week: wk.value, off: !pop.checked,
+        leads: pop.checked && !usual.checked ? Array.from(chips.querySelectorAll('input:checked')).map(c => +c.value) : null,
+        time: pop.checked ? tm.value : '', repeat: pop.checked ? rp.value : 'none', done: done.checked};
+      if(!val.text){ msg.textContent = 'Type what it’s about.'; txt.focus(); return; }
+      if(!val.date){ msg.textContent = 'Pick a date.'; dt.focus(); return; }
+      if(val.leads && !val.leads.length){ msg.textContent = 'Tick at least one day, or tick “Use my usual days”.'; return; }
+      const rem = {note: val.note, off: val.off, leads: val.leads, time: val.time, repeat: val.repeat};
+      closePanel();
+      if(!it){ W.customPut(Object.assign({id: 'c' + uid(), kind: 'notif', text: val.text, date: val.date, done: false, week: val.week}, rem)); return; }
+      if(it.kind === 'mine'){ W.customPut(Object.assign({id: it.cid, kind: 'notif', text: val.text, date: val.date, done: val.done, week: val.week}, rem)); return; }
+      const base = NotifCore.baseItems({keyDates: SG_DATA.keyDates || [], homework: MiniCore.hwFlat(S.homework), custom: S.custom, state: S.state}).find(x => x.key === it.key) || it;
+      const ov = Object.assign({id: NotifCore.overrideId(it.key), kind: 'override', target: it.key, hidden: false}, rem);
+      if(it.kind === 'hw'){ const f = W.hwFind(it.id); if(f) W.hwPut(f[0], Object.assign({}, f[1], {text: val.text, due: val.date, done: val.done})); ov.t = ''; ov.date = ''; ov.done = false; }
+      else { ov.t = val.text !== base.t ? val.text : ''; ov.date = val.date !== base.date ? val.date : '';
+        if(it.doneFlag){ W.tick(it.doneFlag, val.done); ov.done = false; } else ov.done = val.done; }
+      const plain = !ov.note && !ov.off && !ov.leads && !ov.time && ov.repeat === 'none' && !ov.t && !ov.date && !ov.done;
+      if(plain){ if(S.custom.some(x => x.id === ov.id)) W.customDel(ov.id); } else W.customPut(ov);
+    };
+    P.append(el('h3', {text: it ? (it.kind === 'mine' ? 'Edit reminder' : it.kind === 'hw' ? 'Edit homework' : 'Edit course date') : 'New reminder'}),
+      el('label', {class: 'f', text: 'What'}, txt), el('label', {class: 'f', text: 'Date'}, dt),
+      !it || it.kind === 'mine' ? el('label', {class: 'f', text: 'Week'}, wk) : null,
+      el('label', {class: 'f', text: 'Note'}, note), el('label', {class: 'chk'}, pop, 'Send me a pop-up for this'), opts,
+      it ? el('label', {class: 'chk'}, done, 'Done — stop reminding me') : null, msg,
+      el('div', {class: 'ebtns'}, el('button', {class: 'gel', type: 'button', text: it ? 'Save' : 'Add', onclick: saveIt}), el('button', {class: 'gel grey', type: 'button', text: 'Cancel', onclick: closePanel}),
+        it && it.kind !== 'mine' && it.edited ? el('button', {class: 'link', type: 'button', text: 'Reset to original', onclick: () => { closePanel(); const id = NotifCore.overrideId(it.key); if(S.custom.some(x => x.id === id)) W.customDel(id); }}) : null,
+        it ? el('button', {class: 'link danger', type: 'button', text: it.kind === 'mine' ? 'Delete' : 'Hide from list', onclick: () => { closePanel();
+          if(it.kind === 'mine') W.customDel(it.cid); else W.customPut({id: NotifCore.overrideId(it.key), kind: 'override', target: it.key, hidden: true}); }}) : null));
+    P.hidden = false; txt.focus();
+  }
+
+  // ---------- buttons ----------
+  $('bGear').addEventListener('click', () => P.hidden ? customise() : closePanel());
+  $('bHome').addEventListener('click', () => { if(!openShelf()) say('Edge blocked the shelf window — choose “Always allow” pop-ups.'); });
+  $('bCopy').addEventListener('click', () => {
+    const c = cfg(), id = uid();
+    regPut(id, Object.assign({}, c, {made: Date.now(), x: (c.x || 100) + 30, y: (c.y || 100) + 30, min: false, open: true}));
+    openWin(id);
+  });
+  $('bClose').addEventListener('click', () => {
+    if(!SHELF) save({open: false});
+    window.close();
+    setTimeout(() => say('Windows wouldn’t let this close itself — use the × at the very top of the window.'), 300);
+  });
+  async function minimise(){
+    save({min: true, open: false, minAt: Date.now()});
+    const there = await pingShelf();
+    if(!there) openShelf();
+    window.close();
+    setTimeout(tabMode, 300);   // still here? Windows wouldn't let it close, so shrink it into a tab instead
+  }
+  function tabMode(){
+    const c = cfg(), b = badge(c), t = $('tabmode'); t.textContent = '';
+    t.append(el('button', {type: 'button', class: 'mtab' + (c.theme === 'sticky' ? ' sticky c-' + c.color : ''), title: 'Bring it back', onclick: () => {
+      save({min: false, open: true}); t.hidden = true; try { window.resizeTo(c.ow || 320, c.oh || 420); } catch(e){} render(); }},
+      el('span', {text: iconOf(c)}), el('span', {class: 'mt', text: c.title || 'Study Guide'}), b ? el('span', {class: 'mb', text: b}) : null, el('span', {class: 'mo', text: '▢'})));
+    t.hidden = false;
+    try { window.resizeTo(260, 100); } catch(e){}
+  }
+  $('bMin').addEventListener('click', minimise);
+  $('ttl').addEventListener('dblclick', () => { if(!SHELF) minimise(); });
+
+  // remember where this window sits and its size
+  if(!SHELF){
+    let last = '';
+    const track2 = () => {
+      if(!$('tabmode').hidden) return;
+      const g = {x: window.screenX, y: window.screenY, w: window.innerWidth, h: window.innerHeight, ow: window.outerWidth, oh: window.outerHeight};
+      const k = JSON.stringify(g); if(k !== last && g.w > 150){ last = k; save(g); }
+    };
+    setInterval(track2, 1500); window.addEventListener('resize', track2);
+    window.addEventListener('pagehide', () => { if(!cfg().min) save({open: false}); });
+    save({open: true});
+  }
+
+  // ---------- taps made on the Windows Widgets board ----------
+  function applyAction(a){
+    if(!a) return;
+    if(a.a === 'set'){ const it = S.custom.find(x => x.id === a.id); if(it && !!it.done !== !!a.done) W.customPut({id: it.id, kind: it.kind || 'now', done: !!a.done}); }
+    else if(a.a === 'done'){
+      if(!M) M = MiniCore.model({state: S.state, homework: S.homework, custom: S.custom});
+      const it = find(a.key); if(!it || it.done) return;
+      if(it.kind === 'mine') W.customPut({id: it.cid, kind: 'notif', done: true});
+      else if(it.kind === 'hw'){ const f = W.hwFind(it.id); if(f) W.hwPut(f[0], Object.assign({}, f[1], {done: true})); }
+    }
+  }
+  function applyQueue(){ MiniCore.takeQueue().then(q => q.forEach(applyAction)); }
+  if(navigator.serviceWorker){
+    navigator.serviceWorker.addEventListener('message', e => { if(e.data && e.data.type === 'sg-widget-action') applyAction(e.data.action); });
+    if(SHELF) navigator.serviceWorker.register('sw.js').then(r => { if(r.periodicSync) r.periodicSync.register('sg-widgets', {minInterval: 15 * 60 * 1000}).catch(() => {}); }).catch(() => {});
+  }
+
+  // ---------- start ----------
+  loadLocal(); applyLook(); render(); setDot();
+  connect().then(() => { if(S.mode === 'local') applyQueue(); });
+  document.addEventListener('visibilitychange', () => { if(!document.hidden) render(); });
+  setInterval(() => { if(P.hidden) render(); }, 60 * 1000);
+})();
+</script>
+</body>
+</html>

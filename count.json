@@ -1,0 +1,45 @@
+{
+ "type": "AdaptiveCard",
+ "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+ "version": "1.5",
+ "body": [
+  {
+   "type": "TextBlock",
+   "text": "${exam.days}",
+   "size": "ExtraLarge",
+   "weight": "Bolder",
+   "color": "Accent"
+  },
+  {
+   "type": "TextBlock",
+   "text": "days until exams · ${exam.day}",
+   "spacing": "None",
+   "wrap": true
+  },
+  {
+   "type": "Container",
+   "$when": "${$host.widgetSize!=\"small\"}",
+   "spacing": "Large",
+   "items": [
+    {
+     "type": "TextBlock",
+     "text": "Progress: ${progress.pct}%",
+     "weight": "Bolder"
+    },
+    {
+     "type": "TextBlock",
+     "text": "${progress.done} of ${progress.total} checked off",
+     "spacing": "None",
+     "isSubtle": true
+    }
+   ]
+  }
+ ],
+ "actions": [
+  {
+   "type": "Action.Execute",
+   "title": "Open Study Guide",
+   "verb": "open"
+  }
+ ]
+}

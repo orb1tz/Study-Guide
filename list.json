@@ -1,0 +1,106 @@
+{
+ "type": "AdaptiveCard",
+ "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+ "version": "1.5",
+ "body": [
+  {
+   "type": "TextBlock",
+   "text": "Nothing on your list yet.",
+   "$when": "${!hasList}",
+   "wrap": true
+  },
+  {
+   "type": "Container",
+   "$when": "${$host.widgetSize==\"small\"}",
+   "items": [
+    {
+     "type": "ColumnSet",
+     "$data": "${list3}",
+     "spacing": "Small",
+     "separator": true,
+     "selectAction": {
+      "type": "Action.Execute",
+      "verb": "tick|${id}",
+      "tooltip": "Tick / untick"
+     },
+     "columns": [
+      {
+       "type": "Column",
+       "width": "auto",
+       "items": [
+        {
+         "type": "TextBlock",
+         "text": "${box}",
+         "size": "Medium"
+        }
+       ]
+      },
+      {
+       "type": "Column",
+       "width": "stretch",
+       "verticalContentAlignment": "Center",
+       "items": [
+        {
+         "type": "TextBlock",
+         "text": "${text}",
+         "wrap": false,
+         "isSubtle": "${done}"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "Container",
+   "$when": "${$host.widgetSize!=\"small\"}",
+   "items": [
+    {
+     "type": "ColumnSet",
+     "$data": "${list}",
+     "spacing": "Small",
+     "separator": true,
+     "selectAction": {
+      "type": "Action.Execute",
+      "verb": "tick|${id}",
+      "tooltip": "Tick / untick"
+     },
+     "columns": [
+      {
+       "type": "Column",
+       "width": "auto",
+       "items": [
+        {
+         "type": "TextBlock",
+         "text": "${box}",
+         "size": "Medium"
+        }
+       ]
+      },
+      {
+       "type": "Column",
+       "width": "stretch",
+       "verticalContentAlignment": "Center",
+       "items": [
+        {
+         "type": "TextBlock",
+         "text": "${text}",
+         "wrap": false,
+         "isSubtle": "${done}"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "actions": [
+  {
+   "type": "Action.Execute",
+   "title": "＋ Add / edit",
+   "verb": "mini"
+  }
+ ]
+}

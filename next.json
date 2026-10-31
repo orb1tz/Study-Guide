@@ -1,0 +1,165 @@
+{
+ "type": "AdaptiveCard",
+ "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+ "version": "1.5",
+ "body": [
+  {
+   "type": "TextBlock",
+   "text": "Nothing coming up ✨",
+   "$when": "${!has}",
+   "wrap": true
+  },
+  {
+   "type": "Container",
+   "$when": "${$host.widgetSize==\"small\"}",
+   "items": [
+    {
+     "type": "Container",
+     "$data": "${next1}",
+     "selectAction": {
+      "type": "Action.Execute",
+      "verb": "open|${week}"
+     },
+     "items": [
+      {
+       "type": "TextBlock",
+       "text": "${ico} ${t}",
+       "wrap": true,
+       "weight": "Bolder",
+       "maxLines": 2
+      },
+      {
+       "type": "TextBlock",
+       "text": "${day} · ${when}",
+       "color": "Accent",
+       "spacing": "Small"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "Container",
+   "$when": "${$host.widgetSize==\"medium\"}",
+   "items": [
+    {
+     "type": "ColumnSet",
+     "$data": "${next3}",
+     "spacing": "Small",
+     "separator": true,
+     "columns": [
+      {
+       "type": "Column",
+       "width": "stretch",
+       "selectAction": {
+        "type": "Action.Execute",
+        "verb": "open|${week}"
+       },
+       "items": [
+        {
+         "type": "TextBlock",
+         "text": "${ico} ${t}",
+         "wrap": false,
+         "weight": "Bolder",
+         "size": "Small"
+        },
+        {
+         "type": "TextBlock",
+         "text": "${day} · ${when}",
+         "spacing": "None",
+         "size": "Small",
+         "color": "Accent"
+        }
+       ]
+      },
+      {
+       "type": "Column",
+       "width": "auto",
+       "$when": "${canDone}",
+       "verticalContentAlignment": "Center",
+       "items": [
+        {
+         "type": "TextBlock",
+         "text": "✓",
+         "size": "Medium",
+         "weight": "Bolder",
+         "color": "Good"
+        }
+       ],
+       "selectAction": {
+        "type": "Action.Execute",
+        "verb": "done|${key}",
+        "tooltip": "Mark done"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "Container",
+   "$when": "${$host.widgetSize==\"large\"}",
+   "items": [
+    {
+     "type": "ColumnSet",
+     "$data": "${next}",
+     "spacing": "Small",
+     "separator": true,
+     "columns": [
+      {
+       "type": "Column",
+       "width": "stretch",
+       "selectAction": {
+        "type": "Action.Execute",
+        "verb": "open|${week}"
+       },
+       "items": [
+        {
+         "type": "TextBlock",
+         "text": "${ico} ${t}",
+         "wrap": false,
+         "weight": "Bolder",
+         "size": "Small"
+        },
+        {
+         "type": "TextBlock",
+         "text": "${day} · ${when}",
+         "spacing": "None",
+         "size": "Small",
+         "color": "Accent"
+        }
+       ]
+      },
+      {
+       "type": "Column",
+       "width": "auto",
+       "$when": "${canDone}",
+       "verticalContentAlignment": "Center",
+       "items": [
+        {
+         "type": "TextBlock",
+         "text": "✓",
+         "size": "Medium",
+         "weight": "Bolder",
+         "color": "Good"
+        }
+       ],
+       "selectAction": {
+        "type": "Action.Execute",
+        "verb": "done|${key}",
+        "tooltip": "Mark done"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "actions": [
+  {
+   "type": "Action.Execute",
+   "title": "Open Study Guide",
+   "verb": "open"
+  }
+ ]
+}

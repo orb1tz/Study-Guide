@@ -1,0 +1,52 @@
+{
+ "type": "AdaptiveCard",
+ "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+ "version": "1.5",
+ "body": [
+  {
+   "type": "Container",
+   "$data": "${week}",
+   "spacing": "Medium",
+   "selectAction": {
+    "type": "Action.Execute",
+    "verb": "open|${key}"
+   },
+   "items": [
+    {
+     "type": "TextBlock",
+     "text": "${ico} ${label} · ${day}",
+     "weight": "Bolder",
+     "size": "Small",
+     "color": "Accent"
+    },
+    {
+     "type": "TextBlock",
+     "text": "${title}",
+     "wrap": true,
+     "spacing": "None",
+     "maxLines": 3
+    }
+   ]
+  },
+  {
+   "type": "Container",
+   "$when": "${$host.widgetSize!=\"small\"}",
+   "spacing": "Medium",
+   "items": [
+    {
+     "type": "TextBlock",
+     "text": "${progress.done} of ${progress.total} checked off · ${progress.pct}%",
+     "size": "Small",
+     "isSubtle": true
+    }
+   ]
+  }
+ ],
+ "actions": [
+  {
+   "type": "Action.Execute",
+   "title": "Open Study Guide",
+   "verb": "open"
+  }
+ ]
+}
