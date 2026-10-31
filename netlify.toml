@@ -1,5 +1,6 @@
 [build]
-  command = "node widgets-build.mjs pre && node build.mjs && node widgets-build.mjs post"  publish = "dist"
+  command = "node widgets-build.mjs pre && node build.mjs && node widgets-build.mjs post"
+  publish = "dist"
 
 [build.environment]
   NODE_VERSION = "20"
